@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@400;500;600;700;800&display=swap");
+
 /* =====================================================================
  * アニメムード診断 共通スタイル (style.css)
  *   色や雰囲気を変えたいときは、下の :root / [data-theme="dark"] の
@@ -453,7 +455,7 @@ html.theme-transition .theme-icon {
 .step-card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 18px; padding: 24px 20px;
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(8px);
   box-shadow: var(--shadow);
 }
 .step-card .step-num {
@@ -491,7 +493,7 @@ html.theme-transition .theme-icon {
   position: absolute; top: 10px; left: 10px; z-index: 3;
   width: 35px; height: 35px; padding: 0; border: none; border-radius: 50%;
   background: rgba(255, 255, 255, .3);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(1px);
   isolation: isolate;
   display: grid; place-items: center;
@@ -2611,6 +2613,23 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   #year-filter, #genre-filter, #random-count {
     min-width: 130px;
   }
+}
+
+/* ---------- フォント：GitHub Pagesでも確実に同じ指定を維持 ---------- */
+/*
+ * Google Fontsは各HTMLから直接<link>でも読み込む。
+ * CSS側にも同じフォント名を明示し、GitHub PagesでCSSの読込順が変わっても
+ * 「どの要素をM PLUS 2にするか」が後続ルールで崩れないようにする。
+ */
+:where(h1, h2, h4, h5, h6, strong, b, .site-logo, .drawer-link, .btn-grad, .btn-ghost,
+  .filter-btn, .official-link, .random-controls label, .step-card h3, .q-title, .reason-label,
+  .fav-status-label, .fav-status-btn, .fav-status-tab, .tab-btn, .trend-chip) {
+  font-family: "M PLUS 2", sans-serif !important;
+}
+
+/* 作品名・作品数・パラメータ名は従来のゴシック体を固定 */
+:where(.card-title, .modal-title, .count-text, .param-label) {
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif !important;
 }
 
 /* ---------- フォント：見出し・太字のみM PLUS 2 ---------- */
