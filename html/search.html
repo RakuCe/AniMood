@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>作品一覧 | AniMood</title>
-  <meta name="description" content="2025年秋〜2026年春の新作アニメ一覧(続編を除く)。">
+  <title>検索結果 | AniMood</title>
+  <meta name="description" content="検索したアニメ作品の一覧。">
 
   <!-- ページ描画前に保存済みテーマを適用する -->
   <script>
@@ -14,15 +14,16 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/x-icon" href="../img/favicon.ico?v=36">
+  <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico?v=36">
 </head>
-<body data-page="list">
+<body data-page="search">
 
   <!-- ===== ヘッダー ===== -->
   <header class="site-header">
     <div class="header-inner">
-      <a class="logo" href="index.html"><img src="img/favicon.ico"></a>
+      <a class="logo" href="index.html"><img src="../img/favicon.ico"></a>
       <div class="header-actions">
         <div class="search-box">
           <input id="search-input" type="search" placeholder="作品名・タグで検索" autocomplete="off">
@@ -96,23 +97,16 @@
 
   <main class="container">
     <div class="page-head">
-      <h1>作品一覧</h1>
-      <p>2025年秋〜2026年夏までとその他の作品を収録。画像を押すと詳細が開きます。<br>
-        詳細からは作品に合わせた状態でチェックをつけたり、ジャンルやタグをクリックすることで検索できます。<br>
-        作者が未履修の作品はタグやパラメータに誤りがある場合があります。</p>
+      <h1>検索結果</h1>
+      <p id="search-summary">検索した作品がここに表示されます。</p>
     </div>
 
-    <!-- 絞り込み(シーズン / ジャンル) -->
     <div class="filter-bar">
-      <div id="season-tabs" class="tab-row"></div>
-      <!-- 年もジャンルと同じドロップダウン式で選択できるようにする -->
-      <select id="year-filter" aria-label="年で絞り込む"></select>
-      <select id="genre-filter" aria-label="ジャンルで絞り込む"></select>
-      <span class="count-text" id="work-count"></span>
+      <span class="count-text" id="search-count"></span>
     </div>
 
     <section class="list-area">
-      <div id="work-grid" class="grid"></div>
+      <div id="search-grid" class="grid"></div>
     </section>
   </main>
 
@@ -121,8 +115,8 @@
     <p>掲載している作品情報・画像の権利は各権利者に帰属します。各作品の詳細は公式サイトをご確認ください。</p>
   </footer>
 
-  <script src="js/data.js"></script>
-  <script src="js/common.js"></script>
-  <script src="js/list.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/search.js"></script>
 </body>
 </html>

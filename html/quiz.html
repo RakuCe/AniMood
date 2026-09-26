@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>チェック作品一覧 | AniMood</title>
-  <meta name="description" content="☆をつけたチェックしたアニメの一覧。">
+  <title>気分診断 | AniMood</title>
+  <meta name="description" content="20の質問に答えて、今の気分に合う新作アニメを診断。">
 
   <!-- ページ描画前に保存済みテーマを適用する -->
   <script>
@@ -14,15 +14,16 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/x-icon" href="../img/favicon.ico?v=36">
+  <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico?v=36">
 </head>
-<body data-page="favorites">
+<body data-page="quiz">
 
   <!-- ===== ヘッダー ===== -->
   <header class="site-header">
     <div class="header-inner">
-      <a class="logo" href="index.html"><img src="img/favicon.ico"></a>
+      <a class="logo" href="index.html"><img src="../img/favicon.ico"></a>
       <div class="header-actions">
         <div class="search-box">
           <input id="search-input" type="search" placeholder="作品名・タグで検索" autocomplete="off">
@@ -94,37 +95,52 @@
   </nav>
   <div id="drawer-overlay"></div>
 
-  <main class="container">
-    <div class="page-head">
-      <h1>チェック作品一覧</h1>
-      <p>チェックした作品がここに保存されます。画像を押すと詳細が開きます。</p>
+  <!-- ===== 進捗バー(スクロールに追従) ===== -->
+  <div class="progress-wrap">
+    <div class="progress-inner">
+      <div class="progress-bar"><div id="progress-fill"></div></div>
+      <span id="progress-text">0 / 20 問</span>
+    </div>
+  </div>
+
+  <main>
+    <!-- ===== 導入 ===== -->
+    <div class="quiz-head">
+      <h1>今の気分、診断します</h1>
+      <p>全20問。このページをスクロールして、直感で答えてください。</p>
     </div>
 
-    <div class="filter-bar fav-toolbar">
-      <select id="fav-sort" aria-label="チェックの並び順">
-        <option value="registered">登録した順</option>
-        <option value="season">放送時期順</option>
-        <option value="genre">ジャンル順</option>
-      </select>
-      <span class="count-text" id="fav-count"></span>
+    <!-- ===== 質問エリア(JSで全問を描画) ===== -->
+    <div id="question-list" class="q-list"></div>
+
+    <!-- ===== 診断ボタン ===== -->
+    <div class="diagnose-area">
+      <div class="diagnose-action-wrap">
+        <button id="diagnose-btn" class="btn-grad" disabled>診断する</button>
+        <button id="include-checked-toggle" class="include-checked-toggle is-on" type="button" aria-pressed="true">
+          <span class="include-checked-icon" aria-hidden="true">✓</span>
+          <span class="include-checked-copy"><strong>チェックした作品を含む</strong></span>
+          <span class="include-checked-switch" aria-hidden="true"><i></i></span>
+        </button>
+      </div>
     </div>
 
-    <div class="fav-status-tabs" role="tablist" aria-label="チェックの分類">
-      <button type="button" class="fav-status-tab tab-btn active" data-status-filter="all" role="tab" aria-selected="true">すべて</button>
-      <button type="button" class="fav-status-tab tab-btn" data-status-filter="watched" role="tab" aria-selected="false">視聴済み</button>
-      <button type="button" class="fav-status-tab tab-btn" data-status-filter="watching" role="tab" aria-selected="false">視聴中</button>
-      <button type="button" class="fav-status-tab tab-btn" data-status-filter="want" role="tab" aria-selected="false">気になる</button>
-    </div>
+    <!-- ===== 診断結果(診断後に表示) ===== -->
+    <section id="result" class="result" hidden>
+      <div class="result-head">
+        <h2>今の観たい傾向</h2>
+        <p id="trend-text"></p>
+        <div id="trend-chips"></div>
+      </div>
 
-    <!-- お気に入りが0件のときの表示 -->
-    <div id="fav-empty" class="empty-box" hidden>
-      <span class="empty-icon">☆</span>
-      <p>チェックした作品がありません。</p>
-      <p><a href="quiz.html">気分診断</a>や<a href="list.html">作品一覧</a>で状態のボタンを押して保存しましょう。</p>
-    </div>
+      <h2 class="page-head" style="padding:0 0 6px; text-align:center;">おすすめのアニメ 9作品</h2>
+      <p class="result-note">画像を押すと詳細が開きます。</p>
+      <div id="result-grid" class="grid"></div>
 
-    <section class="list-area">
-      <div id="fav-grid" class="grid"></div>
+      <div class="result-actions">
+        <button id="retry-btn" class="btn-ghost">もう一度診断する</button>
+        <a class="btn-ghost" href="list.html">作品一覧を見る</a>
+      </div>
     </section>
   </main>
 
@@ -133,8 +149,9 @@
     <p>掲載している作品情報・画像の権利は各権利者に帰属します。各作品の詳細は公式サイトをご確認ください。</p>
   </footer>
 
-  <script src="js/data.js"></script>
-  <script src="js/common.js"></script>
-  <script src="js/list.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/questions.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quiz.js"></script>
 </body>
 </html>

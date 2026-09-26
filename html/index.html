@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>気分診断 | AniMood</title>
-  <meta name="description" content="20の質問に答えて、今の気分に合う新作アニメを診断。">
+  <title>トップ | AniMood</title>
+  <meta name="description" content="20の質問に答えるだけで、今の気分に合う新作アニメを9作品提案する診断サイト。2025年秋〜2026年春の新作を収録。">
 
   <!-- ページ描画前に保存済みテーマを適用する -->
   <script>
@@ -14,15 +14,16 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/x-icon" href="../img/favicon.ico?v=36">
+  <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico?v=36">
 </head>
-<body data-page="quiz">
+<body data-page="home">
 
-  <!-- ===== ヘッダー ===== -->
+  <!-- ===== ヘッダー(検索 / ダークモード / ハンバーガー) ===== -->
   <header class="site-header">
     <div class="header-inner">
-      <a class="logo" href="index.html"><img src="img/favicon.ico"></a>
+      <a class="logo" href="index.html"><img src="../img/favicon.ico"></a>
       <div class="header-actions">
         <div class="search-box">
           <input id="search-input" type="search" placeholder="作品名・タグで検索" autocomplete="off">
@@ -83,6 +84,7 @@
     </div>
   </header>
 
+  <!-- ===== ハンバーガーの中身(ドロワー) ===== -->
   <nav id="drawer" class="drawer" aria-label="サイトメニュー">
     <button id="drawer-close" class="drawer-close" type="button" aria-label="メニューを閉じる">×</button>
     <a class="drawer-link" data-page="home" href="index.html">トップ</a>
@@ -94,63 +96,69 @@
   </nav>
   <div id="drawer-overlay"></div>
 
-  <!-- ===== 進捗バー(スクロールに追従) ===== -->
-  <div class="progress-wrap">
-    <div class="progress-inner">
-      <div class="progress-bar"><div id="progress-fill"></div></div>
-      <span id="progress-text">0 / 20 問</span>
-    </div>
-  </div>
+  <!-- ===== ヒーロー ===== -->
+  <main class="container">
+    <section class="hero">
+      <span class="hero-badge">2025年秋〜2026年夏までとその他の作品を収録。</span>
+      <h1><div class="title-logo"><img src="../img/AniMood_logo.webp" alt="AniMoodのロゴ"></div></h1>
+      <!-- ===== トップ装飾：質問の吹き出し + 作品カード3枚 ===== -->
+      <!-- タイトルロゴより下レイヤーに配置し、PCでは右側・スマホでは右下へ移動します。 -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="visual-arc visual-arc-a"></div>
+        <div class="visual-arc visual-arc-b"></div>
+        <span class="visual-spark spark-a">✦</span>
+        <span class="visual-spark spark-b">✦</span>
 
-  <main>
-    <!-- ===== 導入 ===== -->
-    <div class="quiz-head">
-      <h1>今の気分、診断します</h1>
-      <p>全20問。このページをスクロールして、直感で答えてください。</p>
-    </div>
+        <!-- 質問を表す、完全に丸い吹き出し -->
+        <div class="visual-question">?</div>
 
-    <!-- ===== 質問エリア(JSで全問を描画) ===== -->
-    <div id="question-list" class="q-list"></div>
-
-    <!-- ===== 診断ボタン ===== -->
-    <div class="diagnose-area">
-      <div class="diagnose-action-wrap">
-        <button id="diagnose-btn" class="btn-grad" disabled>診断する</button>
-        <button id="include-checked-toggle" class="include-checked-toggle is-on" type="button" aria-pressed="true">
-          <span class="include-checked-icon" aria-hidden="true">✓</span>
-          <span class="include-checked-copy"><strong>チェックした作品を含む</strong></span>
-          <span class="include-checked-switch" aria-hidden="true"><i></i></span>
-        </button>
+        <!-- 16:9の作品カード。画像は10秒ごとにランダム切替。 -->
+        <div class="visual-work-cards">
+          <div class="visual-work-card visual-card-a" data-visual-card="0">
+            <img src="" alt="" loading="eager">
+          </div>
+          <div class="visual-work-card visual-card-b" data-visual-card="1">
+            <img src="" alt="" loading="eager">
+          </div>
+          <div class="visual-work-card visual-card-c" data-visual-card="2">
+            <img src="" alt="" loading="eager">
+          </div>
+        </div>
       </div>
-    </div>
+      <p class="lead">
+        20の質問に答えるだけで、今のあなたの気分にそったアニメを9作品提案します。
+      </p>
+      <a class="btn-grad" href="quiz.html">診断をはじめる</a>
+    </section>
 
-    <!-- ===== 診断結果(診断後に表示) ===== -->
-    <section id="result" class="result" hidden>
-      <div class="result-head">
-        <h2>今の観たい傾向</h2>
-        <p id="trend-text"></p>
-        <div id="trend-chips"></div>
+    <!-- ===== 使い方 ===== -->
+    <section class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>20の質問に答える</h3>
+        <p>今の気分や好みについての質問に直感で回答。5段階評価の質問もあります。</p>
       </div>
-
-      <h2 class="page-head" style="padding:0 0 6px; text-align:center;">おすすめのアニメ 9作品</h2>
-      <p class="result-note">画像を押すと詳細が開きます。</p>
-      <div id="result-grid" class="grid"></div>
-
-      <div class="result-actions">
-        <button id="retry-btn" class="btn-ghost">もう一度診断する</button>
-        <a class="btn-ghost" href="list.html">作品一覧を見る</a>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>今の観たい傾向を知る</h3>
+        <p>回答から「バトル」「癒し」「ミステリー」など、今のあなたの傾向を分析します。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>9作品をチェック</h3>
+        <p>特徴タグつきでおすすめを表示。状態のボタンを押せばチェックをつけれます。</p>
       </div>
     </section>
   </main>
 
+  <!-- ===== フッター ===== -->
   <footer class="site-footer">
     <p>AniMood — 今の気分に合うアニメを見つける診断サイト</p>
     <p>掲載している作品情報・画像の権利は各権利者に帰属します。各作品の詳細は公式サイトをご確認ください。</p>
   </footer>
 
-  <script src="js/data.js"></script>
-  <script src="js/questions.js"></script>
-  <script src="js/common.js"></script>
-  <script src="js/quiz.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/home.js"></script>
 </body>
 </html>
