@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@400;500;600;700;800&display=swap");
-
 /* =====================================================================
  * アニメムード診断 共通スタイル (style.css)
  *   色や雰囲気を変えたいときは、下の :root / [data-theme="dark"] の
@@ -455,7 +453,7 @@ html.theme-transition .theme-icon {
 .step-card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 18px; padding: 24px 20px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(1px);
   box-shadow: var(--shadow);
 }
 .step-card .step-num {
@@ -494,7 +492,7 @@ html.theme-transition .theme-icon {
   width: 35px; height: 35px; padding: 0; border: none; border-radius: 50%;
   background: rgba(255, 255, 255, .3);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(1px);
   isolation: isolate;
   display: grid; place-items: center;
   cursor: pointer;
