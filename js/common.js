@@ -451,17 +451,6 @@ function openPopup(id) {
   requestAnimationFrame(() => backdrop.classList.add("show"));
 
   const modalBody = $(".modal-body", backdrop);
-  const refreshModalBackdrop = () => {
-    // iOS/iPadOS Safari can drop backdrop-filter after a descendant DOM update.
-    // Force a fresh compositing pass without changing the visual blur value.
-    backdrop.style.webkitBackdropFilter = "blur(6px)";
-    backdrop.style.backdropFilter = "blur(6px)";
-    void backdrop.offsetHeight;
-    requestAnimationFrame(() => {
-      backdrop.style.webkitBackdropFilter = "blur(6px)";
-      backdrop.style.backdropFilter = "blur(6px)";
-    });
-  };
 
   const updatePopupStatus = () => {
     const existing = $(".modal-status-control", backdrop);
@@ -483,7 +472,6 @@ function openPopup(id) {
         updatePopupStatus();
       });
     }
-    refreshModalBackdrop();
   };
   updatePopupStatus();
   initFilterChipEvents(backdrop);

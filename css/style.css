@@ -1,10 +1,11 @@
-/* M PLUS 2：GitHub Pagesでも外部CSSの解釈に依存しないよう、固定バージョンのWebフォントを直接読み込む。 */
+/* M PLUS 2：GitHub Pagesでも同じWebフォントを読み込む。
+ * Fontsourceの日本語用variable WOFF2を使用し、formatは汎用のwoff2として指定。 */
 @font-face {
   font-family: "M PLUS 2";
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/m-plus-2:vf@5.3.0/japanese-wght-normal.woff2") format("woff2-variations");
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource-variable/m-plus-2@5.3.0/japanese-wght-normal.woff2") format("woff2");
 }
 
 
@@ -682,18 +683,21 @@ html.theme-transition .theme-icon {
 .modal-backdrop {
   position: fixed; inset: 0; z-index: 200;
   background: rgba(10, 8, 20, .55);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  will-change: opacity, backdrop-filter;
-  isolation: isolate;
   display: grid; place-items: center;
   padding: 20px;
   opacity: 0; transition: opacity .2s;
   overflow-y: auto;
+}
+/* 背景ぼかしは親ではなく専用レイヤーに固定。
+ * ポップアップ内部のチェック状態を変更しても再計算・再描画しない。 */
+.modal-backdrop::before {
+  content: "";
+  position: fixed; inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: transparent;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .modal-backdrop.show { opacity: 1; }
 .modal {
@@ -2649,7 +2653,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   .filter-btn, .official-link, .random-controls label, .step-card h3, .q-title, .reason-label,
   .fav-status-label, .fav-status-btn, .fav-status-tab, .tab-btn, .trend-chip) {
   font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
-    "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif !important;
 }
 
 /* 作品名・作品数・パラメータ名は従来のゴシック体を維持 */
