@@ -2619,6 +2619,38 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   color: #efecf9;
 }
 
+/* ---------- チェック作品：昇順 / 降順 ---------- */
+.sort-direction {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+}
+.sort-direction-btn {
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .15s, color .15s;
+}
+.sort-direction-btn.active {
+  background: var(--accent-grad);
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .sort-direction { width: 100%; }
+  .sort-direction-btn { flex: 1; }
+}
+
 /* ---------- 作品説明文：文章の区切りで自然に改行 ---------- */
 .modal-desc {
   line-height: 1.95;
@@ -2638,8 +2670,6 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 }
 
 /* ---------- フォント：見出し・太字のみM PLUS 2 ---------- */
-@import url("https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@400;500;600;700;800&display=swap");
-
 :where(h1, h2, h3, h4, h5, h6, strong, b, .site-logo, .btn-grad, .btn-ghost,
   .filter-btn, .param-label, .count-text, .official-link, .random-controls label) {
   font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans",

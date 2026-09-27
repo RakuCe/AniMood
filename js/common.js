@@ -53,6 +53,7 @@ const ANILIST_SEARCH_QUERY = `
         id
         title { native romaji english userPreferred }
         synonyms
+        coverImage { large }
         format
         episodes
         averageScore
@@ -70,6 +71,7 @@ const ANILIST_MEDIA_QUERY = `
       media(id_in: $ids, type: ANIME) {
         id
         title { native romaji english userPreferred }
+        coverImage { large }
         format
         episodes
         averageScore
@@ -531,13 +533,51 @@ function syncCardStatusMark(card, id) {
  * 作品カード(一覧・検索・診断結果・お気に入りで共通の見た目)
  *   reasonTags : 診断結果で「おすすめする理由」のタグを出すときに渡す
  * ===================================================================== */
+function resolveImageUrl(path) {
+  const raw = String(path || "");
+  if (!raw) return "";
+  if (/^(?:https?:|data:|blob:)/i.test(raw)) return raw;
+  // HTMLはhtml/配下なので、data.jsのimg/...をサイトルート基準へ補正する。
+  if (/^img\//i.test(raw)) return `../${raw}`;
+  return raw;
+}
+
+function imageFallbackSvg(title) {
+  const label = String(title || "AniMood").slice(0, 18);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs><rect width="640" height="360" rx="24" fill="#171329"/><rect x="18" y="18" width="604" height="324" rx="18" fill="url(#g)" opacity=".18"/><text x="320" y="190" text-anchor="middle" fill="#fff" font-size="30" font-family="sans-serif">${esc(label)}</text><text x="320" y="230" text-anchor="middle" fill="#fff" opacity=".72" font-size="16" font-family="sans-serif">AniMood</text></svg>`;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function attachImageFallback(img, work) {
+  if (!img || !work) return;
+  img.dataset.fallbackTried = "false";
+  img.addEventListener("error", async () => {
+    if (img.dataset.fallbackTried === "true") {
+      img.src = imageFallbackSvg(work.title);
+      return;
+    }
+    img.dataset.fallbackTried = "true";
+    try {
+      const media = await searchAniList(work);
+      const cover = media?.coverImage?.large;
+      if (cover) {
+        img.src = cover;
+        return;
+      }
+    } catch (error) {
+      console.warn("AniList cover:", error);
+    }
+    img.src = imageFallbackSvg(work.title);
+  }, { once: false });
+}
+
 function createCard(work, reasonTags = []) {
   const card = document.createElement("article");
   card.className = "card";
   card.dataset.workId = work.id;
   card.innerHTML = `
     <div class="card-img-wrap">
-      <img src="${esc(work.img)}" alt="${esc(work.title)}" loading="lazy">
+      <img src="${esc(resolveImageUrl(work.img))}" alt="${esc(work.title)}" loading="lazy">
       ${favBtnHTML(work.id)}
       <span class="copy-badge">${esc(work.copyright)}</span>
       ${work.season ? `<span class="season-badge">${esc(work.season)}</span>` : ""}
@@ -652,7 +692,7 @@ function openPopup(id) {
     <div class="modal" role="dialog" aria-modal="true" aria-label="${esc(work.title)}の詳細">
       <button class="modal-close" aria-label="閉じる">×</button>
       <div class="modal-img-wrap">
-        <img src="${esc(work.img)}" alt="${esc(work.title)}">
+        <img src="${esc(resolveImageUrl(work.img))}" alt="${esc(work.title)}">
         ${favBtnHTML(work.id)}
         <span class="copy-badge">${esc(work.copyright)}</span>
       </div>
@@ -670,6 +710,7 @@ function openPopup(id) {
     </div>`;
 
   document.body.appendChild(backdrop);
+  attachImageFallback($(".modal-img-wrap img", backdrop), work);
   document.body.classList.add("no-scroll");
   requestAnimationFrame(() => backdrop.classList.add("show"));
 

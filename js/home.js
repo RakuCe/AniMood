@@ -49,8 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /* 初期表示 */
   function setInitial(card, work) {
     const { current, next } = ensureLayers(card);
-    current.src = work.img;
+    current.src = resolveImageUrl(work.img);
     current.alt = work.title;
+    attachImageFallback(current, work);
     current.removeAttribute('aria-hidden');
     next.removeAttribute('src');
     next.alt = '';
@@ -117,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
     preload.onerror = () => {
       card.dataset.fading = 'false';
     };
-    preload.src = work.img;
+    preload.src = resolveImageUrl(work.img);
   }
 
   /* 5秒表示 → 1秒クロスフェード → 5秒表示 */

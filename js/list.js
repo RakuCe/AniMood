@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sortSel = $("#fav-sort");
     const statusTabs = $$(".fav-status-tab");
     let sortMode = sortSel?.value || "registered";
+    let sortDirection = "asc";
     let statusFilter = "all";
 
     const seasonKey = season => {
@@ -93,14 +94,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function sortWorks(items) {
       const result = [...items];
+      const registeredIndex = new Map(getFavs().map((id, i) => [id, i]));
       if (sortMode === "season") {
-        result.sort((a, b) => seasonKey(b.season) - seasonKey(a.season) || a.title.localeCompare(b.title, "ja"));
+        result.sort((a, b) => seasonKey(a.season) - seasonKey(b.season) || a.title.localeCompare(b.title, "ja"));
       } else if (sortMode === "genre") {
         result.sort((a, b) => {
           const ag = (a.genres?.[0] || "").localeCompare(b.genres?.[0] || "", "ja");
           return ag || a.title.localeCompare(b.title, "ja");
         });
+      } else {
+        result.sort((a, b) => (registeredIndex.get(a.id) ?? 0) - (registeredIndex.get(b.id) ?? 0));
       }
+      if (sortDirection === "desc") result.reverse();
       return result;
     }
 
@@ -121,6 +126,18 @@ document.addEventListener("DOMContentLoaded", () => {
       sortMode = sortSel.value;
       render();
     });
+
+    const sortAsc = $("#fav-sort-asc");
+    const sortDesc = $("#fav-sort-desc");
+    const syncSortDirection = () => {
+      sortAsc?.classList.toggle("active", sortDirection === "asc");
+      sortDesc?.classList.toggle("active", sortDirection === "desc");
+      sortAsc?.setAttribute("aria-pressed", String(sortDirection === "asc"));
+      sortDesc?.setAttribute("aria-pressed", String(sortDirection === "desc"));
+    };
+    sortAsc?.addEventListener("click", () => { sortDirection = "asc"; syncSortDirection(); render(); });
+    sortDesc?.addEventListener("click", () => { sortDirection = "desc"; syncSortDirection(); render(); });
+    syncSortDirection();
 
     statusTabs.forEach(tab => tab.addEventListener("click", () => {
       statusFilter = tab.dataset.statusFilter || "all";
