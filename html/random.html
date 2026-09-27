@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/m-plus-2@5.3.0/japanese-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-
   <title>ランダム作品 | AniMood</title>
   <meta name="description" content="チェックしていない作品からランダムに選んで表示します。">
 
@@ -16,17 +14,15 @@
     })();
   </script>
 
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="apple-touch-icon" href="../img/favicon.png?v=38">
-  <link rel="icon" type="image/png" href="../img/favicon.png?v=38">
-  </head>
+  <link rel="stylesheet" href="../css/style.css?v=41">
+  <link rel="icon" href="../img/favicon.png?v=40">
+</head>
 <body data-page="random">
 
   <!-- ===== ヘッダー ===== -->
   <header class="site-header">
     <div class="header-inner">
-      <a class="logo" href="index.html"><img src="../img/favicon.ico"></a>
+      <a class="logo" href="../html/index.html"><img src="../img/favicon.ico"></a>
       <div class="header-actions">
         <div class="search-box">
           <input id="search-input" type="search" placeholder="作品名・タグで検索" autocomplete="off">
@@ -89,11 +85,11 @@
 
   <nav id="drawer" class="drawer" aria-label="サイトメニュー">
     <button id="drawer-close" class="drawer-close" type="button" aria-label="メニューを閉じる">×</button>
-    <a class="drawer-link" data-page="home" href="index.html">トップ</a>
-    <a class="drawer-link" data-page="quiz" href="quiz.html">気分診断</a>
-    <a class="drawer-link" data-page="list" href="list.html">作品一覧</a>
-    <a class="drawer-link" data-page="favorites" href="check.html">チェック作品一覧</a>
-    <a class="drawer-link" data-page="random" href="random.html">ランダム作品</a>
+    <a class="drawer-link" data-page="home" href="../html/index.html">トップ</a>
+    <a class="drawer-link" data-page="quiz" href="../html/quiz.html">気分診断</a>
+    <a class="drawer-link" data-page="list" href="../html/list.html">作品一覧</a>
+    <a class="drawer-link" data-page="favorites" href="../html/check.html">チェック作品一覧</a>
+    <a class="drawer-link" data-page="random" href="../html/random.html">ランダム作品</a>
     <p class="drawer-note">2025年秋〜2026年夏までとその他の作品を収録しています。</p>
   </nav>
   <div id="drawer-overlay"></div>
@@ -122,8 +118,8 @@
     <p>掲載している作品情報・画像の権利は各権利者に帰属します。各作品の詳細は公式サイトをご確認ください。</p>
   </footer>
 
-  <script src="../js/data.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/random.js"></script>
+  <script src="../js/data.js?v=41"></script>
+  <script src="../js/common.js?v=41"></script>
+  <script src="../js/random.js?v=41"></script>
 </body>
 </html>

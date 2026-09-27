@@ -1,14 +1,3 @@
-/* M PLUS 2：GitHub Pagesでも同じWebフォントを読み込む。
- * Fontsourceの日本語用variable WOFF2を使用し、formatは汎用のwoff2として指定。 */
-@font-face {
-  font-family: "M PLUS 2";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url("https://cdn.jsdelivr.net/npm/@fontsource-variable/m-plus-2@5.3.0/japanese-wght-normal.woff2") format("woff2");
-}
-
-
 /* =====================================================================
  * アニメムード診断 共通スタイル (style.css)
  *   色や雰囲気を変えたいときは、下の :root / [data-theme="dark"] の
@@ -28,7 +17,7 @@
   --border: rgba(34, 28, 53, .10);
   --accent: #22D3EE; /*ジャンルtexの色 選択枠*/
   --accent-2: #ff6faf;/*タグtexの色*/
-  --accent-grad: linear-gradient(110deg, #6C63FF, #6C63FF);
+  --accent-grad: linear-gradient(110deg, #6C63FF);
   --header-bg: rgba(255, 255, 255, .72);
   --shadow: 0 10px 30px rgba(80, 60, 160, .12);
   --shadow-lg: 0 24px 60px rgba(80, 60, 160, .22);
@@ -405,7 +394,7 @@ html.theme-transition .theme-icon {
   transition: background .15s;
 }
 .drawer-link:hover { background: rgba(124, 92, 255, .10); }
-.drawer-link.current { background-color: #6C63FF; background-image: var(--accent-grad); color: #fff; }
+.drawer-link.current { background: var(--accent-grad); color: #fff; }
 .drawer-note { margin-top: 18px; padding: 0 16px; color: var(--muted); font-size: .78rem; }
 
 #drawer-overlay {
@@ -503,8 +492,6 @@ html.theme-transition .theme-icon {
   width: 35px; height: 35px; padding: 0; border: none; border-radius: 50%;
   background: rgba(255, 255, 255, .3);
   backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
-  isolation: isolate;
   display: grid; place-items: center;
   cursor: pointer;
   transition: transform .15s, background .18s;
@@ -576,7 +563,7 @@ html.theme-transition .theme-icon {
 .genre-chip { background: rgba(34, 211, 238, .12); color: var(--accent); border-color: rgba(34, 211, 238, .3); }
 .tag-chip   { background: rgba(255, 111, 175, .12); color: var(--accent-2); border-color: rgba(255, 111, 175, .3); }
 .reason-chip{ background: rgba(35, 230, 28, .12); color: #23e61c; border-color: rgba(35, 230, 28, .3); }
-.trend-chip { background-color: #6C63FF; background-image: var(--accent-grad); color: #fff; border: none; font-size: .85rem; padding: 6px 16px; }
+.trend-chip { background: var(--accent-grad); color: #fff; border: none; font-size: .85rem; padding: 6px 16px; }
 
 /* =====================================================================
  * 診断ページ(質問は1ページに全問・スクロール形式)
@@ -587,20 +574,24 @@ html.theme-transition .theme-icon {
 
 /* 進捗バー(スクロールしても見えるよう固定) */
 .progress-wrap {
-  position: -webkit-sticky; position: sticky; top: 68px; z-index: 50;
+  position: sticky; top: 68px; z-index: 50;
   padding: 10px 0;
   background: var(--header-bg);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
 .progress-inner { max-width: 720px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 12px; }
 .progress-bar { flex: 1; height: 8px; border-radius: 999px; background: var(--border); overflow: hidden; }
-#progress-fill { height: 100%; width: 0; border-radius: 999px; background-color: #6C63FF; background-image: var(--accent-grad); transition: width .25s; }
+#progress-fill { height: 100%; width: 0; border-radius: 999px; background: var(--accent-grad); transition: width .25s; }
 #progress-text { font-size: .8rem; font-weight: 700; color: var(--muted); min-width: 74px; text-align: right; }
 
 /* 質問カード */
 .q-list { max-width: 720px; margin: 28px auto 0; padding: 0 20px; display: grid; gap: 16px; }
+.q-card.is-unanswered {
+  outline: 2px solid #ff6faf;
+  outline-offset: 4px;
+}
+
 .q-card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 18px; padding: 22px;
@@ -682,27 +673,16 @@ html.theme-transition .theme-icon {
  * ===================================================================== */
 .modal-backdrop {
   position: fixed; inset: 0; z-index: 200;
-  background: rgba(10, 8, 20, .55);
+  background: rgba(10, 8, 20, .35);
+  backdrop-filter: blur(6px);
   display: grid; place-items: center;
   padding: 20px;
   opacity: 0; transition: opacity .2s;
   overflow-y: auto;
 }
-/* 背景ぼかしは親ではなく専用レイヤーに固定。
- * ポップアップ内部のチェック状態を変更しても再計算・再描画しない。 */
-.modal-backdrop::before {
-  content: "";
-  position: fixed; inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: transparent;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
 .modal-backdrop.show { opacity: 1; }
 .modal {
   position: relative;
-  z-index: 1;
   width: min(680px, 100%);
   background: var(--card-solid);
   border: 1px solid var(--border);
@@ -763,25 +743,12 @@ html.theme-transition .theme-icon {
 .modal-desc { font-size: .9rem; color: var(--text); }
 .official-link {
   justify-self: start;
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 11px 26px;
-  border-radius: 999px; background-color: #6C63FF; background-image: var(--accent-grad);
+  display: inline-block; padding: 11px 26px;
+  border-radius: 999px; background: var(--accent-grad);
   color: #fff; font-weight: 700; font-size: .88rem; text-decoration: none;
   transition: transform .15s, box-shadow .15s;
 }
 .official-link:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(124, 92, 255, .4); }
-.official-link .official-link-icon {
-  width: 17px;
-  height: 17px;
-  flex: 0 0 17px;
-  color: #fff;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
 
 /* =====================================================================
  * 一覧ページ
@@ -807,7 +774,7 @@ html.theme-transition .theme-icon {
   font-weight: 600; font-size: .85rem;
   transition: all .15s;
 }
-.tab-btn.active { background-color: #6C63FF; background-image: var(--accent-grad); color: #fff; border-color: transparent; }
+.tab-btn.active { background: var(--accent-grad); color: #fff; border-color: transparent; }
 #genre-filter {
   padding: 9px 14px; border-radius: 999px;
   border: 1px solid var(--border); background: var(--card); color: var(--text);
@@ -1077,6 +1044,19 @@ body {
   to { transform: translateX(100%); }
 }
 
+/* 動きを苦手とする環境・ユーザーには静止画として提供 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+  .step-card, .q-card, .result-head, .empty-box {
+    opacity: 1;
+    transform: none;
+  }
+}
 
 /* =====================================================================
  * Top Page Atmosphere
@@ -1479,6 +1459,15 @@ body[data-page="home"] .step-card {
   background: rgba(117,109,255,.2);
 }
 
+/* 最終段階で、追加したトップ演出も含めて確実に減速設定へ従う */
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="home"] .hero::before,
+  body[data-page="home"] .hero::after,
+  body[data-page="home"] .hero-visual *,
+  body[data-page="home"] .hero-badge::before {
+    animation: none !important;
+  }
+}
 /* =====================================================================
  * 2026-09 Final UI Adjustments
  * ---------------------------------------------------------------------
@@ -2649,16 +2638,12 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 }
 
 /* ---------- フォント：見出し・太字のみM PLUS 2 ---------- */
-:where(h1, h2, h4, h5, h6, strong, b, .site-logo, .drawer-link, .btn-grad, .btn-ghost,
-  .filter-btn, .official-link, .random-controls label, .step-card h3, .q-title, .reason-label,
-  .fav-status-label, .fav-status-btn, .fav-status-tab, .tab-btn, .trend-chip) {
-  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
-    "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif !important;
-}
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@400;500;600;700;800&display=swap");
 
-/* 作品名・作品数・パラメータ名は従来のゴシック体を維持 */
-.card-title, .modal-title, .count-text, .param-label {
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+:where(h1, h2, h3, h4, h5, h6, strong, b, .site-logo, .btn-grad, .btn-ghost,
+  .filter-btn, .param-label, .count-text, .official-link, .random-controls label) {
+  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
 }
 
 /* ---------- ポップアップのスクロールバー ---------- */
@@ -2780,11 +2765,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 .fav-status-btn[data-status="watched"] { color: var(--muted); }
 .fav-status-btn[data-status="watched"]:hover,
 .fav-status-btn[data-status="watched"].active { color: #22ee3d; }
-.fav-status-btn[data-status="watched"].active { background-color: rgba(34,238,61,.14); }
-.fav-status-btn[data-status="watching"].active { background-color: rgba(34,211,238,.14); }
-.fav-status-btn[data-status="want"].active { background-color: rgba(255,210,63,.14); }
 .fav-status-btn.active {
-  background-color: rgba(108,99,255,.12);
   background: color-mix(in srgb, var(--status-color) 14%, transparent);
   color: var(--status-color);
   border-color: color-mix(in srgb, var(--status-color) 50%, transparent);
@@ -3001,16 +2982,52 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 .fav-status-mark.status-watching { color: #ff6faf; }
 .fav-status-btn[data-status="watching"] { --status-color: #ff6faf; }
 
+/* =====================================================================
+ * AniList API表示
+ * ===================================================================== */
+.anilist-info-wrap { min-height: 0; }
+.anilist-info {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--card-solid) 92%, var(--accent) 8%);
+}
+.anilist-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  min-width: 0;
+}
+.anilist-stat + .anilist-stat {
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
+}
+.anilist-label {
+  color: var(--muted);
+  font-size: .76rem;
+  font-weight: 700;
+}
+.anilist-stat strong {
+  font-size: .96rem;
+  line-height: 1;
+}
+.anilist-loading {
+  color: var(--muted);
+  font-size: .76rem;
+  min-height: 18px;
+}
 
-/* ---------- 検索欄のクリア(X)を虫眼鏡と同じ文字色に ---------- */
-#search-input::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  margin-right: 3px;
-  opacity: 1;
-  background-color: var(--text);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 6l12 12M18 6L6 18' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 6l12 12M18 6L6 18' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+/* ポップアップ背景：暗くなりすぎない元の見え方へ戻す */
+.modal-backdrop {
+  background: rgba(10, 8, 20, .35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+@media (max-width: 640px) {
+  .anilist-info { padding: 9px 11px; gap: 8px; }
+  .anilist-stat { gap: 6px; }
 }

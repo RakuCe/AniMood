@@ -15,13 +15,13 @@ const AXES = {
   action:  { label: "バトル・アクション", sentence: "ド派手なバトルやアクションでスカッとしたい気分",
             genres: ["バトル", "冒険", "メカ"], tags: ["無双", "チート", "アクション", "バトル", "復讐", "ざまぁ", "少年漫画"] },
   fantasy: { label: "ファンタジー・異世界", sentence: "剣と魔法の世界に飛び込みたい気分",
-            genres: ["ファンタジー", "異世界", "ゲーム"], tags: ["転生", "魔法", "魔女", "ダークファンタジー"] },
+            genres: ["ファンタジー"], tags: ["異世界", "転生", "魔法", "魔女", "ダークファンタジー"] },
   love:    { label: "恋愛・ラブコメ", sentence: "キュンとする恋愛ものを求めている気分",
             genres: ["恋愛"], tags: ["ラブコメ", "純愛", "百合", "BL", "甘々", "両片想い", "幼馴染", "片想い", "結婚", "婚活", "イチャコラ", "大人の恋", "人外"] },
   comedy:  { label: "コメディ・ギャグ", sentence: "とにかく笑って元気をチャージしたい気分",
             genres: ["コメディ"], tags: ["ギャグ", "ドタバタ", "パロディ", "シュール", "ポンコツ", "掛け合い", "勘違い"] },
-  daily:   { label: "日常・癒し", sentence: "ゆったりほっこり、癒やしの時間がほしい気分",
-            genres: ["日常", "青春", "癒し"], tags: ["癒し", "ほのぼの", "家族", "ふたり旅", "寮生活", "やさしい世界", "職場", "お仕事"] },
+  daily:   { label: "日常・癒やし", sentence: "ゆったりほっこり、癒やしの時間がほしい気分",
+            genres: ["日常"], tags: ["癒やし", "ほのぼの", "家族", "ふたり旅", "寮生活", "やさしい世界", "職場", "お仕事"] },
   mystery: { label: "ミステリー・考察", sentence: "謎解きや考察にじっくり没頭したい気分",
             genres: ["ミステリー", "スリラー"], tags: ["考察", "頭脳戦", "人狼", "デスゲーム", "騙し合い", "心理戦", "陰謀", "タイムループ"] },
   dark:    { label: "ダーク・ホラー", sentence: "少しダークで強い刺激を求めている気分",
@@ -35,7 +35,7 @@ const AXES = {
   drama:   { label: "人間ドラマ・感動", sentence: "じんわり心に残る人間ドラマを味わいたい気分",
             genres: ["ドラマ"], tags: ["群像劇", "家族", "情感", "成長", "伝統芸能", "喪失と再生", "切ない", "寓話"] },
   gourmet: { label: "グルメ・ご飯", sentence: "美味しそうなご飯やグルメ描写に癒やされたい気分",
-            genres: ["グルメ"], tags: ["ご飯", "グルメ", "魔物グルメ", "ワイン"] }
+            genres: [], tags: ["ご飯", "グルメ", "魔物グルメ", "ワイン"] }
 };
 
 /* 軸が作品にマッチする度合い: ジャンル一致=1.0 / タグ一致=0.65 / 不一致=0 */
@@ -50,7 +50,7 @@ function axisMatch(axis, work) {
  * 質問の描画(1ページに全問を並べ、スクロールで答える形式)
  * ===================================================================== */
 const answers = {}; // { 質問id: 選択肢index or 1〜5 }
-let includeCheckedWorks = true;
+let includeChecked = true;
 
 function renderQuestions() {
   const box = $("#question-list");
@@ -122,8 +122,7 @@ function computeScores() {
   });
   Object.keys(axisPts).forEach(a => axisPts[a] = Math.max(0, axisPts[a]));
 
-  const candidates = includeCheckedWorks ? WORKS : WORKS.filter(work => !isFav(work.id));
-
+  const candidates = includeChecked ? WORKS : WORKS.filter(work => !isFav(work.id));
   return candidates.map(work => {
     let score = 0;
     for (const [axis, pt] of Object.entries(axisPts)) {
@@ -172,19 +171,6 @@ function reasonTagsFor(work, axisPts) {
  * 結果の表示
  * ===================================================================== */
 function showResult() {
-  /* 未回答があれば最初の質問へ移動 */
-  const unanswered = QUESTIONS.find(q => answers[q.id] === undefined);
-  if (unanswered) {
-    const target = document.querySelector(`[data-qid="${unanswered.id}"]`);
-    if (target) {
-      $$(".q-card.needs-answer").forEach(card => card.classList.remove("needs-answer"));
-      target.classList.add("needs-answer");
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
-      window.setTimeout(() => target.classList.remove("needs-answer"), 1800);
-    }
-    return;
-  }
-
   const axisPts = {}; Object.keys(AXES).forEach(a => axisPts[a] = 0);
   const prefs = {};
   QUESTIONS.forEach(q => {
@@ -229,17 +215,38 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!$("#question-list")) return;
   renderQuestions();
   updateProgress();
-  $("#diagnose-btn").addEventListener("click", showResult);
+
   const includeToggle = $("#include-checked-toggle");
   includeToggle?.addEventListener("click", () => {
-    includeCheckedWorks = !includeCheckedWorks;
-    includeToggle.classList.toggle("is-on", includeCheckedWorks);
-    includeToggle.setAttribute("aria-pressed", String(includeCheckedWorks));
+    includeChecked = !includeChecked;
+    includeToggle.classList.toggle("is-on", includeChecked);
+    includeToggle.setAttribute("aria-pressed", String(includeChecked));
+  });
+
+  $("#diagnose-btn").addEventListener("click", () => {
+    /* 全問回答済みなら診断、未回答があれば最初の未回答へ移動 */
+    const unansweredIndex = QUESTIONS.findIndex(q => answers[q.id] === undefined);
+    if (unansweredIndex !== -1) {
+      const target = $$(".q-card")[unansweredIndex];
+      if (target) {
+        $$(".q-card.is-unanswered").forEach(x => x.classList.remove("is-unanswered"));
+        target.classList.add("is-unanswered");
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        window.setTimeout(() => target.classList.remove("is-unanswered"), 1800);
+      }
+      return;
+    }
+    showResult();
   });
   $("#retry-btn").addEventListener("click", () => {
     Object.keys(answers).forEach(k => delete answers[k]);
     $$(".q-opt.selected, .scale-btn.selected").forEach(b => b.classList.remove("selected"));
     $("#result").hidden = true;
+    includeChecked = true;
+    if (includeToggle) {
+      includeToggle.classList.add("is-on");
+      includeToggle.setAttribute("aria-pressed", "true");
+    }
     updateProgress();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
