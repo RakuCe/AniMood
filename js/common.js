@@ -442,7 +442,7 @@ function openPopup(id) {
           ${PARAM_LABELS.map(([k, label]) => paramRowHTML(k, label, work.params[k])).join("")}
         </div>
         <p class="modal-desc">${formatDesc(work.desc)}</p>
-        <a class="official-link" href="${esc(work.url)}" target="_blank" rel="noopener">公式サイトを見る ↗</a>
+        <a class="official-link" href="${esc(work.url)}" target="_blank" rel="noopener">公式サイトを見る <svg class="official-link-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg></a>
       </div>
     </div>`;
 
@@ -451,6 +451,18 @@ function openPopup(id) {
   requestAnimationFrame(() => backdrop.classList.add("show"));
 
   const modalBody = $(".modal-body", backdrop);
+  const refreshModalBackdrop = () => {
+    // iOS/iPadOS Safari can drop backdrop-filter after a descendant DOM update.
+    // Force a fresh compositing pass without changing the visual blur value.
+    backdrop.style.webkitBackdropFilter = "blur(6px)";
+    backdrop.style.backdropFilter = "blur(6px)";
+    void backdrop.offsetHeight;
+    requestAnimationFrame(() => {
+      backdrop.style.webkitBackdropFilter = "blur(6px)";
+      backdrop.style.backdropFilter = "blur(6px)";
+    });
+  };
+
   const updatePopupStatus = () => {
     const existing = $(".modal-status-control", backdrop);
     if (existing) existing.remove();
@@ -471,6 +483,7 @@ function openPopup(id) {
         updatePopupStatus();
       });
     }
+    refreshModalBackdrop();
   };
   updatePopupStatus();
   initFilterChipEvents(backdrop);

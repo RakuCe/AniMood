@@ -1,4 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@400;500;600;700;800&display=swap");
+/* M PLUS 2：GitHub Pagesでも外部CSSの解釈に依存しないよう、固定バージョンのWebフォントを直接読み込む。 */
+@font-face {
+  font-family: "M PLUS 2";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/m-plus-2:vf@5.3.0/japanese-wght-normal.woff2") format("woff2-variations");
+}
+
 
 /* =====================================================================
  * アニメムード診断 共通スタイル (style.css)
@@ -675,6 +683,13 @@ html.theme-transition .theme-icon {
   position: fixed; inset: 0; z-index: 200;
   background: rgba(10, 8, 20, .55);
   backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: opacity, backdrop-filter;
+  isolation: isolate;
   display: grid; place-items: center;
   padding: 20px;
   opacity: 0; transition: opacity .2s;
@@ -683,6 +698,7 @@ html.theme-transition .theme-icon {
 .modal-backdrop.show { opacity: 1; }
 .modal {
   position: relative;
+  z-index: 1;
   width: min(680px, 100%);
   background: var(--card-solid);
   border: 1px solid var(--border);
@@ -743,12 +759,25 @@ html.theme-transition .theme-icon {
 .modal-desc { font-size: .9rem; color: var(--text); }
 .official-link {
   justify-self: start;
-  display: inline-block; padding: 11px 26px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 26px;
   border-radius: 999px; background-color: #6C63FF; background-image: var(--accent-grad);
   color: #fff; font-weight: 700; font-size: .88rem; text-decoration: none;
   transition: transform .15s, box-shadow .15s;
 }
 .official-link:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(124, 92, 255, .4); }
+.official-link .official-link-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  color: #fff;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 
 /* =====================================================================
  * 一覧ページ
@@ -2613,23 +2642,6 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   #year-filter, #genre-filter, #random-count {
     min-width: 130px;
   }
-}
-
-/* ---------- フォント：GitHub Pagesでも確実に同じ指定を維持 ---------- */
-/*
- * Google Fontsは各HTMLから直接<link>でも読み込む。
- * CSS側にも同じフォント名を明示し、GitHub PagesでCSSの読込順が変わっても
- * 「どの要素をM PLUS 2にするか」が後続ルールで崩れないようにする。
- */
-:where(h1, h2, h4, h5, h6, strong, b, .site-logo, .drawer-link, .btn-grad, .btn-ghost,
-  .filter-btn, .official-link, .random-controls label, .step-card h3, .q-title, .reason-label,
-  .fav-status-label, .fav-status-btn, .fav-status-tab, .tab-btn, .trend-chip) {
-  font-family: "M PLUS 2", sans-serif !important;
-}
-
-/* 作品名・作品数・パラメータ名は従来のゴシック体を固定 */
-:where(.card-title, .modal-title, .count-text, .param-label) {
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif !important;
 }
 
 /* ---------- フォント：見出し・太字のみM PLUS 2 ---------- */
