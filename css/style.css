@@ -50,7 +50,7 @@ html {
 }
 
 body {
-  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.7;
@@ -1010,6 +1010,13 @@ body {
 .step-card:nth-child(2), .q-card:nth-child(2) { transition-delay: .07s; }
 .step-card:nth-child(3), .q-card:nth-child(3) { transition-delay: .14s; }
 .step-card:hover { transform: translateY(-6px); }
+
+/* 波紋アニメーションは使用しない */
+}
+
+/* プログレスバーの光るアニメーションは使用しない */
+#progress-fill { position: relative; overflow: hidden; }
+}
 
 /* =====================================================================
  * Top Page Atmosphere
@@ -2601,11 +2608,20 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   }
 }
 
-/* ---------- フォント：見出し・太字のみM PLUS 2 ---------- */
+/* ---------- フォント：M PLUS 2を同一の指定で安定適用 ---------- */
+@font-face {
+  font-family: "M PLUS 2 AniMood";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/m-plus-2:vf@latest/japanese-wght-normal.woff2") format("woff2-variations");
+}
+
 :where(h1, h2, h3, h4, h5, h6, strong, b, .site-logo, .btn-grad, .btn-ghost,
   .filter-btn, .param-label, .count-text, .official-link, .random-controls label) {
-  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
-    "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-family: "M PLUS 2 AniMood", "M PLUS 2", "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-synthesis: none;
 }
 
 /* ---------- ポップアップのスクロールバー ---------- */
@@ -2996,20 +3012,49 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 
 
 /* =====================================================================
- * v43 端末別安定化
+ * v45 端末別安定化
  * ===================================================================== */
+@media (min-width: 721px) and (max-width: 1024px) {
+  /* 作品一覧だけ、初期描画アニメーションがbackdrop-filterの合成を壊さないよう固定 */
+  body[data-page="list"] .site-header {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    background: var(--header-bg) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    backdrop-filter: blur(24px) !important;
+    will-change: backdrop-filter;
+    isolation: isolate;
+  }
+}
+
 @media (max-width: 720px) {
+  /* スマホの診断プログレスバーは固定ではなくstickyにして、fixed+合成レイヤー問題を避ける */
   body[data-page="quiz"] .progress-wrap {
-    position: fixed !important;
+    position: sticky !important;
     top: 68px !important;
-    left: 0 !important;
-    right: 0 !important;
+    left: auto !important;
+    right: auto !important;
     width: 100% !important;
-    z-index: 150 !important;
+    min-height: 28px !important;
+    z-index: 130 !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     transform: none !important;
+    background: var(--header-bg) !important;
+    isolation: isolate;
+  }
+  body[data-page="quiz"] .progress-inner {
+    min-height: 28px;
+  }
+
+  /* ホワイトモードでも現在ページの紫グラデーションを明示 */
+  html:not([data-theme="dark"]) .drawer-link.current {
+    background-color: #6C63FF !important;
+    background-image: var(--accent-grad) !important;
+    color: #fff !important;
+    opacity: 1 !important;
   }
 }
 
@@ -3045,56 +3090,4 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-/* ---------- v45: タブレット作品一覧のヘッダーぼかしを常時維持 ---------- */
-@media (min-width: 721px) and (max-width: 1024px) {
-  body[data-page="list"] .site-header {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    transform: none !important;
-    opacity: 1 !important;
-    background: var(--header-bg) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
-    backdrop-filter: blur(24px) !important;
-    isolation: isolate;
-    will-change: auto !important;
-  }
-}
-
-/* ---------- v45: ライトモードの現在ページ名を確実に白文字にする ---------- */
-[data-theme="light"] .drawer-link.current,
-html:not([data-theme="dark"]) .drawer-link.current {
-  color: #fff !important;
-}
-
-/* ---------- v45: スマホの診断プログレスをヘッダー直下に常時表示 ---------- */
-@media (max-width: 720px) {
-  body[data-page="quiz"] .progress-wrap {
-    position: fixed !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    top: 68px !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    min-height: 42px !important;
-    padding: 8px 14px !important;
-    z-index: 300 !important;
-    background: var(--header-bg) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
-    backdrop-filter: blur(24px) !important;
-    transform: translateZ(0) !important;
-  }
-  body[data-page="quiz"] .progress-inner {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  body[data-page="quiz"] #progress-fill {
-    animation: none !important;
-  }
 }
