@@ -23,8 +23,8 @@ const findWork = id => WORKS.find(w => w.id === id);
  * ・1時間キャッシュ。期限後に再取得するため、続編追加も自動反映
  * ===================================================================== */
 const ANILIST_API_URL = "https://graphql.anilist.co";
-const ANILIST_CACHE_KEY = "animood-anilist-v2";
-const ANILIST_CACHE_TTL = 60 * 60 * 1000;
+const ANILIST_CACHE_KEY = "animood-anilist-v3";
+const ANILIST_CACHE_TTL = 6 * 60 * 60 * 1000;
 
 function getAniListCache() {
   try { return JSON.parse(localStorage.getItem(ANILIST_CACHE_KEY) || "{}"); }
@@ -34,14 +34,19 @@ function setAniListCache(cache) {
   try { localStorage.setItem(ANILIST_CACHE_KEY, JSON.stringify(cache)); } catch {}
 }
 
+/* AniListは一時的な通信失敗があるため、タイムアウト＋再試行を行う。 */
 async function aniListRequest(query, variables = {}) {
   let lastError;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 9000);
     try {
       const res = await fetch(ANILIST_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({ query, variables })
+        body: JSON.stringify({ query, variables }),
+        signal: controller.signal,
+        cache: "no-store"
       });
       if (!res.ok) throw new Error(`AniList HTTP ${res.status}`);
       const json = await res.json();
@@ -49,7 +54,9 @@ async function aniListRequest(query, variables = {}) {
       return json.data;
     } catch (error) {
       lastError = error;
-      if (attempt < 2) await new Promise(resolve => setTimeout(resolve, 450 * (attempt + 1)));
+      if (attempt < 3) await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)));
+    } finally {
+      clearTimeout(timer);
     }
   }
   throw lastError || new Error("AniList request failed");
@@ -57,7 +64,7 @@ async function aniListRequest(query, variables = {}) {
 
 const ANILIST_SEARCH_QUERY = `
   query ($search: String!) {
-    Page(page: 1, perPage: 10) {
+    Page(page: 1, perPage: 25) {
       media(search: $search, type: ANIME, isAdult: false) {
         id
         title { native romaji english userPreferred }
@@ -80,10 +87,14 @@ const ANILIST_MEDIA_QUERY = `
       media(id_in: $ids, type: ANIME) {
         id
         title { native romaji english userPreferred }
+        synonyms
         coverImage { large }
         format
         episodes
         averageScore
+        startDate { year month day }
+        season
+        seasonYear
         relations {
           edges {
             relationType
@@ -104,9 +115,10 @@ const ANILIST_MEDIA_QUERY = `
 function normalizeTitle(s) {
   return String(s || "")
     .toLowerCase()
-    .replace(/[\s　・:：!！?？「」『』【】（）()\[\]、,./\\'"’”]/g, "")
-    .replace(/(?:第[0-9０-９一二三四五六七八九十]+期|[0-9０-９]+期|season[0-9０-９]+|[0-9０-９]+nd|[0-9０-９]+st|[0-9０-９]+rd|[0-9０-９]+th)$/i, "")
-    .replace(/[0-9０-９]+$/, "");
+    .normalize("NFKC")
+    .replace(/[\s　・:：!！?？「」『』【】（）()［］[\]、,./\\'"’”〜~‐‑–—]/g, "")
+    .replace(/(?:第[0-9一二三四五六七八九十]+期|[0-9]+期|season[0-9]+|[0-9]+(?:nd|st|rd|th)|part[0-9]+)$/i, "")
+    .replace(/[0-9]+$/, "");
 }
 
 function titleCandidates(media) {
@@ -122,50 +134,110 @@ function titleCandidates(media) {
   return out;
 }
 
+function titleTokens(s) {
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFKC")
+    .split(/[\s　・:：!！?？「」『』【】（）()［］[\]、,./\\'"’”〜~‐‑–—]+/)
+    .map(v => v.trim())
+    .filter(v => v.length >= 2);
+}
+
 function pickAniListSearchResult(work, media) {
   if (!media.length) return null;
   const target = normalizeTitle(work.title);
+  const targetTokens = titleTokens(work.title);
   const seasonText = String(work.season || "");
-  const yearMatch = seasonText.match(/(20\\d{2})年/);
+  const yearMatch = seasonText.match(/(20\d{2})年/);
   const year = yearMatch ? Number(yearMatch[1]) : null;
+
   const scored = media.map(m => {
     const titles = titleCandidates(m);
     const normalized = titles.map(normalizeTitle).filter(Boolean);
     let score = 0;
-    if (normalized.some(t => t === target)) score += 200;
-    else if (normalized.some(t => t.includes(target) || target.includes(t))) score += 80;
-    else {
-      const compactTarget = target.replace(/(the|season|part|cour|hen)/g, "");
-      if (compactTarget && normalized.some(t => t.includes(compactTarget) || compactTarget.includes(t))) score += 25;
+    let exact = false;
+
+    if (normalized.some(t => t === target)) {
+      score += 300;
+      exact = true;
+    } else if (normalized.some(t => t.includes(target) || target.includes(t))) {
+      score += 145;
     }
-    if (m.format === "TV") score += 8;
-    if (m.format === "ONA") score += 3;
-    if (year && m.seasonYear === year) score += 12;
-    if (year && m.startDate?.year === year) score += 8;
+
+    const titleTokenSet = new Set(titles.flatMap(titleTokens));
+    if (targetTokens.length) {
+      const overlap = targetTokens.filter(t => titleTokenSet.has(t)).length / targetTokens.length;
+      score += overlap * 70;
+    }
+
+    /* シリーズ名の共通部分だけで別シーズンを選ばないよう、年と形式を補正。 */
+    if (m.format === "TV") score += 18;
+    else if (m.format === "ONA") score += 10;
+    else if (m.format === "MOVIE" || m.format === "OVA" || m.format === "SPECIAL") score -= 12;
+    if (year && m.seasonYear === year) score += 28;
+    if (year && m.startDate?.year === year) score += 16;
+    if (m.episodes) score += 2;
+    if (exact && year && m.seasonYear === year) score += 30;
+
     return { media: m, score };
-  }).sort((a,b) => b.score - a.score);
+  }).sort((a, b) => b.score - a.score);
+
   return scored[0]?.media || null;
 }
 
-async function searchAniList(work) {
-  const queries = [work.title];
-  const simplified = String(work.title || "")
-    .replace(/\s*[（(]\s*(?:第)?[0-9０-９一二三四五六七八九十]+(?:期|クール|nd|st|rd|th)?\s*[）)]/gi, "")
-    .replace(/\s*(?:第[0-9０-９一二三四五六七八九十]+期|[0-9０-９]+(?:nd|st|rd|th)?\s*Season)\s*$/i, "")
-    .trim();
-  if (simplified && simplified !== work.title) queries.push(simplified);
+function buildAniListQueries(work) {
+  const title = String(work.title || "").trim();
+  const variants = new Set();
+  const add = value => {
+    const v = String(value || "").trim();
+    if (v) variants.add(v);
+  };
 
+  add(title);
+  add(title.replace(/[！!？?「」『』【】（）()［］[\]・:：]/g, " ").replace(/\s+/g, " ").trim());
+  add(title.replace(/\s*(?:第\s*[0-9一二三四五六七八九十]+期|[0-9]+(?:nd|st|rd|th)?\s*Season|Season\s*[0-9]+|Part\s*[0-9]+)\s*$/i, "").trim());
+  add(title.replace(/\s*[（(]\s*(?:第)?[0-9一二三四五六七八九十]+(?:期|クール|nd|st|rd|th)?\s*[）)]\s*$/i, "").trim());
+
+  return [...variants].filter((v, i, a) => a.indexOf(v) === i).slice(0, 5);
+}
+
+async function searchAniList(work) {
+  const cache = getAniListCache();
+  const searchCacheKey = `search:${work.id}`;
+  const cached = cache[searchCacheKey];
+  if (cached?.value?.id && cached.expiresAt > Date.now()) return cached.value;
+
+  const queries = buildAniListQueries(work);
+  let best = null;
   for (const query of queries) {
-    const data = await aniListRequest(ANILIST_SEARCH_QUERY, { search: query });
-    const media = data?.Page?.media || [];
-    const picked = pickAniListSearchResult(work, media);
-    if (picked) return picked;
+    try {
+      const data = await aniListRequest(ANILIST_SEARCH_QUERY, { search: query });
+      const media = data?.Page?.media || [];
+      const picked = pickAniListSearchResult(work, media);
+      if (picked) {
+        if (!best) best = picked;
+        const target = normalizeTitle(work.title);
+        const exact = titleCandidates(picked).some(t => normalizeTitle(t) === target);
+        if (exact) break;
+      }
+    } catch (error) {
+      console.warn("AniList search query failed:", query, error);
+    }
   }
-  return null;
+
+  if (!best) return null;
+  cache[searchCacheKey] = { value: best, expiresAt: Date.now() + ANILIST_CACHE_TTL };
+  setAniListCache(cache);
+  return best;
 }
 
 async function resolveAniListId(work) {
   if (Number.isInteger(Number(work.anilistId))) return Number(work.anilistId);
+  const ids = Array.isArray(work.anilistIds)
+    ? work.anilistIds.map(Number).filter(Number.isInteger)
+    : [];
+  if (ids.length) return ids[0];
+
   const cache = getAniListCache();
   const cached = cache[work.id];
   if (cached?.id && cached.expiresAt > Date.now()) return cached.id;
@@ -182,56 +254,78 @@ async function fetchAniListSeriesInfo(work) {
   const cachedInfo = cache[`info:${work.id}`];
   if (cachedInfo?.expiresAt > Date.now()) return cachedInfo.value;
 
-  const rootId = await resolveAniListId(work);
-  if (!rootId) return null;
+  /* anilistIdsを指定した作品は検索結果や関連作品に左右されず、指定IDだけを合計する。 */
+  const explicitIds = Array.isArray(work.anilistIds)
+    ? work.anilistIds.map(Number).filter(Number.isInteger)
+    : (Number.isInteger(Number(work.anilistId)) ? [Number(work.anilistId)] : []);
 
-  const seen = new Set([rootId]);
-  let frontier = [rootId];
-  const mediaMap = new Map();
+  let mediaMap = new Map();
+  let rootId = null;
 
-  // PREQUEL / SEQUELだけを辿るので、別作品のスピンオフ等は合計しない。
-  try {
-    for (let depth = 0; depth < 12 && frontier.length; depth++) {
-      const data = await aniListRequest(ANILIST_MEDIA_QUERY, { ids: frontier });
-      const media = data?.Page?.media || [];
-      const next = [];
-      for (const item of media) {
-        mediaMap.set(item.id, item);
-        for (const edge of (item.relations?.edges || [])) {
-          if (edge.relationType !== "PREQUEL" && edge.relationType !== "SEQUEL") continue;
-          const id = edge.node?.id;
-          if (id && !seen.has(id)) {
-            seen.add(id);
-            next.push(id);
+  if (explicitIds.length) {
+    rootId = explicitIds[0];
+    try {
+      const data = await aniListRequest(ANILIST_MEDIA_QUERY, { ids: explicitIds });
+      for (const item of (data?.Page?.media || [])) mediaMap.set(item.id, item);
+    } catch (error) {
+      console.warn("AniList explicit IDs:", error);
+    }
+  } else {
+    try {
+      rootId = await resolveAniListId(work);
+    } catch (error) {
+      console.warn("AniList ID resolution:", error);
+    }
+    if (!rootId) return null;
+
+    const seen = new Set([rootId]);
+    let frontier = [rootId];
+
+    /* PREQUEL / SEQUELだけを辿る。OVA・映画・スピンオフなどは自動で混ぜない。 */
+    try {
+      for (let depth = 0; depth < 12 && frontier.length; depth++) {
+        const data = await aniListRequest(ANILIST_MEDIA_QUERY, { ids: frontier });
+        const media = data?.Page?.media || [];
+        const next = [];
+        for (const item of media) {
+          mediaMap.set(item.id, item);
+          for (const edge of (item.relations?.edges || [])) {
+            if (edge.relationType !== "PREQUEL" && edge.relationType !== "SEQUEL") continue;
+            const id = edge.node?.id;
+            if (id && !seen.has(id)) {
+              seen.add(id);
+              next.push(id);
+            }
           }
         }
+        frontier = [...new Set(next)];
       }
-      frontier = [...new Set(next)];
+    } catch (error) {
+      console.warn("AniList series relations:", error);
     }
-  } catch (error) {
-    // 連作取得だけ失敗した場合も、代表作品の情報は表示できるようにする。
-    console.warn("AniList series relations:", error);
+
+    /* 関連取得だけ失敗した場合でも、代表作品の情報は残す。 */
+    if (!mediaMap.size) {
+      try {
+        const fallback = await searchAniList(work);
+        if (fallback) {
+          mediaMap.set(fallback.id, fallback);
+          rootId = fallback.id;
+        }
+      } catch (error) {
+        console.warn("AniList fallback search:", error);
+      }
+    }
   }
 
   const series = [...mediaMap.values()];
-  if (!series.length) {
-    try {
-      const fallback = await searchAniList(work);
-      if (!fallback) return null;
-      return {
-        episodes: Number.isFinite(fallback.episodes) ? fallback.episodes : null,
-        score: Number.isFinite(fallback.averageScore) ? (fallback.averageScore / 10).toFixed(1) : null,
-        entryCount: 1,
-        updatedAt: Date.now()
-      };
-    } catch {
-      return null;
-    }
-  }
+  if (!series.length) return null;
 
-  const episodeTotal = series.reduce((sum, m) => sum + (Number.isFinite(m.episodes) ? m.episodes : 0), 0);
+  const episodeTotal = series.reduce((sum, m) => sum + (Number.isFinite(Number(m.episodes)) ? Number(m.episodes) : 0), 0);
   const root = mediaMap.get(rootId) || series[0];
-  const score = Number.isFinite(root.averageScore) ? (root.averageScore / 10).toFixed(1) : null;
+  const score = Number.isFinite(Number(root.averageScore))
+    ? (Number(root.averageScore) / 10).toFixed(1)
+    : null;
   const value = {
     episodes: episodeTotal > 0 ? episodeTotal : null,
     score,
@@ -259,7 +353,6 @@ async function loadAniListInfo(work, backdrop) {
     const info = await fetchAniListSeriesInfo(work);
     box.innerHTML = info ? aniListInfoHTML(info) : "";
   } catch (error) {
-    // 外部APIが一時的に利用できなくても、AniMood本体は通常どおり使えるようにする。
     console.warn("AniList API:", error);
     box.innerHTML = "";
   }
