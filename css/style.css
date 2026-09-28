@@ -1,4 +1,16 @@
 /* =====================================================================
+ * AniMood Web Font
+ * M PLUS 2をページ描画の早い段階から固定して読み込む。
+ * ===================================================================== */
+@font-face {
+  font-family: "M PLUS 2";
+  font-style: normal;
+  font-display: block;
+  font-weight: 100 900;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/m-plus-2:vf@5.3.0/japanese-wght-normal.woff2") format("woff2-variations");
+}
+
+/* =====================================================================
  * アニメムード診断 共通スタイル (style.css)
  *   色や雰囲気を変えたいときは、下の :root / [data-theme="dark"] の
  *   変数を書き換えるだけで全体に反映されます。
@@ -490,8 +502,11 @@ html.theme-transition .theme-icon {
 .fav-status-mark {
   position: absolute; top: 10px; left: 10px; z-index: 3;
   width: 35px; height: 35px; padding: 0; border: none; border-radius: 50%;
-  background: rgba(255, 255, 255, .3);
-  backdrop-filter: blur(1px);
+  background-color: rgba(255, 255, 255, .30);
+  background-image: linear-gradient(rgba(255,255,255,.08), rgba(255,255,255,.08));
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  isolation: isolate;
   display: grid; place-items: center;
   cursor: pointer;
   transition: transform .15s, background .18s;
@@ -574,7 +589,8 @@ html.theme-transition .theme-icon {
 
 /* 進捗バー(スクロールしても見えるよう固定) */
 .progress-wrap {
-  position: sticky; top: 68px; z-index: 50;
+  position: sticky; top: 68px; z-index: 130;
+  display: block; width: 100%; min-height: 28px;
   padding: 10px 0;
   background: var(--header-bg);
   backdrop-filter: blur(12px);
@@ -743,8 +759,12 @@ html.theme-transition .theme-icon {
 .modal-desc { font-size: .9rem; color: var(--text); }
 .official-link {
   justify-self: start;
-  display: inline-block; padding: 11px 26px;
-  border-radius: 999px; background: var(--accent-grad);
+  display: inline-flex; align-items: center; gap: 8px;
+  width: fit-content; min-height: 42px; box-sizing: border-box;
+  padding: 11px 26px;
+  border-radius: 999px;
+  background-color: #6C63FF;
+  background-image: var(--accent-grad);
   color: #fff; font-weight: 700; font-size: .88rem; text-decoration: none;
   transition: transform .15s, box-shadow .15s;
 }
@@ -1459,15 +1479,6 @@ body[data-page="home"] .step-card {
   background: rgba(117,109,255,.2);
 }
 
-/* 最終段階で、追加したトップ演出も含めて確実に減速設定へ従う */
-@media (prefers-reduced-motion: reduce) {
-  body[data-page="home"] .hero::before,
-  body[data-page="home"] .hero::after,
-  body[data-page="home"] .hero-visual *,
-  body[data-page="home"] .hero-badge::before {
-    animation: none !important;
-  }
-}
 /* =====================================================================
  * 2026-09 Final UI Adjustments
  * ---------------------------------------------------------------------
@@ -3060,4 +3071,52 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 @media (max-width: 640px) {
   .anilist-info { padding: 9px 11px; gap: 8px; }
   .anilist-stat { gap: 6px; }
+}
+
+
+/* =====================================================================
+ * v43 端末別安定化
+ * ===================================================================== */
+@media (max-width: 1024px) {
+  .site-header {
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+  .progress-wrap {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  .official-link {
+    display: inline-flex !important;
+    background-color: #6C63FF !important;
+    background-image: var(--accent-grad) !important;
+    color: #fff !important;
+  }
+  .fav-status-mark {
+    -webkit-backdrop-filter: blur(4px) !important;
+    backdrop-filter: blur(4px) !important;
+  }
+}
+
+/* 作品一覧のタブレットでもヘッダーのぼかしを常時維持 */
+@media (min-width: 721px) and (max-width: 1024px) {
+  body[data-page="list"] .site-header {
+    background: var(--header-bg) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    backdrop-filter: blur(24px) !important;
+  }
+}
+
+
+.official-link-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  color: #fff;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }

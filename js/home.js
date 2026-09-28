@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     current.src = resolveImageUrl(work.img);
     current.alt = work.title;
     attachImageFallback(current, work);
+    attachImageFallback(current, work);
     current.removeAttribute('aria-hidden');
     next.removeAttribute('src');
     next.alt = '';
@@ -119,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.dataset.fading = 'false';
     };
     preload.src = resolveImageUrl(work.img);
+    attachImageFallback(preload, work);
   }
 
   /* 5秒表示 → 1秒クロスフェード → 5秒表示 */

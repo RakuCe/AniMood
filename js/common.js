@@ -35,15 +35,24 @@ function setAniListCache(cache) {
 }
 
 async function aniListRequest(query, variables = {}) {
-  const res = await fetch(ANILIST_API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-    body: JSON.stringify({ query, variables })
-  });
-  if (!res.ok) throw new Error(`AniList HTTP ${res.status}`);
-  const json = await res.json();
-  if (json.errors?.length) throw new Error(json.errors[0].message || "AniList GraphQL error");
-  return json.data;
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await fetch(ANILIST_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ query, variables })
+      });
+      if (!res.ok) throw new Error(`AniList HTTP ${res.status}`);
+      const json = await res.json();
+      if (json.errors?.length) throw new Error(json.errors[0].message || "AniList GraphQL error");
+      return json.data;
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) await new Promise(resolve => setTimeout(resolve, 450 * (attempt + 1)));
+    }
+  }
+  throw lastError || new Error("AniList request failed");
 }
 
 const ANILIST_SEARCH_QUERY = `
@@ -181,26 +190,44 @@ async function fetchAniListSeriesInfo(work) {
   const mediaMap = new Map();
 
   // PREQUEL / SEQUELだけを辿るので、別作品のスピンオフ等は合計しない。
-  for (let depth = 0; depth < 12 && frontier.length; depth++) {
-    const data = await aniListRequest(ANILIST_MEDIA_QUERY, { ids: frontier });
-    const media = data?.Page?.media || [];
-    const next = [];
-    for (const item of media) {
-      mediaMap.set(item.id, item);
-      for (const edge of (item.relations?.edges || [])) {
-        if (edge.relationType !== "PREQUEL" && edge.relationType !== "SEQUEL") continue;
-        const id = edge.node?.id;
-        if (id && !seen.has(id)) {
-          seen.add(id);
-          next.push(id);
+  try {
+    for (let depth = 0; depth < 12 && frontier.length; depth++) {
+      const data = await aniListRequest(ANILIST_MEDIA_QUERY, { ids: frontier });
+      const media = data?.Page?.media || [];
+      const next = [];
+      for (const item of media) {
+        mediaMap.set(item.id, item);
+        for (const edge of (item.relations?.edges || [])) {
+          if (edge.relationType !== "PREQUEL" && edge.relationType !== "SEQUEL") continue;
+          const id = edge.node?.id;
+          if (id && !seen.has(id)) {
+            seen.add(id);
+            next.push(id);
+          }
         }
       }
+      frontier = [...new Set(next)];
     }
-    frontier = [...new Set(next)];
+  } catch (error) {
+    // 連作取得だけ失敗した場合も、代表作品の情報は表示できるようにする。
+    console.warn("AniList series relations:", error);
   }
 
   const series = [...mediaMap.values()];
-  if (!series.length) return null;
+  if (!series.length) {
+    try {
+      const fallback = await searchAniList(work);
+      if (!fallback) return null;
+      return {
+        episodes: Number.isFinite(fallback.episodes) ? fallback.episodes : null,
+        score: Number.isFinite(fallback.averageScore) ? (fallback.averageScore / 10).toFixed(1) : null,
+        entryCount: 1,
+        updatedAt: Date.now()
+      };
+    } catch {
+      return null;
+    }
+  }
 
   const episodeTotal = series.reduce((sum, m) => sum + (Number.isFinite(m.episodes) ? m.episodes : 0), 0);
   const root = mediaMap.get(rootId) || series[0];
@@ -705,7 +732,7 @@ function openPopup(id) {
         </div>
         <div class="anilist-info-wrap" aria-live="polite"></div>
         <p class="modal-desc">${formatDesc(work.desc)}</p>
-        <a class="official-link" href="${esc(work.url)}" target="_blank" rel="noopener">公式サイトを見る ↗</a>
+        <a class="official-link" href="${esc(work.url)}" target="_blank" rel="noopener">公式サイトを見る <svg class="official-link-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg></a>
       </div>
     </div>`;
 
@@ -776,16 +803,20 @@ function initSearch() {
     dd.innerHTML = hits.length
       ? hits.map(w => `
           <button class="search-item" data-id="${esc(w.id)}">
-            <img src="${esc(w.img)}" alt="">
+            <img src="${esc(resolveImageUrl(w.img))}" alt="">
             <span>${esc(w.title)}</span>
           </button>`).join("")
       : `<p class="search-empty">見つかりませんでした</p>`;
     dd.classList.add("show");
-    $$(".search-item", dd).forEach(b =>
+    $$(".search-item", dd).forEach(b => {
       b.addEventListener("click", () => {
         dd.classList.remove("show"); input.value = "";
         openPopup(b.dataset.id);
-      }));
+      });
+      const work = findWork(b.dataset.id);
+      const image = $("img", b);
+      if (work && image) attachImageFallback(image, work);
+    });
   };
 
   input.addEventListener("input", render);
