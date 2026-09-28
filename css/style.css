@@ -1011,45 +1011,12 @@ body {
 .step-card:nth-child(3), .q-card:nth-child(3) { transition-delay: .14s; }
 .step-card:hover { transform: translateY(-6px); }
 
-/* 選択操作：選択した瞬間に柔らかな波紋 */
-.q-opt.selected, .scale-btn.selected, .tab-btn.active {
-  animation: selection-pop .35s cubic-bezier(.22, 1, .36, 1);
-}
-@keyframes selection-pop {
-  0% { filter: brightness(1); }
-  45% { filter: brightness(1.12); }
-  100% { filter: brightness(1); }
-}
-.motion-ripple {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: rgba(255, 255, 255, .45);
-  transform: translate(-50%, -50%) scale(0);
-  animation: motion-ripple .55s ease-out forwards;
-}
-.btn-grad, .btn-ghost, .tab-btn, .q-opt, .scale-btn, .drawer-link { position: relative; overflow: hidden; }
-@keyframes motion-ripple {
-  to { opacity: 0; transform: translate(-50%, -50%) scale(18); }
+/* 波紋アニメーションは使用しない */
+.motion-ripple { display: none !important; animation: none !important; }
 }
 
-/* 進捗：回答が増えるとバー内を光が走る */
-#progress-fill {
-  position: relative;
-  overflow: hidden;
-}
-#progress-fill::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
-  transform: translateX(-100%);
-  animation: progress-glow 1.8s linear infinite;
-}
-@keyframes progress-glow {
-  to { transform: translateX(100%); }
+/* プログレスバーの光るアニメーションは使用しない */
+#progress-fill::after { display: none !important; animation: none !important; content: none !important; }
 }
 
 /* =====================================================================
@@ -2645,8 +2612,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 /* ---------- フォント：見出し・太字のみM PLUS 2 ---------- */
 :where(h1, h2, h3, h4, h5, h6, strong, b, .site-logo, .btn-grad, .btn-ghost,
   .filter-btn, .param-label, .count-text, .official-link, .random-controls label) {
-  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
-    "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", "Meiryo", sans-serif;
 }
 
 /* ---------- ポップアップのスクロールバー ---------- */
@@ -3086,4 +3052,41 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* ---------- タブレット作品一覧：スクロール中もヘッダーのぼかしを常時維持 ---------- */
+@media (min-width: 721px) and (max-width: 1024px) {
+  body[data-page="list"] .site-header {
+    animation: none !important;
+    background: var(--header-bg) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    backdrop-filter: blur(24px) !important;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    isolation: isolate;
+    will-change: backdrop-filter;
+  }
+}
+
+/* ---------- スマホ：診断ページのプログレスバーを常時表示 ---------- */
+@media (max-width: 720px) {
+  body[data-page="quiz"] .progress-wrap {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: sticky !important;
+    top: 68px !important;
+    z-index: 130 !important;
+    min-height: 28px !important;
+  }
+}
+
+/* ---------- スマホのライトモード：現在ページのメニュー文字を確実に白表示 ---------- */
+@media (max-width: 720px) {
+  :root:not([data-theme="dark"]) .drawer-link.current,
+  :root:not([data-theme="dark"]) .drawer-link.current::before,
+  :root:not([data-theme="dark"]) .drawer-link.current::after {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+  }
 }
