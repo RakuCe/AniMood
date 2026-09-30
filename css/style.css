@@ -17,7 +17,8 @@
   --border: rgba(34, 28, 53, .10);
   --accent: #22D3EE; /*ジャンルtexの色 選択枠*/
   --accent-2: #ff6faf;/*タグtexの色*/
-  --accent-grad: linear-gradient(110deg, #6C63FF);
+  /* 単一色指定は古いSafariで無効化されることがあるため同色2つで指定(見た目は同一) */
+  --accent-grad: linear-gradient(110deg, #6C63FF, #6C63FF);
   --header-bg: rgba(255, 255, 255, .72);
   --shadow: 0 10px 30px rgba(80, 60, 160, .12);
   --shadow-lg: 0 24px 60px rgba(80, 60, 160, .22);
@@ -1293,42 +1294,13 @@ body[data-page="home"] .step-card {
   50% { opacity: 1; transform: scale(1.15) rotate(22deg); }
 }
 
-/* ドロワー内の閉じるボタン：右上の×を常に押せるようにする */
+/* ドロワー内の項目番号カウンタ */
 .drawer {
   counter-reset: drawer-item;
 }
 /* ドロワー表示中もヘッダーのボタンを前面に残し、☰→×を途切れさせない */
 .site-header {
   z-index: 120;
-}
-.drawer-close {
-  position: absolute;
-  top: 18px;
-  right: 20px;
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--card);
-  color: var(--text);
-  font-size: 1.8rem;
-  line-height: 1;
-  cursor: pointer;
-  opacity: 0;
-  transform: rotate(-45deg) scale(.72);
-  transition: opacity .35s .05s ease, transform .45s cubic-bezier(.22, 1, .36, 1), background .2s ease, color .2s ease;
-}
-.drawer.open .drawer-close {
-  opacity: 1;
-  transform: rotate(0) scale(1);
-}
-.drawer-close:hover {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-  transform: rotate(90deg) scale(1.06);
 }
 .drawer-link {
   counter-increment: drawer-item;
@@ -1410,7 +1382,6 @@ body[data-page="home"] .step-card {
 [data-theme="dark"] .drawer-link:hover {
   background: rgba(117,109,255,.2);
 }
-[data-theme="dark"] .drawer-close,
 [data-theme="dark"] #search-input,
 [data-theme="dark"] #genre-filter,
 [data-theme="dark"] .tab-btn {
@@ -2615,8 +2586,16 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 }
 
 /* ---------- フォント：M PLUS 2を同一の指定で安定適用 ----------
-   ※フォント本体は各HTMLの <head> で Google Fonts から読み込み。
-     (以前のCDN直リンクは404になり GitHub Pages で適用されないため) */
+   ※フォント本体は fonts/m-plus-2-var.woff2 をサイト内に同梱。
+     外部CDN経由だと環境によって読み込みが不安定になるため自己ホスト化。 */
+@font-face {
+  font-family: "M PLUS 2";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../fonts/m-plus-2-var.woff2") format("woff2");
+}
+
 :where(h1, h2, h3, h4, h5, h6, strong, b, .site-logo, .btn-grad, .btn-ghost,
   .filter-btn, .param-label, .count-text, .official-link, .random-controls label) {
   font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN",
@@ -3110,32 +3089,39 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 }
 
 /* =====================================================================
- * v45.3 修正：ヘッダーのぼかしを全端末で安定させる
+ * v45.4 修正：ヘッダーのぼかしを端末別に安定させる
  * ---------------------------------------------------------------------
- * Safari系ではヘッダー要素自身の backdrop-filter と描画アニメーションの
- * 合成が衝突し、スクロールした文字だけぼやけない事象が起きる。
- * ぼかしと半透明背景を ::before の専用レイヤーに分離して解消する。
- * (見た目の色・ぼかしの強さは従来と同じ)
+ * PCは従来どおりヘッダー要素自身の backdrop-filter でぼかす。
+ * スマホ/タブレット(Safari系)は要素自身のぼかしと描画アニメーションの
+ * 合成が衝突して文字がぼやけない事象があるため、画面幅1024px以下だけ
+ * ::before の専用レイヤー方式に切り替える。(色・ぼかし強さは従来どおり)
  * ===================================================================== */
-.site-header {
-  background: transparent;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+@media (max-width: 1024px) {
+  .site-header {
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--header-bg);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    /* 独自レイヤーに乗せてiOS Safariでぼかしが欠落するのを防ぐ */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    pointer-events: none;
+  }
+  /* テーマ切替時の色変化だけ従来どおりなめらかに */
+  html.theme-transition .site-header::before {
+    transition: background-color .3s ease;
+  }
 }
-.site-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: var(--header-bg);
-  -webkit-backdrop-filter: blur(24px);
-  backdrop-filter: blur(24px);
-  /* 独自レイヤーに乗せてiOS Safariでぼかしが欠落するのを防ぐ */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  pointer-events: none;
-}
-/* テーマ切替時の色変化だけ従来どおりなめらかに */
-html.theme-transition .site-header::before {
-  transition: background-color .3s ease;
+
+/* 診断ページ：stickyの進捗バーと重ならないようドロワーの項目を少し下げる */
+body[data-page="quiz"] .drawer {
+  padding-top: 122px;
 }
