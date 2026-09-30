@@ -162,6 +162,7 @@ html.theme-transition body::after {
 .site-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: var(--header-bg);
+  -webkit-backdrop-filter: blur(32px);
   backdrop-filter: blur(32px);
   -webkit-backdrop-filter: blur(32px);
   border-bottom: 1px solid var(--border);
@@ -453,6 +454,7 @@ html.theme-transition .theme-icon {
 .step-card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 18px; padding: 24px 20px;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: var(--shadow);
 }
@@ -472,6 +474,7 @@ html.theme-transition .theme-icon {
 .card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 18px; overflow: hidden; cursor: pointer;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: var(--shadow);
   transition: transform .18s, box-shadow .18s;
@@ -492,6 +495,7 @@ html.theme-transition .theme-icon {
   width: 35px; height: 35px; padding: 0; border: none; border-radius: 50%;
   background-color: rgba(255, 255, 255, .30);
   background-image: linear-gradient(rgba(255,255,255,.08), rgba(255,255,255,.08));
+  -webkit-backdrop-filter: blur(1px);
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(1px);
   isolation: isolate;
@@ -581,6 +585,7 @@ html.theme-transition .theme-icon {
   display: block; width: 100%; min-height: 28px;
   padding: 10px 0;
   background: var(--header-bg);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
@@ -599,6 +604,7 @@ html.theme-transition .theme-icon {
 .q-card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 18px; padding: 22px;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: var(--shadow);
 }
@@ -655,6 +661,7 @@ html.theme-transition .theme-icon {
   text-align: center; margin-bottom: 30px;
   background: var(--card); border: 1px solid var(--border);
   border-radius: 22px; padding: 34px 24px;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: var(--shadow);
 }
@@ -678,6 +685,7 @@ html.theme-transition .theme-icon {
 .modal-backdrop {
   position: fixed; inset: 0; z-index: 200;
   background: rgba(10, 8, 20, .35);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   display: grid; place-items: center;
   padding: 20px;
@@ -945,7 +953,7 @@ body {
 }
 .drawer-link:hover::after,
 .drawer-link.current::after { transform: scaleX(1); transform-origin: left; }
-#drawer-overlay.show { backdrop-filter: blur(3px); }
+#drawer-overlay.show { -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
 
 /* 検索：フォーカス時に静かなリングが呼吸 */
 #search-input:focus {
@@ -1011,12 +1019,8 @@ body {
 .step-card:nth-child(3), .q-card:nth-child(3) { transition-delay: .14s; }
 .step-card:hover { transform: translateY(-6px); }
 
-/* 波紋アニメーションは使用しない */
-}
-
 /* プログレスバーの光るアニメーションは使用しない */
 #progress-fill { position: relative; overflow: hidden; }
-}
 
 /* =====================================================================
  * Top Page Atmosphere
@@ -1046,6 +1050,7 @@ body[data-page="home"] .hero {
     radial-gradient(circle at 88% 48%, var(--bg-accent-3), transparent 34%),
     var(--card);
   box-shadow: var(--shadow-lg);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
 body[data-page="home"] .hero::before {
@@ -1428,6 +1433,7 @@ body[data-page="home"] .step-card {
 /* ---------- ヘッダー：背後を強めにぼかす ---------- */
 .site-header {
   background: var(--header-bg);
+  -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }
@@ -2608,18 +2614,12 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   }
 }
 
-/* ---------- フォント：M PLUS 2を同一の指定で安定適用 ---------- */
-@font-face {
-  font-family: "M PLUS 2 AniMood";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url("https://cdn.jsdelivr.net/fontsource/fonts/m-plus-2:vf@latest/japanese-wght-normal.woff2") format("woff2-variations");
-}
-
+/* ---------- フォント：M PLUS 2を同一の指定で安定適用 ----------
+   ※フォント本体は各HTMLの <head> で Google Fonts から読み込み。
+     (以前のCDN直リンクは404になり GitHub Pages で適用されないため) */
 :where(h1, h2, h3, h4, h5, h6, strong, b, .site-logo, .btn-grad, .btn-ghost,
   .filter-btn, .param-label, .count-text, .official-link, .random-controls label) {
-  font-family: "M PLUS 2 AniMood", "M PLUS 2", "Hiragino Kaku Gothic ProN",
+  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN",
     "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
   font-synthesis: none;
 }
@@ -3001,6 +3001,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 /* ポップアップ背景：暗くなりすぎない元の見え方へ戻す */
 .modal-backdrop {
   background: rgba(10, 8, 20, .35);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -3020,6 +3021,8 @@ body[data-page="home"] .visual-work-card .visual-img-next {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+  body[data-page="list"] .site-header::before {
     background: var(--header-bg) !important;
     -webkit-backdrop-filter: blur(24px) !important;
     backdrop-filter: blur(24px) !important;
@@ -3029,7 +3032,9 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 }
 
 @media (max-width: 720px) {
-  /* スマホの診断プログレスバーは固定ではなくstickyにして、fixed+合成レイヤー問題を避ける */
+  /* スマホの診断プログレスバーは固定ではなくstickyにして、fixed+合成レイヤー問題を避ける。
+     さらにSafari系でsticky+backdrop-filterが描画されない事象があるため、
+     スマホではぼかしを外して実色背景＋独立レイヤー化で確実に表示する */
   body[data-page="quiz"] .progress-wrap {
     position: sticky !important;
     top: 68px !important;
@@ -3041,8 +3046,10 @@ body[data-page="home"] .visual-work-card .visual-img-next {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
-    transform: none !important;
-    background: var(--header-bg) !important;
+    transform: translateZ(0) !important;
+    background: var(--card-solid) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
     isolation: isolate;
   }
   body[data-page="quiz"] .progress-inner {
@@ -3051,6 +3058,16 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 
   /* ホワイトモードでも現在ページの紫グラデーションを明示 */
   html:not([data-theme="dark"]) .drawer-link.current {
+    background-color: #6C63FF !important;
+    background-image: var(--accent-grad) !important;
+    color: #fff !important;
+    opacity: 1 !important;
+  }
+
+  /* ダークモードでも現在ページの背景を明示
+     (タッチ操作で:hoverが残ると背景がhover色に上書きされて消えるため) */
+  [data-theme="dark"] .drawer-link.current,
+  [data-theme="dark"] .drawer-link.current:hover {
     background-color: #6C63FF !important;
     background-image: var(--accent-grad) !important;
     color: #fff !important;
@@ -3090,4 +3107,35 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* =====================================================================
+ * v45.3 修正：ヘッダーのぼかしを全端末で安定させる
+ * ---------------------------------------------------------------------
+ * Safari系ではヘッダー要素自身の backdrop-filter と描画アニメーションの
+ * 合成が衝突し、スクロールした文字だけぼやけない事象が起きる。
+ * ぼかしと半透明背景を ::before の専用レイヤーに分離して解消する。
+ * (見た目の色・ぼかしの強さは従来と同じ)
+ * ===================================================================== */
+.site-header {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--header-bg);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  /* 独自レイヤーに乗せてiOS Safariでぼかしが欠落するのを防ぐ */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  pointer-events: none;
+}
+/* テーマ切替時の色変化だけ従来どおりなめらかに */
+html.theme-transition .site-header::before {
+  transition: background-color .3s ease;
 }
