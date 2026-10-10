@@ -23,10 +23,12 @@
   --shadow: 0 10px 30px rgba(80, 60, 160, .12);
   --shadow-lg: 0 24px 60px rgba(80, 60, 160, .22);
   --star-stroke: #1a1a1a;
+  --font-gothic: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  --font-plus: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
 }
 
 [data-theme="dark"] {
-  --bg: #12101d;
+  --bg: #100d20;
   --bg-accent-1: rgba(124, 92, 255, .26);
   --bg-accent-2: rgba(255, 107, 157, .18);
   --bg-accent-3: rgba(72, 187, 255, .16);
@@ -51,7 +53,7 @@ html {
 }
 
 body {
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-family: var(--font-gothic);
   background: var(--bg);
   color: var(--text);
   line-height: 1.7;
@@ -80,6 +82,46 @@ body::after {
 }
 
 body.no-scroll { overflow: hidden; }
+
+
+/* ---------- フォント使い分け ----------
+   本文・作品名・作品数・パラメータ名：従来のゴシック
+   メニュー名・ページタイトル・作品名以外の太字：Google Fonts の M PLUS 2
+   （自己ホストは使わない。GitHub Pages で woff2 が落ちないようにする）
+*/
+h1, h2, h3, h4, h5, h6,
+strong, b,
+.drawer-link,
+.page-head h1,
+.quiz-head h1,
+.result-head h2,
+.step-card h3,
+.step-num,
+.q-title,
+.btn-grad,
+.btn-ghost,
+.filter-btn,
+.tab-btn,
+.fav-status-tab,
+.sort-direction-btn,
+.official-link,
+.random-controls label,
+.include-checked-copy,
+.hero-badge {
+  font-family: var(--font-plus);
+  font-synthesis: none;
+}
+
+/* ゴシックのまま（作品数・作品名・パラメータ名） */
+.card-title,
+.modal-title,
+.param-label,
+.count-text,
+.fav-toolbar .count-text {
+  font-family: var(--font-gothic);
+  font-synthesis: none;
+}
+
 
 img { display: block; max-width: 100%; }
 button { font: inherit; cursor: pointer; color: inherit; }
@@ -831,7 +873,7 @@ html.theme-transition .theme-icon {
   .scale-btn { width: 40px; height: 40px; }
   .scale-label { width: 60px; font-size: .66rem; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
-  #search-input { width: 34vw; }
+  #search-input { width: 46vw; }
   .logo span.logo-text { display: none; } /* 狭い画面ではロゴ文字を省略 */
   .title-logo {
     width: min(72vw, 360px);
@@ -1774,7 +1816,7 @@ body[data-page="home"] .title-logo:hover img {
     gap: 6px;
   }
   .header-actions { gap: 5px; }
-  #search-input { width: 31vw; padding-left: 10px; padding-right: 10px; }
+  #search-input { width: 44vw; padding-left: 10px; padding-right: 56px; }
   .theme-toggle { width: 64px; height: 34px; }
   .theme-icon { width: 18px; height: 18px; }
 }
@@ -2320,7 +2362,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   display: block;
 }
 #search-input {
-  padding-right: 48px;
+  padding-right: 42px;
 }
 .search-submit {
   position: absolute;
@@ -2377,7 +2419,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
     height: 34px;
   }
   #search-input {
-    padding-right: 45px;
+    padding-right: 42px;
   }
   .page-top-btn {
     right: 15px;
@@ -2585,23 +2627,6 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   }
 }
 
-/* ---------- フォント：M PLUS 2を同一の指定で安定適用 ----------
-   ※フォント本体は fonts/m-plus-2-var.woff2 をサイト内に同梱。
-     外部CDN経由だと環境によって読み込みが不安定になるため自己ホスト化。 */
-@font-face {
-  font-family: "M PLUS 2";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url("../fonts/m-plus-2-var.woff2") format("woff2");
-}
-
-:where(h1, h2, h3, h4, h5, h6, strong, b, .site-logo, .btn-grad, .btn-ghost,
-  .filter-btn, .param-label, .count-text, .official-link, .random-controls label) {
-  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN",
-    "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
-  font-synthesis: none;
-}
 
 /* ---------- ポップアップのスクロールバー ---------- */
 .modal-backdrop,
@@ -2991,9 +3016,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 }
 
 
-/* =====================================================================
- * v45 端末別安定化
- * ===================================================================== */
+/* ---------- 端末別：ぼかし・進捗バーの安定化 ---------- */
 @media (min-width: 721px) and (max-width: 1024px) {
   /* 作品一覧だけ、初期描画アニメーションがbackdrop-filterの合成を壊さないよう固定 */
   body[data-page="list"] .site-header {
@@ -3088,14 +3111,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   stroke-linejoin: round;
 }
 
-/* =====================================================================
- * v45.4 修正：ヘッダーのぼかしを端末別に安定させる
- * ---------------------------------------------------------------------
- * PCは従来どおりヘッダー要素自身の backdrop-filter でぼかす。
- * スマホ/タブレット(Safari系)は要素自身のぼかしと描画アニメーションの
- * 合成が衝突して文字がぼやけない事象があるため、画面幅1024px以下だけ
- * ::before の専用レイヤー方式に切り替える。(色・ぼかし強さは従来どおり)
- * ===================================================================== */
+/* 1024px以下：ヘッダーぼかしを ::before レイヤーに分離（Safari合成対策） */
 @media (max-width: 1024px) {
   .site-header {
     background: transparent;
@@ -3124,4 +3140,86 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 /* 診断ページ：stickyの進捗バーと重ならないようドロワーの項目を少し下げる */
 body[data-page="quiz"] .drawer {
   padding-top: 122px;
+}
+
+
+
+
+/* ---------- v49：検索クリア ×（虫眼鏡のすぐ左） ---------- */
+#search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  margin: 0 4px 0 0;
+  cursor: pointer;
+  background-color: var(--text);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z'/></svg>");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* ---------- v49：診断CTA（外寸は v46＝borderなし＋内側輪郭） ---------- */
+.hero .btn-grad,
+#diagnose-btn.btn-grad {
+  position: relative;
+  padding: 15px 44px;
+  border: none;
+  background: #22D3EE;
+  color: #ffffff;
+  box-shadow: var(--shadow), inset 0 0 0 2px #ffffff;
+  transform: none;
+  animation: none !important;
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+body[data-page="home"] .hero .btn-grad {
+  padding: 15px 36px;
+  box-shadow: var(--shadow), inset 0 0 0 2px #ffffff;
+}
+.hero .btn-grad::after,
+#diagnose-btn.btn-grad::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+}
+html:not([data-theme="dark"]) .hero .btn-grad:hover,
+html:not([data-theme="dark"]) #diagnose-btn.btn-grad:hover:not(:disabled) {
+  background: #ffffff;
+  color: #22D3EE;
+  box-shadow: var(--shadow), inset 0 0 0 2px #22D3EE;
+  transform: none;
+}
+[data-theme="dark"] .hero .btn-grad,
+[data-theme="dark"] #diagnose-btn.btn-grad {
+  background: #22D3EE;
+  color: #111111;
+  box-shadow: var(--shadow), inset 0 0 0 2px #000000;
+}
+[data-theme="dark"] .hero .btn-grad:hover,
+[data-theme="dark"] #diagnose-btn.btn-grad:hover:not(:disabled) {
+  background: #111111;
+  color: #22D3EE;
+  box-shadow: var(--shadow), inset 0 0 0 2px #22D3EE;
+  transform: none;
+}
+#diagnose-btn.btn-grad:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 診断ページ：ヘッダー初回アニメをプログレスバーより前面に */
+body[data-page="quiz"] .site-header {
+  z-index: 160;
+}
+body[data-page="quiz"] .site-header::after {
+  z-index: 161;
+}
+body[data-page="quiz"] .progress-wrap {
+  z-index: 90 !important;
 }
