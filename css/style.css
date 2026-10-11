@@ -112,13 +112,14 @@ strong, b,
   font-family: var(--font-plus);
 }
 
-/* ゴシックのまま（作品数・作品名・パラメータ名） */
+/* 作品名・パラメータ名・作品数も M PLUS 2（アップロード先でも CDN 経由） */
 .card-title,
 .modal-title,
 .param-label,
 .count-text,
-.fav-toolbar .count-text {
-  font-family: var(--font-gothic);
+.fav-toolbar .count-text,
+.sort-direction-btn {
+  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
 }
 
 
@@ -3289,6 +3290,7 @@ strong, b,
 .modal-title,
 .param-label,
 .count-text,
-.fav-toolbar .count-text {
-  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+.fav-toolbar .count-text,
+.sort-direction-btn {
+  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
 }
