@@ -860,7 +860,14 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") closePopup()
  * ===================================================================== */
 function initSearch() {
   const input = $("#search-input"), dd = $("#search-dropdown"), submit = $("#search-submit");
+  const clearBtn = $("#search-clear");
   if (!input || !dd) return;
+
+  const syncClear = () => {
+    if (!clearBtn) return;
+    clearBtn.hidden = input.value.length === 0;
+  };
+  syncClear();
 
   const goSearch = () => {
     const q = input.value.trim();
@@ -888,7 +895,7 @@ function initSearch() {
     dd.classList.add("show");
     $$(".search-item", dd).forEach(b => {
       b.addEventListener("click", () => {
-        dd.classList.remove("show"); input.value = "";
+        dd.classList.remove("show"); input.value = ""; syncClear();
         openPopup(b.dataset.id);
       });
       const work = findWork(b.dataset.id);
@@ -897,8 +904,15 @@ function initSearch() {
     });
   };
 
-  input.addEventListener("input", render);
-  input.addEventListener("focus", render);
+  input.addEventListener("input", () => { syncClear(); render(); });
+  input.addEventListener("focus", () => { syncClear(); render(); });
+  clearBtn?.addEventListener("click", () => {
+    input.value = "";
+    syncClear();
+    dd.classList.remove("show");
+    dd.innerHTML = "";
+    input.focus();
+  });
   input.addEventListener("keydown", e => {
     if (e.key === "Enter") { e.preventDefault(); goSearch(); }
   });

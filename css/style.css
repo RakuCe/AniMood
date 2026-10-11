@@ -85,9 +85,9 @@ body.no-scroll { overflow: hidden; }
 
 
 /* ---------- フォント使い分け ----------
-   本文・作品名・作品数・パラメータ名：従来のゴシック
-   メニュー名・ページタイトル・作品名以外の太字：Google Fonts の M PLUS 2
-   （自己ホストは使わない。GitHub Pages で woff2 が落ちないようにする）
+   本文・作品名・作品数・パラメータ名：ゴシック
+   メニュー名・ページタイトル・作品名以外の太字：M PLUS 2
+   Google Fonts と Bunny Fonts の両方を読み、Brave 等のシールドでも太さが落ちにくくする。
 */
 h1, h2, h3, h4, h5, h6,
 strong, b,
@@ -109,7 +109,6 @@ strong, b,
 .include-checked-copy,
 .hero-badge {
   font-family: var(--font-plus);
-  font-synthesis: none;
 }
 
 /* ゴシックのまま（作品数・作品名・パラメータ名） */
@@ -119,7 +118,6 @@ strong, b,
 .count-text,
 .fav-toolbar .count-text {
   font-family: var(--font-gothic);
-  font-synthesis: none;
 }
 
 
@@ -3145,26 +3143,44 @@ body[data-page="quiz"] .drawer {
 
 
 
-/* ---------- v49：検索クリア ×（虫眼鏡のすぐ左） ---------- */
-#search-input::-webkit-search-cancel-button {
+
+/* ---------- v52：ネイティブ×は隠し、文字があるときだけ自前× ---------- */
+#search-input::-webkit-search-cancel-button,
+#search-input::-webkit-search-decoration {
   -webkit-appearance: none;
   appearance: none;
-  height: 14px;
-  width: 14px;
-  margin: 0 4px 0 0;
+  display: none;
+}
+.search-clear {
+  position: absolute;
+  top: 50%;
+  right: 34px;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  background-color: var(--text);
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z'/></svg>");
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z'/></svg>");
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
+  z-index: 2;
+}
+.search-clear[hidden] { display: none !important; }
+.search-clear svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  pointer-events: none;
+}
+.search-clear:hover,
+.search-clear:focus-visible {
+  background: rgba(108, 99, 255, .13);
 }
 
-/* ---------- v49：診断CTA（外寸は v46＝borderなし＋内側輪郭） ---------- */
+/* ---------- v52：診断CTA（2ボタン同色 / ダーク輪郭 #363145） ---------- */
 .hero .btn-grad,
 #diagnose-btn.btn-grad {
   position: relative;
@@ -3178,7 +3194,7 @@ body[data-page="quiz"] .drawer {
   transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
 }
 body[data-page="home"] .hero .btn-grad {
-  padding: 15px 36px;
+  padding: 15px 44px;
   box-shadow: var(--shadow), inset 0 0 0 2px #ffffff;
 }
 .hero .btn-grad::after,
@@ -3198,7 +3214,7 @@ html:not([data-theme="dark"]) #diagnose-btn.btn-grad:hover:not(:disabled) {
 [data-theme="dark"] #diagnose-btn.btn-grad {
   background: #22D3EE;
   color: #111111;
-  box-shadow: var(--shadow), inset 0 0 0 2px #000000;
+  box-shadow: var(--shadow), inset 0 0 0 2px #363145;
 }
 [data-theme="dark"] .hero .btn-grad:hover,
 [data-theme="dark"] #diagnose-btn.btn-grad:hover:not(:disabled) {
