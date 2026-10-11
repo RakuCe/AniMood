@@ -3,21 +3,24 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("m-plus-2-400.woff2") format("woff2");
+  src: url("m-plus-2-400.woff2") format("woff2"),
+       url("m-plus-2-400.ttf") format("truetype");
 }
 @font-face {
   font-family: "M PLUS 2";
   font-style: normal;
   font-weight: 700;
   font-display: block;
-  src: url("m-plus-2-700.woff2") format("woff2");
+  src: url("m-plus-2-700.woff2") format("woff2"),
+       url("m-plus-2-700.ttf") format("truetype");
 }
 @font-face {
   font-family: "M PLUS 2";
   font-style: normal;
   font-weight: 900;
   font-display: block;
-  src: url("m-plus-2-900.woff2") format("woff2");
+  src: url("m-plus-2-900.woff2") format("woff2"),
+       url("m-plus-2-900.ttf") format("truetype");
 }
 
 /* =====================================================================
@@ -3242,7 +3245,7 @@ body[data-page="quiz"] #diagnose-btn.btn-grad::before,
   z-index: -1;
   pointer-events: none;
   background: transparent;
-  box-shadow: 0 0 6px 1px rgba(34, 211, 238, .22);
+  box-shadow: 0 0 10px 0 rgba(34, 211, 238, .6);
 }
 body[data-page="home"] .hero a.btn-grad::after,
 body[data-page="quiz"] #diagnose-btn.btn-grad::after,
