@@ -1,6 +1,13 @@
 @font-face {
   font-family: "M PLUS 2";
   font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("m-plus-2-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "M PLUS 2";
+  font-style: normal;
   font-weight: 700;
   font-display: block;
   src: url("m-plus-2-700.woff2") format("woff2");
@@ -8,9 +15,9 @@
 @font-face {
   font-family: "M PLUS 2";
   font-style: normal;
-  font-weight: 800;
+  font-weight: 900;
   font-display: block;
-  src: url("m-plus-2-800.woff2") format("woff2");
+  src: url("m-plus-2-900.woff2") format("woff2");
 }
 
 /* =====================================================================
@@ -3198,7 +3205,8 @@ body[data-page="quiz"] .drawer {
 
 
 
-/* ---------- 診断CTA：光は外側（::before）のみ。中と文字は光らせない ---------- */
+
+/* ---------- 診断CTA：外側だけごく狭い淡い光 ---------- */
 body[data-page="home"] .hero a.btn-grad,
 body[data-page="quiz"] #diagnose-btn.btn-grad,
 .hero .btn-grad,
@@ -3218,7 +3226,7 @@ body[data-page="quiz"] #diagnose-btn.btn-grad,
   filter: none;
   transform: none;
   animation: none !important;
-  font-family: "M PLUS 2", var(--font-gothic);
+  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
   font-weight: 700;
   overflow: visible;
   transition: background-color .2s ease, color .2s ease, outline-color .2s ease;
@@ -3234,7 +3242,7 @@ body[data-page="quiz"] #diagnose-btn.btn-grad::before,
   z-index: -1;
   pointer-events: none;
   background: transparent;
-  box-shadow: 0 0 16px 4px rgba(34, 211, 238, .32), 0 0 36px 8px rgba(34, 211, 238, .16);
+  box-shadow: 0 0 6px 1px rgba(34, 211, 238, .22);
 }
 body[data-page="home"] .hero a.btn-grad::after,
 body[data-page="quiz"] #diagnose-btn.btn-grad::after,
@@ -3271,9 +3279,7 @@ html:not([data-theme="dark"]) body[data-page="quiz"] #diagnose-btn.btn-grad:hove
   cursor: not-allowed;
   transform: none;
 }
-#diagnose-btn.btn-grad:disabled::before {
-  opacity: .35;
-}
+#diagnose-btn.btn-grad:disabled::before { opacity: .35; }
 
 body[data-page="quiz"] .site-header { z-index: 160; }
 body[data-page="quiz"] .site-header::after { z-index: 161; }
@@ -3298,18 +3304,12 @@ strong, b,
 .random-controls label,
 .include-checked-copy,
 .hero-badge {
-  font-family: "M PLUS 2", var(--font-gothic);
-  font-weight: 700;
-}
-.page-head h1,
-.quiz-head h1,
-.result-head h2 {
-  font-weight: 800;
+  font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
 }
 .card-title,
 .modal-title,
 .param-label,
 .count-text,
 .fav-toolbar .count-text {
-  font-family: var(--font-gothic);
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
 }
