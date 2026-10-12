@@ -9,12 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!grid) return;
 
   const q = query.toLowerCase();
-  const hits = q ? WORKS.filter(w =>
-    w.title.toLowerCase().includes(q) ||
-    w.season.toLowerCase().includes(q) ||
-    w.genres.some(g => g.toLowerCase().includes(q)) ||
-    w.tags.some(t => t.toLowerCase().includes(q))
-  ) : [];
+  const hits = q ? WORKS.filter(w => workMatchesQuery(w, q)) : [];
 
   summary.textContent = query ? `「${query}」の検索結果` : "検索キーワードが入力されていません。";
   count.textContent = `${hits.length} 作品`;

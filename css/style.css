@@ -1424,6 +1424,10 @@ body[data-page="home"] .step-card {
 [data-theme="dark"] .drawer-link:hover {
   background: rgba(117,109,255,.2);
 }
+[data-theme="dark"] .drawer-link.current:hover {
+  background: var(--accent-grad);
+  color: #fff;
+}
 [data-theme="dark"] #search-input,
 [data-theme="dark"] #genre-filter,
 [data-theme="dark"] .tab-btn {
@@ -2970,8 +2974,9 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 .anilist-info-wrap { min-height: 0; }
 .anilist-info {
   display: flex;
+  flex-wrap: wrap;
   align-items: stretch;
-  gap: 10px;
+  gap: 10px 0;
   padding: 10px 12px;
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -3293,4 +3298,68 @@ strong, b,
 .fav-toolbar .count-text,
 .sort-direction-btn {
   font-family: "M PLUS 2", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+}
+
+.anilist-values {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0;
+  min-width: 0;
+}
+.anilist-sep {
+  margin: 0 .28em;
+  color: var(--text);
+  font-size: .96rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.anilist-link.filter-chip {
+  display: inline;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-size: .96rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+.anilist-link {
+  appearance: none;
+  position: relative;
+  display: inline;
+  border: 0;
+  padding: 0 0 2px;
+  background: none;
+  color: var(--accent);
+  font-size: .96rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  text-align: left;
+}
+.anilist-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .28s cubic-bezier(.22, 1, .36, 1);
+}
+.anilist-link:hover::after,
+.anilist-link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.anilist-link:hover,
+.anilist-link:focus-visible {
+  color: var(--accent);
+  text-decoration: none;
+  background: none;
 }

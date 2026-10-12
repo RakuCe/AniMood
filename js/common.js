@@ -322,25 +322,67 @@ async function fetchAniListSeriesInfo(work) {
   return value;
 }
 
-function aniListInfoHTML(info) {
-  if (!info || (info.episodes == null && info.score == null)) return "";
-  return `<div class="anilist-info" aria-label="AniList情報">
-    ${info.episodes != null ? `<div class="anilist-stat"><span class="anilist-label">話数</span><strong>全${info.episodes}話</strong></div>` : ""}
-    ${info.score != null ? `<div class="anilist-stat"><span class="anilist-label">評価</span><strong>${esc(info.score)}</strong></div>` : ""}
+function workSources(work) {
+  return Array.isArray(work.sources) ? work.sources.filter(Boolean) : [];
+}
+function workStudios(work) {
+  return Array.isArray(work.studios) ? work.studios.filter(Boolean) : [];
+}
+
+function creditLinkHTML(value) {
+  return `<button type="button" class="anilist-link filter-chip" data-filter-type="tag" data-filter-value="${esc(value)}">${esc(value)}</button>`;
+}
+
+function creditStatHTML(label, values) {
+  const list = (Array.isArray(values) ? values : [values]).filter(Boolean);
+  if (!list.length) return "";
+  const body = list.map((v, i) => `${i ? `<span class="anilist-sep" aria-hidden="true">/</span>` : ""}${creditLinkHTML(v)}`).join("");
+  return `<div class="anilist-stat">
+    <span class="anilist-label">${esc(label)}</span>
+    <span class="anilist-values">${body}</span>
+  </div>`;
+}
+
+function creditRowHTML(work) {
+  return creditStatHTML("原作", workSources(work)) + creditStatHTML("制作", workStudios(work));
+}
+
+function aniListInfoHTML(info, work) {
+  const ep = info && info.episodes != null ? `<div class="anilist-stat"><span class="anilist-label">話数</span><strong>全${info.episodes}話</strong></div>` : "";
+  const sc = info && info.score != null ? `<div class="anilist-stat"><span class="anilist-label">評価</span><strong>${esc(info.score)}</strong></div>` : "";
+  const credits = work ? creditRowHTML(work) : "";
+  if (!ep && !sc && !credits) return "";
+  return `<div class="anilist-info" aria-label="作品情報">
+    ${ep}${sc}${credits}
   </div>`;
 }
 
 async function loadAniListInfo(work, backdrop) {
   const box = $(".anilist-info-wrap", backdrop);
   if (!box) return;
-  box.innerHTML = `<div class="anilist-loading">AniListから情報を取得中…</div>`;
+  box.innerHTML = aniListInfoHTML(null, work) || `<div class="anilist-loading">AniListから情報を取得中…</div>`;
+  initFilterChipEvents(box);
   try {
     const info = await fetchAniListSeriesInfo(work);
-    box.innerHTML = info ? aniListInfoHTML(info) : "";
+    box.innerHTML = aniListInfoHTML(info, work);
+    initFilterChipEvents(box);
   } catch (error) {
     console.warn("AniList API:", error);
-    box.innerHTML = "";
+    box.innerHTML = aniListInfoHTML(null, work);
+    initFilterChipEvents(box);
   }
+}
+
+function workMatchesQuery(work, q) {
+  const n = String(q || "").trim().toLowerCase();
+  if (!n) return false;
+  if (work.title.toLowerCase().includes(n)) return true;
+  if (work.season.toLowerCase().includes(n)) return true;
+  if ((work.genres || []).some(g => String(g).toLowerCase().includes(n))) return true;
+  if ((work.tags || []).some(t => String(t).toLowerCase().includes(n))) return true;
+  if (workSources(work).some(t => String(t).toLowerCase().includes(n))) return true;
+  if (workStudios(work).some(t => String(t).toLowerCase().includes(n))) return true;
+  return false;
 }
 
 /* =====================================================================
@@ -878,12 +920,7 @@ function initSearch() {
   const render = () => {
     const q = input.value.trim().toLowerCase();
     if (!q) { dd.classList.remove("show"); dd.innerHTML = ""; return; }
-    const hits = WORKS.filter(w =>
-      w.title.toLowerCase().includes(q) ||
-      w.season.toLowerCase().includes(q) ||
-      w.genres.some(g => g.toLowerCase().includes(q)) ||
-      w.tags.some(t => t.toLowerCase().includes(q))
-    ).slice(0, 8);
+    const hits = WORKS.filter(w => workMatchesQuery(w, q)).slice(0, 8);
 
     dd.innerHTML = hits.length
       ? hits.map(w => `
