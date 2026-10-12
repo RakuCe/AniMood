@@ -88,7 +88,7 @@ const WORKS = [
     studios: ["京都アニメーション"],
     params: { sakuga: 4, story: 4, serious: 4, tempo: 3, music: 5 },
     desc: '国崎往人は旅を続ける人形使い。「法術」と呼ばれる不思議な力を用いて、道行く人々に芸を見せることで生きてきた。特にあてがある旅でもないが、彼は密かに探しているものがあった。幼い頃、母が繰り返し語ってくれた「今も空にいるという翼を持った少女」。ある夏の日、偶然立ち寄ることになった海沿いの街で、彼は1人の少女と出会う。それが全ての始まりだった…。',
-    url: "https://air-tv.jp/",
+    url: "https://www.tbs.co.jp/anime/air/index-j.html",
     copyright: "©VisualArt's/Key/翼人伝承会",
     img: "img/air.webp"
   },
@@ -144,7 +144,7 @@ const WORKS = [
     studios: ["京都アニメーション"],
     params: { sakuga: 4, story: 4, serious: 4, tempo: 3, music: 5 },
     desc: '校門までの長い坂道。高校3年生の岡崎朋也は坂道を見上げてため息をつく。毎日同じことの繰り返し。周りのみんなのように学校生活を楽しむこともできず、毎日遅刻ばかり。そのためか、校内では浮いた存在になっていた。いつものように坂道を見上げる朋也の前に、同じように坂道を見上げる少女の姿があった。「この学校は好きですか」これが朋也と渚の出会いだった・・・',
-    url: "https://www.tbs.co.jp/clannad/",
+    url: "https://www.tbs.co.jp/clannad/clannad1/index-j.html",
     copyright: "©VisualArt’s/Key/光坂高校演劇部",
     img: "img/clannad.webp"
   },
@@ -214,7 +214,7 @@ const WORKS = [
     studios: ["P.A.WORKS"],
     params: { sakuga: 4, story: 4, serious: 4, tempo: 4, music: 5 },
     desc: '舞台は死後の世界 運命に立ち向かう少年少女たちの物語 なんらかの理由で最後を遂げた少年・音無は、死後の世界の学校で、ゆりと名乗る少女と出会う。彼女は神に反逆する「死んだ世界戦線」のリーダーで、天使と日夜激戦を繰り広げていた。そして、立ちはだかるは神の使い・天使。それは、可憐なひとりの少女だった。生前の記憶が無く、この死後の世界で何が起きているのかも分からず戸惑う音無。彼は、ゆりたちと共に戦う道を選ぶことにしたのだが…。',
-    url: "https://www.angelbeats.jp/",
+    url: "https://www.angelbeats.jp/index2.html",
     copyright: "©VisualArt's/Key/Angel Beats! Project",
     img: "img/angelbeats.webp"
   },
@@ -242,7 +242,7 @@ const WORKS = [
     studios: ["WHITE FOX"],
     params: { sakuga: 4, story: 5, serious: 5, tempo: 3, music: 5 },
     desc: "神をも冒涜する12番目の理論 －－それは、俺たちが手にした偶然の産物。 主人公・岡部倫太郎は、秋葉原で弱小なヘンテコ発明サークル「未来ガジェット研究所」を主宰する大学生。 その最新作は、偶然にも過去へのメール送信機能を備えていた。 世界規模の陰謀が渦を巻き、混沌とした未来が幕を開ける！",
-    url: "https://steinsgate.tv/",
+    url: "http://steinsgate.tv/",
     copyright: "©MAGES./Chiyo St.Inc.©MAGES./NITRO PLUS",
     img: "img/STEINS;GATE.webp"
   },
@@ -256,7 +256,7 @@ const WORKS = [
     studios: ["動画工房"],
     params: { sakuga: 3, story: 1, serious: 0, tempo: 4, music: 3 },
     desc: "笑われればいいと思うよ。 旧・茶道部の部室を不法占拠して勝手に「ごらく部」の活動（といっても特に明確な活動内容はなし）を続ける4人組。 それに目をつけ、ちょっかい（？）を出し続ける「生徒会」。 愛があふれまくりで明日から元気に生きていけること請け合いのまったりストーリー。",
-    url: "https://yuruyuri.com/",
+    url: "https://yuruyuri.com/1st/",
     copyright: "©なもり/一迅社・七森中ごらく部",
     img: "img/yuruyuri.webp"
   },
@@ -649,7 +649,7 @@ const WORKS = [
     studios: ["P.A.WORKS"],
     params: { sakuga: 4, story: 4, serious: 4, tempo: 4, music: 4 },
     desc: '思春期の少年少女のごく一部に発症する特殊能力。 人知れず能力を駆使し、 順風満帆な学園生活を送る乙坂有宇。 そんな彼の 目の前に突如現れる少女、 友利奈緒。 彼女との出会いにより、 暴かれる特殊能力者の宿命。 それは麻枝 准が描く青春を駆け巡る 能力者たちの物語――。',
-    url: "https://www.aniplex.co.jp/lineup/charlotte/",
+    url: "https://charlotte-anime.jp/",
     copyright: "©VisualArt's/Key/Charlotte Project",
     img: "img/charlotte.webp"
   },
