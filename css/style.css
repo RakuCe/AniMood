@@ -1019,7 +1019,8 @@ body {
 
 /* トップのロゴと導入要素を軽くステージング */
 .hero-badge { animation: float-in .6s .12s both; }
-.title-logo { animation: logo-in .85s .18s cubic-bezier(.22, 1, .36, 1) both; }
+body:not([data-page="home"]) .title-logo { animation: logo-in .85s .18s cubic-bezier(.22, 1, .36, 1) both; }
+body[data-page="home"] .title-logo { animation: none; }
 .hero .lead { animation: float-in .6s .28s both; }
 .hero .btn-grad { animation: float-in .6s .38s both; }
 @keyframes float-in {
@@ -1060,7 +1061,6 @@ body {
 }
 .step-card:nth-child(2), .q-card:nth-child(2) { transition-delay: .07s; }
 .step-card:nth-child(3), .q-card:nth-child(3) { transition-delay: .14s; }
-.step-card:hover { transform: translateY(-6px); }
 
 /* プログレスバーの光るアニメーションは使用しない */
 #progress-fill { position: relative; overflow: hidden; }
@@ -3194,8 +3194,10 @@ body[data-page="quiz"] .drawer {
 /* ---------- 診断CTA：外側だけごく狭い淡い光 ---------- */
 body[data-page="home"] .hero a.btn-grad,
 body[data-page="quiz"] #diagnose-btn.btn-grad,
+body[data-page="random"] #random-refresh.btn-grad,
 .hero .btn-grad,
-#diagnose-btn.btn-grad {
+#diagnose-btn.btn-grad,
+#random-refresh.btn-grad {
   position: relative;
   z-index: 1;
   isolation: isolate;
@@ -3218,8 +3220,10 @@ body[data-page="quiz"] #diagnose-btn.btn-grad,
 }
 body[data-page="home"] .hero a.btn-grad::before,
 body[data-page="quiz"] #diagnose-btn.btn-grad::before,
+body[data-page="random"] #random-refresh.btn-grad::before,
 .hero .btn-grad::before,
-#diagnose-btn.btn-grad::before {
+#diagnose-btn.btn-grad::before,
+#random-refresh.btn-grad::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -3231,14 +3235,17 @@ body[data-page="quiz"] #diagnose-btn.btn-grad::before,
 }
 body[data-page="home"] .hero a.btn-grad::after,
 body[data-page="quiz"] #diagnose-btn.btn-grad::after,
+body[data-page="random"] #random-refresh.btn-grad::after,
 .hero .btn-grad::after,
-#diagnose-btn.btn-grad::after {
+#diagnose-btn.btn-grad::after,
+#random-refresh.btn-grad::after {
   content: none !important;
   display: none !important;
   animation: none !important;
 }
 html:not([data-theme="dark"]) body[data-page="home"] .hero a.btn-grad:hover,
-html:not([data-theme="dark"]) body[data-page="quiz"] #diagnose-btn.btn-grad:hover:not(:disabled) {
+html:not([data-theme="dark"]) body[data-page="quiz"] #diagnose-btn.btn-grad:hover:not(:disabled),
+html:not([data-theme="dark"]) body[data-page="random"] #random-refresh.btn-grad:hover {
   background: #fdfdfe;
   color: #22D3EE;
   outline-color: #22D3EE;
@@ -3246,13 +3253,15 @@ html:not([data-theme="dark"]) body[data-page="quiz"] #diagnose-btn.btn-grad:hove
   transform: none;
 }
 [data-theme="dark"] body[data-page="home"] .hero a.btn-grad,
-[data-theme="dark"] body[data-page="quiz"] #diagnose-btn.btn-grad {
+[data-theme="dark"] body[data-page="quiz"] #diagnose-btn.btn-grad,
+[data-theme="dark"] body[data-page="random"] #random-refresh.btn-grad {
   color: #efecf9;
   outline-color: #363145;
   box-shadow: none;
 }
 [data-theme="dark"] body[data-page="home"] .hero a.btn-grad:hover,
-[data-theme="dark"] body[data-page="quiz"] #diagnose-btn.btn-grad:hover:not(:disabled) {
+[data-theme="dark"] body[data-page="quiz"] #diagnose-btn.btn-grad:hover:not(:disabled),
+[data-theme="dark"] body[data-page="random"] #random-refresh.btn-grad:hover {
   background: #111111;
   color: #efecf9;
   outline-color: #22D3EE;
@@ -3265,6 +3274,16 @@ html:not([data-theme="dark"]) body[data-page="quiz"] #diagnose-btn.btn-grad:hove
   transform: none;
 }
 #diagnose-btn.btn-grad:disabled::before { opacity: .35; }
+
+body[data-page="random"] #random-refresh.btn-grad,
+#random-refresh.btn-grad {
+  padding: 8px 18px;
+  min-height: 40px;
+  height: 40px;
+  font-size: .85rem;
+  line-height: 1.2;
+  box-sizing: border-box;
+}
 
 body[data-page="quiz"] .site-header { z-index: 160; }
 body[data-page="quiz"] .site-header::after { z-index: 161; }
@@ -3362,4 +3381,151 @@ strong, b,
   color: var(--accent);
   text-decoration: none;
   background: none;
+}
+
+
+
+
+/* ---------- v69：v67基準。ロゴ少し大／箱を広げ見切れ防止／？中心で左下に小カード、右下は少し上 ---------- */
+body[data-page="home"] .hero {
+  height: calc(100svh - 68px);
+  min-height: calc(100svh - 68px);
+  max-height: calc(100svh - 68px);
+  margin-top: 0;
+  box-sizing: border-box;
+  align-content: center;
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 1fr);
+  padding: 28px clamp(18px, 3.8vw, 52px) 88px clamp(28px, 5vw, 72px);
+  overflow: visible;
+}
+body[data-page="home"] .title-logo {
+  width: min(100%, 680px);
+  margin-top: -8px;
+  animation: none;
+}
+body[data-page="home"] .title-logo img {
+  animation: logo-mask-wipe .85s cubic-bezier(.22, 1, .36, 1) both;
+}
+@keyframes logo-mask-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+body[data-page="home"] .hero p.lead {
+  font-size: 1.05rem;
+  max-width: 520px;
+  margin: 6px 0 14px;
+}
+body[data-page="home"] .hero-badge {
+  font-size: .86rem;
+  padding: 8px 16px 8px 12px;
+  margin-bottom: 6px;
+}
+body[data-page="home"] .hero a.btn-grad {
+  font-size: 1.18rem;
+  padding: 18px 50px;
+  margin-top: 0;
+}
+body[data-page="home"] .hero-visual {
+  transform: none;
+  width: 50%;
+  right: 0;
+  overflow: visible;
+}
+body[data-page="home"] .visual-work-cards {
+  overflow: visible;
+}
+/* 右下カード：追加カードより少し上 */
+body[data-page="home"] .visual-card-c {
+  right: 8%;
+  bottom: 22%;
+}
+/* ？を中心に見た左下＝診断ボタンの高さ。少し小さめ */
+body[data-page="home"] .visual-work-card {
+  width: clamp(138px, 22vw, 228px);
+}
+body[data-page="home"] .visual-card-d {
+  left: 2%;
+  bottom: 14%;
+  width: clamp(100px, 13.5vw, 160px);
+  transform: rotate(-9deg);
+  animation: frame-drift-a 6.2s ease-in-out infinite reverse;
+}
+body[data-page="home"] .steps {
+  display: block;
+  margin: 28px 0 80px;
+}
+body[data-page="home"] .steps-title {
+  text-align: center;
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  font-weight: 800;
+  margin: 12px 0 28px;
+  letter-spacing: .06em;
+}
+body[data-page="home"] .steps-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  gap: 10px 8px;
+}
+body[data-page="home"] .steps-row .step-card {
+  min-width: 0;
+  transform: none;
+  position: relative;
+  z-index: 1;
+}
+body[data-page="home"] .steps-row .step-card:hover {
+  transform: none;
+}
+body[data-page="home"] .step-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 1.6rem;
+  color: #22D3EE;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+  user-select: none;
+  z-index: 0;
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  body[data-page="home"] .hero {
+    height: auto;
+    min-height: calc(100svh - 68px);
+    max-height: none;
+    overflow: hidden;
+  }
+  body[data-page="home"] .hero-visual {
+    transform: none;
+    width: 100%;
+  }
+  body[data-page="home"] .visual-card-c {
+    right: 6%;
+    bottom: 20%;
+  }
+  body[data-page="home"] .visual-card-d {
+    left: 4%;
+    bottom: 2%;
+    width: clamp(76px, 24vw, 128px);
+  }
+}
+@media (max-width: 720px) {
+  body[data-page="home"] .steps-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  body[data-page="home"] .step-arrow {
+    width: 100%;
+    height: 1.6rem;
+    transform: none;
+    font-size: 0;
+  }
+  body[data-page="home"] .step-arrow::before {
+    content: "↓";
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #22D3EE;
+  }
 }
