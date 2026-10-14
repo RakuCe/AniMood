@@ -127,16 +127,21 @@ document.addEventListener("DOMContentLoaded", () => {
       render();
     });
 
-    const sortAsc = $("#fav-sort-asc");
-    const sortDesc = $("#fav-sort-desc");
+    const sortDirBtn = $("#fav-sort-dir");
     const syncSortDirection = () => {
-      sortAsc?.classList.toggle("active", sortDirection === "asc");
-      sortDesc?.classList.toggle("active", sortDirection === "desc");
-      sortAsc?.setAttribute("aria-pressed", String(sortDirection === "asc"));
-      sortDesc?.setAttribute("aria-pressed", String(sortDirection === "desc"));
+      const desc = sortDirection === "desc";
+      if (sortDirBtn) {
+        sortDirBtn.textContent = desc ? "↓ 降順" : "↑ 昇順";
+        sortDirBtn.classList.toggle("active", true);
+        sortDirBtn.setAttribute("aria-pressed", String(desc));
+        sortDirBtn.setAttribute("aria-label", desc ? "並びを昇順にする" : "並びを降順にする");
+      }
     };
-    sortAsc?.addEventListener("click", () => { sortDirection = "asc"; syncSortDirection(); render(); });
-    sortDesc?.addEventListener("click", () => { sortDirection = "desc"; syncSortDirection(); render(); });
+    sortDirBtn?.addEventListener("click", () => {
+      sortDirection = sortDirection === "asc" ? "desc" : "asc";
+      syncSortDirection();
+      render();
+    });
     syncSortDirection();
 
     statusTabs.forEach(tab => tab.addEventListener("click", () => {

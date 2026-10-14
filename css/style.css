@@ -1430,6 +1430,8 @@ body[data-page="home"] .step-card {
 }
 [data-theme="dark"] #search-input,
 [data-theme="dark"] #genre-filter,
+[data-theme="dark"] #year-filter,
+[data-theme="dark"] #fav-sort,
 [data-theme="dark"] .tab-btn {
   border-color: rgba(255,255,255,.24);
 }
@@ -2581,36 +2583,25 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   color: #efecf9;
 }
 
-/* ---------- チェック作品：昇順 / 降順 ---------- */
-.sort-direction {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px;
+/* ---------- チェック作品：昇順/降順トグル ---------- */
+#fav-sort-dir.sort-direction-btn {
+  min-height: 40px;
+  padding: 6px 16px;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--card);
-}
-.sort-direction-btn {
-  min-height: 34px;
-  padding: 6px 12px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--muted);
+  color: var(--text);
   font: inherit;
-  font-size: .78rem;
+  font-size: .85rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color .15s, color .15s;
 }
-.sort-direction-btn.active {
-  background: var(--accent-grad);
-  color: #fff;
+#fav-sort-dir.sort-direction-btn.active {
+  background: var(--card);
+  color: var(--text);
 }
-@media (max-width: 600px) {
-  .sort-direction { width: 100%; }
-  .sort-direction-btn { flex: 1; }
+[data-theme="dark"] #fav-sort-dir.sort-direction-btn {
+  border-color: rgba(255,255,255,.24);
 }
 
 /* ---------- 作品説明文：文章の区切りで自然に改行 ---------- */
@@ -3522,4 +3513,19 @@ body[data-page="home"] .step-arrow {
     transform: rotate(90deg);
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2322D3EE' d='M8.3 4.7 15.6 12l-7.3 7.3 1.4 1.4L18.4 12 9.7 3.3z'/%3E%3C/svg%3E") center / 22px 22px no-repeat;
   }
+}
+
+
+body[data-page="home"] .steps-row .step-card {
+  transition-delay: .32s;
+}
+body[data-page="home"] .steps-row .step-card:nth-child(3) { transition-delay: .46s; }
+body[data-page="home"] .steps-row .step-card:nth-child(5) { transition-delay: .60s; }
+
+html {
+  overflow-x: clip;
+  max-width: 100%;
+}
+body {
+  max-width: 100%;
 }
