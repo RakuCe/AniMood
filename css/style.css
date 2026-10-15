@@ -1431,6 +1431,7 @@ body[data-page="home"] .step-card {
 [data-theme="dark"] #search-input,
 [data-theme="dark"] #genre-filter,
 [data-theme="dark"] #year-filter,
+[data-theme="dark"] #season-filter,
 [data-theme="dark"] #fav-sort,
 [data-theme="dark"] .tab-btn {
   border-color: rgba(255,255,255,.24);
@@ -2544,6 +2545,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 /* ---------- ジャンル・年数・ランダムのプルダウンを統一 ---------- */
 #year-filter,
 #genre-filter,
+#season-filter,
 #random-count,
 #fav-sort {
   min-width: 150px;
@@ -2556,11 +2558,13 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   outline: none;
   font: inherit;
   font-size: .85rem;
+  font-weight: 600;
   cursor: pointer;
 }
 
 #year-filter:focus,
 #genre-filter:focus,
+#season-filter:focus,
 #random-count:focus,
 #fav-sort:focus {
   border-color: var(--accent);
@@ -2569,6 +2573,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 
 #year-filter option,
 #genre-filter option,
+#season-filter option,
 #random-count option,
 #fav-sort option {
   background: #fff;
@@ -2577,6 +2582,7 @@ body[data-page="home"] .visual-work-card .visual-img-next {
 
 [data-theme="dark"] #year-filter option,
 [data-theme="dark"] #genre-filter option,
+[data-theme="dark"] #season-filter option,
 [data-theme="dark"] #random-count option,
 [data-theme="dark"] #fav-sort option {
   background: #1e1a30;
@@ -3528,4 +3534,54 @@ html {
 }
 body {
   max-width: 100%;
+}
+
+
+/* ---------- 一覧：ジャンル / 年 / 四季 ---------- */
+#season-filter { min-width: 150px; }
+
+/* プルダウン・ソート・絞り込みのホバー */
+#year-filter:hover,
+#genre-filter:hover,
+#season-filter:hover,
+#random-count:hover,
+#fav-sort:hover,
+#fav-sort-dir.sort-direction-btn:hover,
+.tab-btn:not(.active):hover {
+  background: rgba(124, 92, 255, .10);
+}
+[data-theme="dark"] #year-filter:hover,
+[data-theme="dark"] #genre-filter:hover,
+[data-theme="dark"] #season-filter:hover,
+[data-theme="dark"] #random-count:hover,
+[data-theme="dark"] #fav-sort:hover,
+[data-theme="dark"] #fav-sort-dir.sort-direction-btn:hover,
+[data-theme="dark"] .tab-btn:not(.active):hover {
+  background: rgba(117, 109, 255, .20);
+}
+
+/* チェック状態タブ：見た目は従来。ホバーは中の色だけ、選択は紫相当を各色に */
+.fav-status-tab[data-status-filter="watched"]:not(.active):hover {
+  background: color-mix(in srgb, #22ee3d 16%, var(--card));
+}
+.fav-status-tab[data-status-filter="watching"]:not(.active):hover {
+  background: color-mix(in srgb, #ff6faf 16%, var(--card));
+}
+.fav-status-tab[data-status-filter="want"]:not(.active):hover {
+  background: color-mix(in srgb, #ffd23f 18%, var(--card));
+}
+.fav-status-tab[data-status-filter="watched"].active {
+  background: linear-gradient(135deg, #22ee3d, #14c48a);
+  color: #fff;
+  border-color: transparent;
+}
+.fav-status-tab[data-status-filter="watching"].active {
+  background: linear-gradient(135deg, #ff6faf, #ff91c3);
+  color: #fff;
+  border-color: transparent;
+}
+.fav-status-tab[data-status-filter="want"].active {
+  background: linear-gradient(135deg, #ffd23f, #f5b942);
+  color: #fff;
+  border-color: transparent;
 }

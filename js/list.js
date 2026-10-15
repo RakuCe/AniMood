@@ -9,56 +9,34 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ================= 作品一覧 ================= */
   if (page === "list") {
     const grid = $("#work-grid");
-    const tabs = $("#season-tabs");
     const yearSel = $("#year-filter");
+    const seasonSel = $("#season-filter");
     const sel = $("#genre-filter");
     let season = "すべて", year = "すべて", genre = "すべて";
 
-    const setActive = (container, active) => {
-      $$(".tab-btn", container).forEach(button => {
-        button.classList.toggle("active", button === active);
-      });
-    };
-
-    const addFilterButton = (container, label, onClick, active = false) => {
-      const button = document.createElement("button");
-      button.className = "tab-btn" + (active ? " active" : "");
-      button.type = "button";
-      button.textContent = label;
-      button.addEventListener("click", () => onClick(button));
-      container.appendChild(button);
-      return button;
-    };
-
-    /* シーズン絞り込みタブ */
-    let allSeasonButton;
-    ["すべて", ...SEASONS].forEach(s => {
-      const b = addFilterButton(tabs, s, button => {
-        season = s;
-        year = "すべて";
-        setActive(tabs, button);
-        yearSel.value = "すべて";
-        render();
-      });
-      if (s === "すべて") allSeasonButton = b;
-    });
-
-    /* 2011年以降を年単位で絞り込む */
+    /* 2011年以降を年単位で絞り込む（従来どおり。2025年は秋以外） */
     const yearFilters = Array.from({ length: 16 }, (_, i) => `${2011 + i}年`);
     const matchesYear = (workSeason, targetYear) =>
       targetYear === "2025年"
         ? ["2025年冬", "2025年春", "2025年夏"].includes(workSeason)
         : workSeason.startsWith(targetYear);
+    const matchesSeason = (workSeason, targetSeason) =>
+      targetSeason === "すべて" || String(workSeason || "").endsWith(targetSeason);
+
     yearSel.innerHTML = `<option value="すべて">すべての年</option>` +
       yearFilters.map(y => `<option value="${esc(y)}">${esc(y)}</option>`).join("");
     yearSel.addEventListener("change", () => {
       year = yearSel.value;
-      season = "すべて";
-      setActive(tabs, allSeasonButton);
       render();
     });
 
-    /* ジャンル絞り込み(登録作品から自動収集) */
+    seasonSel.innerHTML = `<option value="すべて">すべての季節</option>` +
+      ["冬", "春", "夏", "秋"].map(s => `<option value="${s}">${s}</option>`).join("");
+    seasonSel.addEventListener("change", () => {
+      season = seasonSel.value;
+      render();
+    });
+
     const genres = [...new Set(WORKS.flatMap(w => w.genres))].sort();
     sel.innerHTML = `<option value="すべて">すべてのジャンル</option>` +
       genres.map(g => `<option value="${esc(g)}">${esc(g)}</option>`).join("");
@@ -66,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function render() {
       const hits = WORKS.filter(w =>
-        (season === "すべて" || w.season === season) &&
+        matchesSeason(w.season, season) &&
         (year === "すべて" || matchesYear(w.season, year)) &&
         (genre === "すべて" || w.genres.includes(genre)));
       grid.innerHTML = "";
