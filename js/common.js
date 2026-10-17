@@ -999,6 +999,45 @@ function initPageTop() {
  * 初期化(全ページ共通)
  * ===================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
+  if (!document.querySelector(".bg-fx")) {
+    const wrap = document.createElement("div");
+    wrap.className = "bg-fx";
+    wrap.setAttribute("aria-hidden", "true");
+    const barColors = ["#6C63FF", "#22D3EE", "#ff6faf"];
+    const cycle = 48;
+    for (let i = 0; i < 3; i++) {
+      const lane = document.createElement("div");
+      lane.className = "bg-lane";
+      lane.style.setProperty("--lane", String(i));
+      const bar = document.createElement("span");
+      bar.className = "bg-bar";
+      bar.style.setProperty("--c", barColors[i]);
+      bar.style.setProperty("--cycle", cycle + "s");
+      bar.style.setProperty("--delay", (-(cycle / 3) * i).toFixed(1) + "s");
+      bar.style.setProperty("--len", (20 + Math.random() * 8).toFixed(1) + "%");
+      lane.appendChild(bar);
+      wrap.appendChild(lane);
+    }
+    const colors = ["#6C63FF", "#22D3EE", "#ff6faf", "#6C63FF", "#22D3EE"];
+    const xs = ["12vw", "31vw", "52vw", "71vw", "88vw"];
+    const durs = ["38s", "44s", "36s", "48s", "41s"];
+    const delays = ["0s", "9s", "20s", "5s", "28s"];
+    const spins = ["38s", "48s", "34s", "54s", "42s"];
+    const sizes = ["30px", "26px", "34px", "28px", "32px"];
+    for (let i = 0; i < 5; i++) {
+      const s = document.createElement("span");
+      s.className = "bg-star";
+      s.style.setProperty("--x", xs[i]);
+      s.style.setProperty("--c", colors[i]);
+      s.style.setProperty("--dur", durs[i]);
+      s.style.setProperty("--delay", delays[i]);
+      s.style.setProperty("--spin", spins[i]);
+      s.style.setProperty("--sz", sizes[i]);
+      wrap.appendChild(s);
+    }
+    document.body.prepend(wrap);
+  }
+
   initTheme();
   initDrawer();
   initSearch();
