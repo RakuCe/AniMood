@@ -1003,9 +1003,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const wrap = document.createElement("div");
     wrap.className = "bg-fx";
     wrap.setAttribute("aria-hidden", "true");
-    const barColors = ["#6C63FF", "#22D3EE", "#ff6faf"];
+    const barColors = ["#6C63FF", "#22D3EE", "#ff6faf", "#6C63FF", "#22D3EE", "#ff6faf", "#6C63FF", "#22D3EE"];
     const cycle = 48;
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 8; i++) {
       const lane = document.createElement("div");
       lane.className = "bg-lane";
       lane.style.setProperty("--lane", String(i));
@@ -1013,7 +1013,7 @@ document.addEventListener("DOMContentLoaded", () => {
       bar.className = "bg-bar";
       bar.style.setProperty("--c", barColors[i]);
       bar.style.setProperty("--cycle", cycle + "s");
-      bar.style.setProperty("--delay", (-(cycle / 3) * i).toFixed(1) + "s");
+      bar.style.setProperty("--delay", (-(cycle / 8) * i).toFixed(1) + "s");
       bar.style.setProperty("--len", (20 + Math.random() * 8).toFixed(1) + "%");
       lane.appendChild(bar);
       wrap.appendChild(lane);

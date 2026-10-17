@@ -74,16 +74,27 @@ body::after {
 .bg-fx {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
+.site-header,
+main.container,
+.site-footer,
+.drawer,
+#drawer-overlay {
+  position: relative;
+  z-index: 1;
+}
+.site-header { z-index: 160; }
 .bg-lane {
   position: absolute;
   left: -30%;
   width: 170%;
   height: 26px;
-  top: calc(20% + var(--lane) * 32%);
+  top: calc(-8% + var(--lane) * 16%);
   transform: rotate(-48deg);
   transform-origin: center;
   overflow: hidden;
@@ -95,15 +106,24 @@ body::after {
   border-radius: 999px;
   background: var(--c, #6C63FF);
   opacity: .42;
+  will-change: transform;
   animation: bar-flow var(--cycle, 48s) var(--delay, 0s) linear infinite;
+  -webkit-animation: bar-flow var(--cycle, 48s) var(--delay, 0s) linear infinite;
 }
 [data-theme="dark"] .bg-bar { opacity: .46; }
 @keyframes bar-flow {
-  0% { transform: translateX(-45%); opacity: 0; }
+  0% { transform: translate3d(-45%, 0, 0); opacity: 0; }
   8% { opacity: .42; }
-  62% { opacity: .42; }
-  70% { transform: translateX(430%); opacity: 0; }
-  100% { transform: translateX(430%); opacity: 0; }
+  38% { opacity: .42; }
+  46% { transform: translate3d(430%, 0, 0); opacity: 0; }
+  100% { transform: translate3d(430%, 0, 0); opacity: 0; }
+}
+@-webkit-keyframes bar-flow {
+  0% { -webkit-transform: translate3d(-45%, 0, 0); opacity: 0; }
+  8% { opacity: .42; }
+  38% { opacity: .42; }
+  46% { -webkit-transform: translate3d(430%, 0, 0); opacity: 0; }
+  100% { -webkit-transform: translate3d(430%, 0, 0); opacity: 0; }
 }
 
 .bg-star {
@@ -114,7 +134,9 @@ body::after {
   height: var(--sz, 30px);
   color: var(--c);
   opacity: .42;
+  will-change: transform;
   animation: star-fall var(--dur) var(--delay) linear infinite;
+  -webkit-animation: star-fall var(--dur) var(--delay) linear infinite;
 }
 [data-theme="dark"] .bg-star { opacity: .46; }
 .bg-star::before {
@@ -138,7 +160,7 @@ body::after {
   to { transform: rotate(360deg); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bg-bar, .bg-star, .bg-star::before { animation: none; }
+  .bg-star::before { animation: none; }
 }
 
 /* ---------- フォント使い分け ----------
