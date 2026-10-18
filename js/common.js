@@ -1004,7 +1004,57 @@ document.addEventListener("DOMContentLoaded", () => {
     wrap.className = "bg-fx";
     wrap.setAttribute("aria-hidden", "true");
     const barColors = ["#6C63FF", "#22D3EE", "#ff6faf", "#6C63FF", "#22D3EE", "#ff6faf", "#6C63FF", "#22D3EE"];
-    const cycle = 48;
+    const isNarrow = window.matchMedia("(max-width: 1024px)").matches;
+    const TRAVEL = isNarrow ? 32 : 52;
+    const MAX_ACTIVE = 3;
+    const bars = [];
+    let active = 0;
+    const queue = [];
+    let seededVisible = false;
+    const startBar = (bar, randomPos) => {
+      active += 1;
+      bar.style.animation = "none";
+      void bar.offsetWidth;
+      let delay = 0;
+      if (randomPos) {
+        if (!seededVisible) {
+          delay = -(0.22 + Math.random() * 0.45) * TRAVEL;
+          seededVisible = true;
+        } else {
+          delay = -(Math.random() * TRAVEL);
+        }
+      }
+      bar.style.animation = "bar-flow " + TRAVEL + "s linear " + delay.toFixed(2) + "s 1 forwards";
+      const done = (ev) => {
+        if (ev && ev.target !== bar) return;
+        bar.removeEventListener("animationend", done);
+        bar.removeEventListener("webkitAnimationEnd", done);
+        bar.style.animation = "none";
+        active = Math.max(0, active - 1);
+        const requeue = () => {
+          queue.push(bar);
+          pump();
+        };
+        if (active < 1) {
+          const next = queue.shift() || bar;
+          if (next === bar) {
+            startBar(bar, false);
+          } else {
+            startBar(next, false);
+            setTimeout(requeue, (0.8 + Math.random() * 1.6) * 1000);
+          }
+        } else {
+          setTimeout(requeue, (0.8 + Math.random() * 1.6) * 1000);
+        }
+      };
+      bar.addEventListener("animationend", done);
+      bar.addEventListener("webkitAnimationEnd", done);
+    };
+    const pump = () => {
+      while (active < MAX_ACTIVE && queue.length) {
+        startBar(queue.shift(), false);
+      }
+    };
     for (let i = 0; i < 8; i++) {
       const lane = document.createElement("div");
       lane.className = "bg-lane";
@@ -1012,26 +1062,36 @@ document.addEventListener("DOMContentLoaded", () => {
       const bar = document.createElement("span");
       bar.className = "bg-bar";
       bar.style.setProperty("--c", barColors[i]);
-      bar.style.setProperty("--cycle", cycle + "s");
-      bar.style.setProperty("--delay", (-(cycle / 8) * i).toFixed(1) + "s");
-      bar.style.setProperty("--len", (20 + Math.random() * 8).toFixed(1) + "%");
+      bar.style.setProperty("--len", isNarrow
+        ? (52 + Math.random() * 12).toFixed(1) + "%"
+        : (11 + Math.random() * 5).toFixed(1) + "%");
       lane.appendChild(bar);
       wrap.appendChild(lane);
+      bars.push(bar);
     }
+    bars.sort(() => Math.random() - 0.5);
+    let boot = 0;
+    const bootNext = () => {
+      if (boot >= bars.length) return;
+      if (active >= MAX_ACTIVE) {
+        queue.push(...bars.slice(boot));
+        return;
+      }
+      startBar(bars[boot], true);
+      boot += 1;
+      setTimeout(bootNext, 1200 + Math.random() * 900);
+    };
+    bootNext();
     const colors = ["#6C63FF", "#22D3EE", "#ff6faf", "#6C63FF", "#22D3EE"];
-    const xs = ["12vw", "31vw", "52vw", "71vw", "88vw"];
-    const durs = ["38s", "44s", "36s", "48s", "41s"];
-    const delays = ["0s", "9s", "20s", "5s", "28s"];
-    const spins = ["38s", "48s", "34s", "54s", "42s"];
     const sizes = ["30px", "26px", "34px", "28px", "32px"];
     for (let i = 0; i < 5; i++) {
       const s = document.createElement("span");
       s.className = "bg-star";
-      s.style.setProperty("--x", xs[i]);
+      const dur = 36 + Math.random() * 12;
+      s.style.setProperty("--x", (8 + Math.random() * 84).toFixed(1) + "vw");
       s.style.setProperty("--c", colors[i]);
-      s.style.setProperty("--dur", durs[i]);
-      s.style.setProperty("--delay", delays[i]);
-      s.style.setProperty("--spin", spins[i]);
+      s.style.setProperty("--dur", dur.toFixed(1) + "s");
+      s.style.setProperty("--delay", (-Math.random() * dur).toFixed(2) + "s");
       s.style.setProperty("--sz", sizes[i]);
       wrap.appendChild(s);
     }

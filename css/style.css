@@ -94,36 +94,33 @@ main.container,
   left: -30%;
   width: 170%;
   height: 26px;
-  top: calc(-8% + var(--lane) * 16%);
+  top: calc(-28% + var(--lane) * 26%);
   transform: rotate(-48deg);
   transform-origin: center;
   overflow: hidden;
 }
 .bg-bar {
   display: block;
-  width: var(--len, 28%);
+  width: var(--len, 14%);
   height: 20px;
   border-radius: 999px;
   background: var(--c, #6C63FF);
   opacity: .42;
   will-change: transform;
-  animation: bar-flow var(--cycle, 48s) var(--delay, 0s) linear infinite;
-  -webkit-animation: bar-flow var(--cycle, 48s) var(--delay, 0s) linear infinite;
+  opacity: 0;
+  transform: translate3d(-140%, 0, 0);
 }
 [data-theme="dark"] .bg-bar { opacity: .46; }
+@media (max-width: 1024px) {
+  .bg-bar { width: var(--len, 56%); }
+}
 @keyframes bar-flow {
-  0% { transform: translate3d(-45%, 0, 0); opacity: 0; }
-  8% { opacity: .42; }
-  38% { opacity: .42; }
-  46% { transform: translate3d(430%, 0, 0); opacity: 0; }
-  100% { transform: translate3d(430%, 0, 0); opacity: 0; }
+  0% { transform: translate3d(-140%, 0, 0); opacity: .42; }
+  100% { transform: translate3d(620%, 0, 0); opacity: .42; }
 }
 @-webkit-keyframes bar-flow {
-  0% { -webkit-transform: translate3d(-45%, 0, 0); opacity: 0; }
-  8% { opacity: .42; }
-  38% { opacity: .42; }
-  46% { -webkit-transform: translate3d(430%, 0, 0); opacity: 0; }
-  100% { -webkit-transform: translate3d(430%, 0, 0); opacity: 0; }
+  0% { -webkit-transform: translate3d(-140%, 0, 0); opacity: .42; }
+  100% { -webkit-transform: translate3d(620%, 0, 0); opacity: .42; }
 }
 
 .bg-star {
@@ -135,32 +132,25 @@ main.container,
   color: var(--c);
   opacity: .42;
   will-change: transform;
-  animation: star-fall var(--dur) var(--delay) linear infinite;
-  -webkit-animation: star-fall var(--dur) var(--delay) linear infinite;
-}
-[data-theme="dark"] .bg-star { opacity: .46; }
-.bg-star::before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 100%;
   background-color: currentColor;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='1.6' d='M12 2 L13.8 10.2 L22 12 L13.8 13.8 L12 22 L10.2 13.8 L2 12 L10.2 10.2 Z'/%3E%3C/svg%3E") center / contain no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='1.6' d='M12 2 L13.8 10.2 L22 12 L13.8 13.8 L12 22 L10.2 13.8 L2 12 L10.2 10.2 Z'/%3E%3C/svg%3E") center / contain no-repeat;
   filter: drop-shadow(0 0 3px currentColor);
-  animation: star-spin var(--spin) linear infinite;
+  animation: star-fall var(--dur) var(--delay) linear infinite;
+  -webkit-animation: star-fall var(--dur) var(--delay) linear infinite;
 }
+[data-theme="dark"] .bg-star { opacity: .46; }
 @keyframes star-fall {
-  0% { transform: translateY(0); opacity: 0; }
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
   8% { opacity: .42; }
   92% { opacity: .42; }
-  100% { transform: translateY(118vh); opacity: 0; }
+  100% { transform: translate3d(0, 118vh, 0) rotate(360deg); opacity: 0; }
 }
-@keyframes star-spin {
-  to { transform: rotate(360deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bg-star::before { animation: none; }
+@-webkit-keyframes star-fall {
+  0% { -webkit-transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  8% { opacity: .42; }
+  92% { opacity: .42; }
+  100% { -webkit-transform: translate3d(0, 118vh, 0) rotate(360deg); opacity: 0; }
 }
 
 /* ---------- フォント使い分け ----------
@@ -726,10 +716,8 @@ html.theme-transition .theme-icon {
 }
 
 .q-card {
-  background: var(--card); border: 1px solid var(--border);
+  background: var(--card-solid); border: 1px solid var(--border);
   border-radius: 18px; padding: 22px;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
   box-shadow: var(--shadow);
 }
 .q-title { font-size: 1.125rem; font-weight: 700; margin-bottom: 16px; display: flex; gap: 10px; align-items: baseline; }
@@ -1811,8 +1799,8 @@ body[data-page="home"] .title-logo:hover img {
     width: clamp(92px, 20vw, 130px);
     border-width: 2px;
   }
-  body[data-page="home"] .visual-card-a { left: 0; top: 16%; }
-  body[data-page="home"] .visual-card-b { right: 0; top: 5%; }
+  body[data-page="home"] .visual-card-a { left: 0; top: 4%; }
+  body[data-page="home"] .visual-card-b { right: 0; top: -4%; }
   body[data-page="home"] .visual-card-c { right: 5%; bottom: 4%; }
 
   /* 質問カードは横幅を必ず画面内に収める */
@@ -3579,11 +3567,11 @@ body[data-page="home"] .step-arrow {
   }
   body[data-page="home"] .visual-card-c {
     right: 6%;
-    bottom: 20%;
+    bottom: 2%;
   }
   body[data-page="home"] .visual-card-d {
     left: 4%;
-    bottom: 2%;
+    bottom: -6%;
     width: clamp(76px, 24vw, 128px);
   }
 }
