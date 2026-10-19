@@ -42,14 +42,26 @@ document.addEventListener("DOMContentLoaded", () => {
       genres.map(g => `<option value="${esc(g)}">${esc(g)}</option>`).join("");
     sel.addEventListener("change", () => { genre = sel.value; render(); });
 
+    const cardById = new Map();
+    const frag = document.createDocumentFragment();
+    for (const w of WORKS) {
+      const card = createCard(w);
+      cardById.set(w.id, card);
+      frag.appendChild(card);
+    }
+    grid.appendChild(frag);
+
     function render() {
-      const hits = WORKS.filter(w =>
-        matchesSeason(w.season, season) &&
-        (year === "すべて" || matchesYear(w.season, year)) &&
-        (genre === "すべて" || w.genres.includes(genre)));
-      grid.innerHTML = "";
-      hits.forEach(w => grid.appendChild(createCard(w)));
-      $("#work-count").textContent = `${hits.length} 作品`;
+      let n = 0;
+      for (const w of WORKS) {
+        const show = matchesSeason(w.season, season) &&
+          (year === "すべて" || matchesYear(w.season, year)) &&
+          (genre === "すべて" || w.genres.includes(genre));
+        const card = cardById.get(w.id);
+        card.hidden = !show;
+        if (show) n += 1;
+      }
+      $("#work-count").textContent = `${n} 作品`;
     }
     render();
   }

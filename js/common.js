@@ -373,16 +373,31 @@ async function loadAniListInfo(work, backdrop) {
   }
 }
 
+
+/* 公式・一般に使われる略称（検索用。表示名は title のまま） */
+
+function workSearchBlob(work) {
+  if (work._searchBlob) return work._searchBlob;
+  const title = String(work.title || "").toLowerCase();
+  const extra = (work.aliases || []).filter(a => {
+    const s = String(a || "").toLowerCase();
+    return s && s !== title && !title.includes(s);
+  });
+  work._searchBlob = [
+    work.title,
+    work.season,
+    ...extra,
+    ...(work.genres || []),
+    ...(work.tags || []),
+    ...workSources(work),
+    ...workStudios(work)
+  ].join("\n").toLowerCase();
+  return work._searchBlob;
+}
 function workMatchesQuery(work, q) {
   const n = String(q || "").trim().toLowerCase();
   if (!n) return false;
-  if (work.title.toLowerCase().includes(n)) return true;
-  if (work.season.toLowerCase().includes(n)) return true;
-  if ((work.genres || []).some(g => String(g).toLowerCase().includes(n))) return true;
-  if ((work.tags || []).some(t => String(t).toLowerCase().includes(n))) return true;
-  if (workSources(work).some(t => String(t).toLowerCase().includes(n))) return true;
-  if (workStudios(work).some(t => String(t).toLowerCase().includes(n))) return true;
-  return false;
+  return workSearchBlob(work).includes(n);
 }
 
 /* =====================================================================
@@ -1041,10 +1056,10 @@ document.addEventListener("DOMContentLoaded", () => {
             startBar(bar, false);
           } else {
             startBar(next, false);
-            setTimeout(requeue, (0.8 + Math.random() * 1.6) * 1000);
+            setTimeout(requeue, (0.4 + Math.random() * 0.8) * 1000);
           }
         } else {
-          setTimeout(requeue, (0.8 + Math.random() * 1.6) * 1000);
+          setTimeout(requeue, (0.4 + Math.random() * 0.8) * 1000);
         }
       };
       bar.addEventListener("animationend", done);

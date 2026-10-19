@@ -10,6 +10,7 @@
  *   id        : 作品の識別子。半角英数字とハイフン。他と重複しないこと。
  *               画像ファイル名(img/◯◯.jpg)と一致させると管理しやすいです。
  *   title     : 作品名。カードやポップアップに表示されます。
+   aliases   : 公式などの略称。検索用。表示名は title のまま。
  *   season    : 放送期。一覧ページの絞り込みタブに使われます。
  *   genres    : ジャンルタグ(例: バトル、恋愛、ミステリー、ギャグ…)。
  *               診断のマッチングに強く影響します。1〜4個程度。
@@ -53,6 +54,7 @@ const WORKS = [
   {
     id: "eva",
     title: "新世紀エヴァンゲリオン",
+    aliases: ["えば", "しんせいきえば"],
     season: "1995年秋",
     genres: ["SF", "バトル"],
     tags: ["終末世界", "考察"],
@@ -67,6 +69,7 @@ const WORKS = [
   {
     id: "bleach",
     title: "BLEACH",
+    aliases: ["ブリーチ"],
     season: "2004年秋",
     genres: ["バトル", "超常現象", "ファンタジー"],
     tags: ["バトル", "少年漫画", "成長"],
@@ -81,6 +84,7 @@ const WORKS = [
   {
     id: "air",
     title: "AIR",
+    aliases: ["エア"],
     season: "2005年冬",
     genres: ["恋愛", "ファンタジー", "ドラマ"],
     tags: ["切ない", "喪失と再生"],
@@ -95,6 +99,7 @@ const WORKS = [
   {
     id: "fate",
     title: "Fate/stay night",
+    aliases: ["フェイト", "ふぇいと"],
     season: "2006年冬",
     genres: ["ファンタジー", "バトル", "冒険"],
     tags: ["魔法", "バトル", "残酷"],
@@ -109,6 +114,7 @@ const WORKS = [
   {
     id: "gintama",
     title: "銀魂",
+    aliases: ["ぎんたま"],
     season: "2006年春",
     genres: ["コメディ", "SF", "バトル"],
     tags: ["ギャグ", "パロディ", "ドタバタ", "バトル"],
@@ -123,6 +129,7 @@ const WORKS = [
   {
     id: "haruhi",
     title: "涼宮ハルヒの憂鬱",
+    aliases: ["はるひ"],
     season: "2006年春",
     genres: ["青春", "SF", "超常現象"],
     tags: ["青春", "部活", "タイムループ"],
@@ -137,6 +144,7 @@ const WORKS = [
   {
     id: "clannad",
     title: "CLANNAD",
+    aliases: ["クラナド"],
     season: "2007年秋",
     genres: ["恋愛", "青春", "ドラマ"],
     tags: ["家族", "成長", "切ない"],
@@ -151,6 +159,7 @@ const WORKS = [
   {
     id: "toloveru",
     title: "To LOVEる -とらぶる-",
+    aliases: ["とらぶる"],
     season: "2008年春",
     genres: ["恋愛", "コメディ", "日常"],
     tags: ["ラブコメ", "ギャグ", "ドタバタ"],
@@ -165,6 +174,7 @@ const WORKS = [
   {
     id: "nathume",
     title: "夏目友人帳",
+    aliases: ["なつめ"],
     season: "2008年夏",
     genres: ["ファンタジー", "日常", "ミステリー", "癒し"],
     tags: ["人外", "怪異", "切ない"],
@@ -179,6 +189,7 @@ const WORKS = [
   {
     id: "toradora",
     title: "とらドラ！",
+    aliases: ["とらどら"],
     season: "2008年秋",
     genres: ["恋愛", "青春"],
     tags: ["ラブコメ", "純愛", "青春", "掛け合い"],
@@ -193,6 +204,7 @@ const WORKS = [
   {
     id: "keion",
     title: "けいおん！",
+    aliases: [],
     season: "2009年春",
     genres: ["音楽", "コメディ", "日常"],
     tags: ["部活", "青春", "アーティスト", "寮生活"],
@@ -207,6 +219,7 @@ const WORKS = [
   {
     id: "angelbeats",
     title: "Angel Beats!",
+    aliases: ["AB", "エンジェルビーツ"],
     season: "2010年春",
     genres: ["ドラマ", "バトル", "青春"],
     tags: ["喪失と再生", "切ない", "群像劇"],
@@ -221,6 +234,7 @@ const WORKS = [
   {
     id: "madomagi",
     title: "魔法少女まどか☆マギカ",
+    aliases: ["まどマギ", "まどかマギカ"],
     season: "2011年冬",
     genres: ["ファンタジー", "サスペンス", "ホラー"],
     tags: ["魔法", "魔女", "ダーク", "絶望"],
@@ -235,6 +249,7 @@ const WORKS = [
   {
     id: "STEINS;GATE",
     title: "STEINS;GATE",
+    aliases: ["シュタゲ", "シュタインズゲート"],
     season: "2011年春",
     genres: ["SF", "サスペンス", "ミステリー"],
     tags: ["タイムループ", "考察", "陰謀"],
@@ -249,6 +264,7 @@ const WORKS = [
   {
     id: "yuruyuri",
     title: "ゆるゆり",
+    aliases: ["yuruyuri"],
     season: "2011年夏",
     genres: ["コメディ", "日常"],
     tags: ["ギャグ", "ほのぼの", "部活"],
@@ -263,6 +279,7 @@ const WORKS = [
   {
     id: "anohana",
     title: "あの日見た花の名前を僕たちはまだ知らない。",
+    aliases: ["あの花"],
     season: "2011年春",
     genres: ["恋愛", "日常", "ミステリー"],
     tags: ["青春", "喪失と再生", "切ない", "成長"],
@@ -277,6 +294,7 @@ const WORKS = [
   {
     id: "sukedan",
     title: "SKET DANCE",
+    aliases: ["スケットダンス"],
     season: "2011年春",
     genres: ["コメディ", "日常"],
     tags: ["ギャグ", "部活", "青春", "ドタバタ"],
@@ -291,6 +309,7 @@ const WORKS = [
   {
     id: "nichijou",
     title: "日常",
+    aliases: ["にちじょう"],
     season: "2011年春",
     genres: ["コメディ", "日常"],
     tags: ["ギャグ", "シュール", "ドタバタ", "ほのぼの"],
@@ -305,6 +324,7 @@ const WORKS = [
   {
     id: "anatsuma",
     title: "あの夏で待ってる",
+    aliases: ["あのなつ"],
     season: "2012年冬",
     genres: ["恋愛", "青春"],
     tags: ["切ない", "群像劇"],
@@ -319,6 +339,7 @@ const WORKS = [
   {
     id: "nyaruko",
     title: "這いよれ！ニャル子さん",
+    aliases: ["にゃるこ"],
     season: "2012年春",
     genres: ["コメディ", "SF", "恋愛"],
     tags: ["ギャグ", "パロディ", "人外", "ドタバタ"],
@@ -333,6 +354,7 @@ const WORKS = [
   {
     id: "hyouka",
     title: "氷菓",
+    aliases: ["ひょうか"],
     season: "2012年春",
     genres: ["ミステリー", "日常"],
     tags: ["考察", "青春", "情感", "群像劇"],
@@ -347,6 +369,7 @@ const WORKS = [
   {
     id: "sao",
     title: "ソードアート・オンライン",
+    aliases: ["SAO", "そーどあーと"],
     season: "2012年夏",
     genres: ["SF", "ファンタジー", "バトル", "ゲーム"],
     tags: ["バトル", "恋愛", "成長"],
@@ -361,6 +384,7 @@ const WORKS = [
   {
     id: "jojo",
     title: "ジョジョの奇妙な冒険",
+    aliases: ["じょじょ"],
     anilistIds: [14719, 20474, 20799, 21450, 102883, 131942, 146722, 190327, 210482],
     season: "2012年秋",
     genres: ["バトル", "冒険", "ファンタジー"],
@@ -376,6 +400,7 @@ const WORKS = [
   {
     id: "chu2koi",
     title: "中二病でも恋がしたい！",
+    aliases: ["ちゅうにこい","中二恋"],
     season: "2012年秋",
     genres: ["恋愛", "日常", "青春"],
     tags: ["ラブコメ", "青春", "勘違い", "ほのぼの"],
@@ -390,6 +415,7 @@ const WORKS = [
   {
     id: "lovelive",
     title: "ラブライブ！",
+    aliases: ["らぶらいぶ", "LL"],
     season: "2013年冬",
     genres: ["音楽", "青春", "日常"],
     tags: ["青春", "部活", "成長"],
@@ -404,6 +430,7 @@ const WORKS = [
   {
     id: "oregairu",
     title: "やはり俺の青春ラブコメはまちがっている。",
+    aliases: ["俺ガイル"],
     season: "2013年春",
     genres: ["恋愛", "日常", "青春"],
     tags: ["青春", "片想い", "掛け合い", "群像劇"],
@@ -418,6 +445,7 @@ const WORKS = [
   {
     id: "shingeki",
     title: "進撃の巨人",
+    aliases: ["しんげき"],
     season: "2013年春",
     genres: ["バトル", "ファンタジー", "サスペンス"],
     tags: ["残酷", "絶望", "陰謀", "重厚"],
@@ -432,6 +460,7 @@ const WORKS = [
   {
     id: "yowapeda",
     title: "弱虫ペダル",
+    aliases: ["弱ペダ", "ヨワペダ"],
     season: "2013年秋",
     genres: ["スポーツ", "青春", "ドラマ"],
     tags: ["部活", "青春", "成長"],
@@ -446,6 +475,7 @@ const WORKS = [
   {
     id: "nagiasu",
     title: "凪のあすから",
+    aliases: ["凪あす"],
     season: "2013年秋",
     genres: ["ファンタジー", "恋愛", "青春"],
     tags: ["純愛", "幼馴染", "切ない"],
@@ -460,6 +490,7 @@ const WORKS = [
   {
     id: "haikyu-",
     title: "ハイキュー!!",
+    aliases: ["はいきゅー"],
     season: "2014年春",
     genres: ["スポーツ", "青春"],
     tags: ["部活", "成長", "師弟", "青春"],
@@ -474,6 +505,7 @@ const WORKS = [
   {
     id: "gochiusa",
     title: "ご注文はうさぎですか？",
+    aliases: ["ごちうさ"],
     season: "2014年春",
     genres: ["日常", "癒し"],
     tags: ["仕事", "ほのぼの", "家族"],
@@ -488,6 +520,7 @@ const WORKS = [
   {
     id: "nogenora",
     title: "ノーゲーム・ノーライフ",
+    aliases: ["ノゲノラ", "NGNL"],
     season: "2014年春",
     genres: ["ファンタジー", "コメディ", "サスペンス", "異世界"],
     tags: ["頭脳戦", "心理戦", "異世界", "無双"],
@@ -502,6 +535,7 @@ const WORKS = [
   {
     id: "tokyoghoul",
     title: "東京喰種トーキョーグール",
+    aliases: ["とうきょうぐーる"],
     season: "2014年夏",
     genres: ["ホラー", "バトル", "サスペンス"],
     tags: ["ダーク", "残酷", "怪異", "絶望"],
@@ -516,6 +550,7 @@ const WORKS = [
   {
     id: "zankyounoteroru",
     title: "残響のテロル",
+    aliases: ["ざんきょう"],
     season: "2014年夏",
     genres: ["サスペンス", "ミステリー", "ドラマ"],
     tags: ["頭脳戦", "陰謀", "社会派"],
@@ -530,6 +565,7 @@ const WORKS = [
   {
     id: "shirobako",
     title: "SHIROBAKO",
+    aliases: ["シロバコ"],
     season: "2014年秋",
     genres: ["日常"],
     tags: ["お仕事", "職場", "成長", "群像劇"],
@@ -544,6 +580,7 @@ const WORKS = [
   {
     id: "wa-tori",
     title: "ワールドトリガー",
+    aliases: ["ワートリ"],
     season: "2014年秋",
     genres: ["バトル", "SF", "ファンタジー"],
     tags: ["頭脳戦", "チーム戦", "成長", "師弟"],
@@ -558,6 +595,7 @@ const WORKS = [
   {
     id: "saekano",
     title: "冴えない彼女の育てかた",
+    aliases: ["冴えカノ"],
     season: "2015年冬",
     genres: ["恋愛", "日常"],
     tags: ["ラブコメ", "幼馴染", "ゲーム"],
@@ -572,6 +610,7 @@ const WORKS = [
   {
     id: "ansathu",
     title: "暗殺教室",
+    aliases: ["あんさつきょうしつ"],
     season: "2015年冬",
     genres: ["バトル", "コメディ", "青春"],
     tags: ["成長", "師弟", "残酷", "学園"],
@@ -586,6 +625,7 @@ const WORKS = [
   {
     id: "danmachi",
     title: "ダンジョンに出会いを求めるのは間違っているだろうか",
+    aliases: ["ダンまち"],
     season: "2015年春",
     genres: ["ファンタジー", "異世界", "バトル"],
     tags: ["魔法", "成長", "人外"],
@@ -600,6 +640,7 @@ const WORKS = [
   {
     id: "umaru",
     title: "干物妹！うまるちゃん",
+    aliases: ["umaru"],
     season: "2015年夏",
     genres: ["コメディ", "日常", "癒し"],
     tags: ["ギャグ", "ほのぼの", "家族"],
@@ -614,6 +655,7 @@ const WORKS = [
   {
     id: "onepun",
     title: "ワンパンマン",
+    aliases: ["わんぱん", "わんぱんまん"],
     season: "2015年秋",
     genres: ["バトル", "コメディ", "SF"],
     tags: ["無双", "バトル", "ギャグ", "アクション"],
@@ -628,6 +670,7 @@ const WORKS = [
   {
     id: "kokosake",
     title: "心が叫びたがってるんだ。",
+    aliases: ["ここさけ"],
     season: "2015年夏",
     genres: ["恋愛", "青春", "ドラマ"],
     tags: ["青春", "情感", "成長", "映画"],
@@ -642,6 +685,7 @@ const WORKS = [
   {
     id: "charlotte",
     title: "Charlotte",
+    aliases: ["シャーロット"],
     season: "2015年夏",
     genres: ["青春", "ドラマ", "超常現象"],
     tags: ["成長", "切ない"],
@@ -656,6 +700,7 @@ const WORKS = [
   {
     id: "konosuba",
     title: "この素晴らしい世界に祝福を！",
+    aliases: ["このすば"],
     season: "2016年冬",
     genres: ["ファンタジー", "コメディ", "冒険", "異世界"],
     tags: ["異世界", "ギャグ", "ポンコツ", "勘違い"],
@@ -670,6 +715,7 @@ const WORKS = [
   {
     id: "grimgar",
     title: "灰と幻想のグリムガル",
+    aliases: ["ぐりむがる"],
     season: "2016年冬",
     genres: ["異世界", "冒険", "ドラマ"],
     tags: ["成長", "重厚", "切ない"],
@@ -684,6 +730,7 @@ const WORKS = [
   {
     id: "re0",
     title: "Re:ゼロから始める異世界生活",
+    aliases: ["リゼロ"],
     season: "2016年春",
     genres: ["ファンタジー", "サスペンス", "バトル", "異世界"],
     tags: ["異世界", "タイムループ", "絶望", "陰謀"],
@@ -698,6 +745,7 @@ const WORKS = [
   {
     id: "hiroaka",
     title: "僕のヒーローアカデミア",
+    aliases: ["ヒロアカ"],
     season: "2016年春",
     genres: ["バトル", "SF"],
     tags: ["成長", "師弟", "アクション", "バトル"],
@@ -712,6 +760,7 @@ const WORKS = [
   {
     id: "bungo",
     title: "文豪ストレイドッグス",
+    aliases: ["文スト"],
     season: "2016年春",
     genres: ["バトル", "ミステリー", "超常現象"],
     tags: ["異能力", "バトル", "掛け合い"],
@@ -726,6 +775,7 @@ const WORKS = [
   {
     id: "mob100",
     title: "モブサイコ100",
+    aliases: ["もぶさいこ"],
     season: "2016年夏",
     genres: ["バトル", "コメディ", "SF"],
     tags: ["成長", "青春", "師弟", "ギャグ"],
@@ -740,6 +790,7 @@ const WORKS = [
   {
     id: "new_game",
     title: "NEW GAME!",
+    aliases: ["ニューゲーム"],
     season: "2016年夏",
     genres: ["日常"],
     tags: ["お仕事", "職場", "ほのぼの", "成長"],
@@ -750,9 +801,11 @@ const WORKS = [
     url: "https://newgame-anime.com/",
     copyright: "©得能正太郎・芳文社/NEW GAME!製作委員会",
     img: "img/new_game.webp"
-  },  {
+  },
+  {
     id: "koenokatachi",
     title: "聲の形",
+    aliases: ["こえのかたち"],
     season: "2016年秋",
     genres: ["ドラマ", "恋愛", "青春"],
     tags: ["映画", "青春", "成長", "喪失と再生"],
@@ -767,6 +820,7 @@ const WORKS = [
   {
     id: "youjosenki",
     title: "幼女戦記",
+    aliases: ["ようじょせんき"],
     season: "2017年冬",
     genres: ["バトル", "ファンタジー", "サスペンス", "異世界"],
     tags: ["異世界", "魔法", "戦争", "重厚"],
@@ -781,6 +835,7 @@ const WORKS = [
   {
     id: "kemofure",
     title: "けものフレンズ",
+    aliases: ["けもフレ"],
     season: "2017年冬",
     genres: ["ファンタジー", "冒険", "日常"],
     tags: ["人外", "ほのぼの", "やさしい世界", "家族"],
@@ -795,6 +850,7 @@ const WORKS = [
   {
     id: "meidora",
     title: "小林さんちのメイドラゴン",
+    aliases: ["めいどらごん"],
     season: "2017年冬",
     genres: ["ファンタジー", "日常", "癒し"],
     tags: ["人外", "家族", "ギャグ"],
@@ -809,6 +865,7 @@ const WORKS = [
   {
     id: "bang-dream",
     title: "BanG Dream!",
+    aliases: ["バンドリ"],
     season: "2017年冬",
     genres: ["音楽", "青春", "日常"],
     tags: ["青春", "バンド", "成長"],
@@ -823,6 +880,7 @@ const WORKS = [
   {
     id: "acca",
     title: "ACCA13区監察課",
+    aliases: ["あっか"],
     season: "2017年冬",
     genres: ["ミステリー", "ドラマ", "サスペンス"],
     tags: ["陰謀", "考察", "群像劇"],
@@ -837,6 +895,7 @@ const WORKS = [
   {
     id: "erosen",
     title: "エロマンガ先生",
+    aliases: ["えろまんがせんせい"],
     season: "2017年春",
     genres: ["恋愛", "日常", "青春"],
     tags: ["ラブコメ", "家族", "掛け合い", "お仕事"],
@@ -851,6 +910,7 @@ const WORKS = [
   {
     id: "sukasuka",
     title: "終末なにしてますか？ 忙しいですか？ 救ってもらっていいですか？",
+    aliases: ["すかすか"],
     season: "2017年春",
     genres: ["ファンタジー", "ドラマ", "バトル"],
     tags: ["終末世界", "喪失と再生", "切ない", "人外"],
@@ -865,6 +925,7 @@ const WORKS = [
   {
     id: "youjithu",
     title: "ようこそ実力至上主義の教室へ",
+    aliases: ["よう実"],
     season: "2017年夏",
     genres: ["ミステリー", "サスペンス"],
     tags: ["頭脳戦", "心理戦", "陰謀", "騙し合い"],
@@ -879,6 +940,7 @@ const WORKS = [
   {
     id: "gamers",
     title: "ゲーマーズ！",
+    aliases: ["げーまーず"],
     season: "2017年夏",
     genres: ["恋愛", "青春"],
     tags: ["ラブコメ", "勘違い", "ゲーム"],
@@ -893,6 +955,7 @@ const WORKS = [
   {
     id: "violet",
     title: "ヴァイオレット・エヴァーガーデン",
+    aliases: ["ヴァイエヴァ", "ゔぁいおれっと"],
     season: "2018年冬",
     genres: ["ファンタジー", "ドラマ"],
     tags: ["情感", "切ない", "成長", "戦争"],
@@ -907,6 +970,7 @@ const WORKS = [
   {
     id: "yurukyan",
     title: "ゆるキャン△",
+    aliases: ["ゆるきゃん"],
     season: "2018年冬",
     genres: ["日常", "冒険", "癒し", "グルメ"],
     tags: ["ほのぼの", "ふたり旅", "ご飯"],
@@ -921,6 +985,7 @@ const WORKS = [
   {
     id: "poputepi",
     title: "ポプテピピック",
+    aliases: ["ぽぷてぴ"],
     season: "2018年冬",
     genres: ["コメディ", "日常"],
     tags: ["ギャグ", "パロディ", "シュール"],
@@ -935,6 +1000,7 @@ const WORKS = [
   {
     id: "umamusume",
     title: "ウマ娘 プリティーダービー",
+    aliases: ["うまむすめ"],
     season: "2018年春",
     genres: ["スポーツ"],
     tags: ["成長", "青春", "人外", "ダンス"],
@@ -949,6 +1015,7 @@ const WORKS = [
   {
     id: "kamui",
     title: "ゴールデンカムイ",
+    aliases: ["金カム"],
     season: "2018年春",
     genres: ["冒険", "バトル", "サスペンス"],
     tags: ["残酷", "陰謀", "群像劇"],
@@ -963,6 +1030,7 @@ const WORKS = [
   {
     id: "hatarakusaibou",
     title: "はたらく細胞",
+    aliases: ["はたらくさいぼう"],
     season: "2018年夏",
     genres: ["コメディ"],
     tags: ["お仕事", "成長", "家族", "擬人化"],
@@ -977,6 +1045,7 @@ const WORKS = [
   {
     id: "baki",
     title: "バキ",
+    aliases: ["ばき"],
     season: "2018年夏",
     genres: ["バトル", "スポーツ", "青春"],
     tags: ["バトル", "少年漫画", "成長"],
@@ -991,6 +1060,7 @@ const WORKS = [
   {
     id: "grandblue",
     title: "ぐらんぶる",
+    aliases: ["grandblue"],
     season: "2018年夏",
     genres: ["コメディ", "青春"],
     tags: ["ギャグ", "ドタバタ", "大学生活"],
@@ -1005,6 +1075,7 @@ const WORKS = [
   {
     id: "tensura",
     title: "転生したらスライムだった件",
+    aliases: ["転スラ"],
     season: "2018年秋",
     genres: ["ファンタジー", "バトル", "冒険", "異世界"],
     tags: ["異世界", "転生", "無双", "チート"],
@@ -1019,6 +1090,7 @@ const WORKS = [
   {
     id: "iroduku",
     title: "色づく世界の明日から",
+    aliases: ["いろづく"],
     season: "2018年秋",
     genres: ["ファンタジー", "恋愛", "日常", "青春"],
     tags: ["魔法", "青春", "成長", "切ない"],
@@ -1033,6 +1105,7 @@ const WORKS = [
   {
     id: "goblinslayer",
     title: "ゴブリンスレイヤー",
+    aliases: ["ゴブスレ"],
     season: "2018年秋",
     genres: ["ファンタジー", "バトル", "異世界"],
     tags: ["残酷", "ダーク", "魔法"],
@@ -1047,6 +1120,7 @@ const WORKS = [
   {
     id: "tatenari",
     title: "盾の勇者の成り上がり",
+    aliases: ["たてのゆうしゃ"],
     season: "2019年冬",
     genres: ["バトル", "ファンタジー", "冒険", "異世界"],
     tags: ["異世界", "復讐", "無双", "成長"],
@@ -1061,6 +1135,7 @@ const WORKS = [
   {
     id: "gotobun",
     title: "五等分の花嫁",
+    aliases: ["ごとうぶん","ごとはな"],
     season: "2019年冬",
     genres: ["恋愛", "日常", "青春"],
     tags: ["ラブコメ", "掛け合い", "純愛"],
@@ -1075,6 +1150,7 @@ const WORKS = [
   {
     id: "yakuneba",
     title: "約束のネバーランド",
+    aliases: ["やくねば", "約ネバ"],
     season: "2019年冬",
     genres: ["サスペンス", "ホラー", "ミステリー"],
     tags: ["考察", "心理戦", "陰謀", "絶望"],
@@ -1089,6 +1165,7 @@ const WORKS = [
   {
     id: "kaguyasama",
     title: "かぐや様は告らせたい～天才たちの恋愛頭脳戦～",
+    aliases: ["かぐやさま"],
     season: "2019年冬",
     genres: ["恋愛", "コメディ", "日常"],
     tags: ["ラブコメ", "頭脳戦", "心理戦", "掛け合い"],
@@ -1103,6 +1180,7 @@ const WORKS = [
   {
     id: "wataten",
     title: "私に天使が舞い降りた！",
+    aliases: ["わたてん"],
     season: "2019年冬",
     genres: ["日常", "コメディ", "癒し"],
     tags: ["百合", "ほのぼの", "家族"],
@@ -1117,6 +1195,7 @@ const WORKS = [
   {
     id: "kimethu",
     title: "鬼滅の刃",
+    aliases: ["きめつ", "きめつのやいば"],
     season: "2019年春",
     genres: ["バトル", "ファンタジー", "冒険"],
     tags: ["バトル", "成長", "家族", "残酷"],
@@ -1131,6 +1210,7 @@ const WORKS = [
   {
     id: "senko",
     title: "世話やきキツネの仙狐さん",
+    aliases: ["せんこさん"],
     season: "2019年春",
     genres: ["日常", "ファンタジー", "癒し"],
     tags: ["ほのぼの", "家族", "お仕事"],
@@ -1145,6 +1225,7 @@ const WORKS = [
   {
     id: "isekaiquartet",
     title: "異世界かるてっと",
+    aliases: ["いせかる"],
     season: "2019年春",
     genres: ["異世界", "コメディ", "ファンタジー"],
     tags: ["異世界", "ギャグ", "パロディ"],
@@ -1159,6 +1240,7 @@ const WORKS = [
   {
     id: "tenkinoko",
     title: "天気の子",
+    aliases: ["てんきのこ"],
     season: "2019年夏",
     genres: ["恋愛", "ファンタジー", "青春"],
     tags: ["純愛", "超常現象", "切ない", "映画"],
@@ -1173,6 +1255,7 @@ const WORKS = [
   {
     id: "joshimuda",
     title: "女子高生の無駄づかい",
+    aliases: ["女子無駄"],
     season: "2019年夏",
     genres: ["コメディ", "日常", "青春"],
     tags: ["ギャグ", "シュール", "ドタバタ", "部活"],
@@ -1187,6 +1270,7 @@ const WORKS = [
   {
     id: "dokusuto",
     title: "Dr.STONE",
+    aliases: ["ドクターストーン", "DrSTONE"],
     season: "2019年夏",
     genres: ["SF", "冒険", "バトル"],
     tags: ["科学", "成長", "頭脳戦", "終末世界"],
@@ -1201,6 +1285,7 @@ const WORKS = [
   {
     id: "arifure",
     title: "ありふれた職業で世界最強",
+    aliases: ["ありふれたしょくぎょう"],
     season: "2019年夏",
     genres: ["異世界", "ファンタジー", "バトル"],
     tags: ["無双", "チート", "転生"],
@@ -1215,6 +1300,7 @@ const WORKS = [
   {
     id: "enen",
     title: "炎炎ノ消防隊",
+    aliases: ["えんえん"],
     season: "2019年夏",
     genres: ["バトル", "ファンタジー"],
     tags: ["アクション", "バトル", "残酷"],
@@ -1229,6 +1315,7 @@ const WORKS = [
   {
     id: "machikado",
     title: "まちカドまぞく",
+    aliases: ["まちかど"],
     season: "2019年夏",
     genres: ["コメディ", "ファンタジー", "日常"],
     tags: ["魔法", "ギャグ", "掛け合い"],
@@ -1243,6 +1330,7 @@ const WORKS = [
   {
     id: "shinchoyusya",
     title: "慎重勇者～この勇者が俺TUEEEくせに慎重すぎる～",
+    aliases: ["しんちょうゆうしゃ"],
     season: "2019年秋",
     genres: ["ファンタジー", "コメディ", "バトル", "異世界"],
     tags: ["情感", "無双", "チート", "ギャグ"],
@@ -1257,6 +1345,7 @@ const WORKS = [
   {
     id: "booklove",
     title: "本好きの下剋上～司書になるためには手段を選んでいられません～",
+    aliases: ["ほんすき"],
     season: "2019年秋",
     genres: ["異世界", "ファンタジー", "日常"],
     tags: ["転生", "成長", "家族"],
@@ -1271,6 +1360,7 @@ const WORKS = [
   {
     id: "hanakokun",
     title: "地縛少年花子くん",
+    aliases: ["はなこくん"],
     season: "2020年冬",
     genres: ["ホラー", "ファンタジー", "恋愛"],
     tags: ["怪異", "呪い", "人外", "学園"],
@@ -1285,6 +1375,7 @@ const WORKS = [
   {
     id: "bofuri",
     title: "痛いのは嫌なので防御力に極振りしたいと思います。",
+    aliases: ["防振り"],
     season: "2020年冬",
     genres: ["ゲーム", "コメディ", "バトル"],
     tags: ["無双", "チート", "ギャグ", "ほのぼの"],
@@ -1299,6 +1390,7 @@ const WORKS = [
   {
     id: "hamehura",
     title: "乙女ゲームの破滅フラグしかない悪役令嬢に転生してしまった…",
+    aliases: ["はめふら"],
     season: "2020年春",
     genres: ["異世界", "恋愛", "コメディ"],
     tags: ["転生", "ラブコメ", "勘違い"],
@@ -1313,6 +1405,7 @@ const WORKS = [
   {
     id: "maougakuin",
     title: "魔王学院の不適合者",
+    aliases: ["まおうがくいん"],
     season: "2020年夏",
     genres: ["異世界", "ファンタジー", "バトル"],
     tags: ["無双", "魔法", "転生"],
@@ -1327,6 +1420,7 @@ const WORKS = [
   {
     id: "kanokari",
     title: "彼女、お借りします",
+    aliases: ["かのかり"],
     season: "2020年夏",
     genres: ["恋愛", "青春"],
     tags: ["ラブコメ", "掛け合い"],
@@ -1341,6 +1435,7 @@ const WORKS = [
   {
     id: "majotabi",
     title: "魔女の旅々",
+    aliases: ["まじょのたびたび"],
     season: "2020年秋",
     genres: ["ファンタジー", "冒険", "ミステリー", "異世界"],
     tags: ["魔女", "情感", "切ない"],
@@ -1355,6 +1450,7 @@ const WORKS = [
   {
     id: "tonikawa",
     title: "トニカクカワイイ",
+    aliases: ["トニカワ"],
     season: "2020年秋",
     genres: ["恋愛", "コメディ", "日常"],
     tags: ["純愛", "甘々", "結婚", "ほのぼの"],
@@ -1369,6 +1465,7 @@ const WORKS = [
   {
     id: "maojo",
     title: "魔王城でおやすみ",
+    aliases: ["まおうじょうでおやすみ"],
     season: "2020年秋",
     genres: ["コメディ", "ファンタジー", "日常", "異世界", "癒し"],
     tags: ["ギャグ", "ほのぼの", "睡眠"],
@@ -1383,6 +1480,7 @@ const WORKS = [
   {
     id: "kumabear",
     title: "くまクマ熊ベアー",
+    aliases: ["くまくま"],
     season: "2020年秋",
     genres: ["異世界", "ファンタジー", "癒し"],
     tags: ["無双", "魔法", "ほのぼの"],
@@ -1397,6 +1495,7 @@ const WORKS = [
   {
     id: "munounana",
     title: "無能なナナ",
+    aliases: ["むのうななな"],
     season: "2020年秋",
     genres: ["サスペンス", "ミステリー", "バトル"],
     tags: ["頭脳戦", "心理戦", "騙し合い", "デスゲーム"],
@@ -1411,6 +1510,7 @@ const WORKS = [
   {
     id: "jujutsu",
     title: "呪術廻戦",
+    aliases: ["じゅじゅつ", "呪廻"],
     season: "2020年秋",
     genres: ["バトル", "超常現象", "ホラー"],
     tags: ["バトル", "ダーク", "怪異", "残酷"],
@@ -1425,6 +1525,7 @@ const WORKS = [
   {
     id: "mushoku",
     title: "無職転生 ～異世界行ったら本気だす～",
+    aliases: ["むしょくてんせい"],
     season: "2021年冬",
     genres: ["ファンタジー", "冒険", "バトル", "異世界"],
     tags: ["異世界", "転生", "魔法", "成長"],
@@ -1439,6 +1540,7 @@ const WORKS = [
   {
     id: "horimiya",
     title: "ホリミヤ",
+    aliases: ["ほりみや"],
     season: "2021年冬",
     genres: ["恋愛", "コメディ", "日常", "青春"],
     tags: ["純愛", "青春", "ほのぼの"],
@@ -1453,6 +1555,7 @@ const WORKS = [
   {
     id: "lasdan",
     title: "たとえばラストダンジョン前の村の少年が序盤の街で暮らすような物語",
+    aliases: ["ラスダン"],
     season: "2021年冬",
     genres: ["ファンタジー", "コメディ", "冒険", "異世界"],
     tags: ["無双", "勘違い", "ギャグ", "ポンコツ"],
@@ -1467,6 +1570,7 @@ const WORKS = [
   {
     id: "kumodesuga",
     title: "蜘蛛ですが、なにか？",
+    aliases: ["くもですが"],
     season: "2021年冬",
     genres: ["ファンタジー", "バトル", "冒険", "異世界"],
     tags: ["転生", "無双", "チート", "成長"],
@@ -1481,6 +1585,7 @@ const WORKS = [
   {
     id: "tendebu",
     title: "天地創造デザイン部",
+    aliases: ["天創"],
     season: "2021年冬",
     genres: ["コメディ", "日常"],
     tags: ["ギャグ", "お仕事", "動物"],
@@ -1495,6 +1600,7 @@ const WORKS = [
   {
     id: "toribe",
     title: "東京リベンジャーズ",
+    aliases: ["東リベ"],
     season: "2021年春",
     genres: ["バトル", "サスペンス"],
     tags: ["タイムループ", "青春", "不良", "友情"],
@@ -1509,6 +1615,7 @@ const WORKS = [
   {
     id: "86",
     title: "86―エイティシックス―",
+    aliases: ["えいてぃしっくす", "はちろく"],
     season: "2021年春",
     genres: ["SF", "メカ", "サスペンス"],
     tags: ["巨大ロボ", "戦争", "絶望", "喪失と再生"],
@@ -1523,6 +1630,7 @@ const WORKS = [
   {
     id: "slime300",
     title: "スライム倒して300年、知らないうちにレベルMAXになってました",
+    aliases: ["スライム300"],
     season: "2021年春",
     genres: ["異世界", "日常", "癒し"],
     tags: ["無双", "ほのぼの", "家族"],
@@ -1537,6 +1645,7 @@ const WORKS = [
   {
     id: "fumetsunoanatae",
     title: "不滅のあなたへ",
+    aliases: ["ふめつ"],
     season: "2021年春",
     genres: ["ファンタジー", "冒険", "ドラマ"],
     tags: ["喪失と再生", "切ない", "成長", "人外"],
@@ -1551,6 +1660,7 @@ const WORKS = [
   {
     id: "vivy",
     title: "Vivy -Fluorite Eye's Song-",
+    aliases: ["ヴィヴィ"],
     season: "2021年春",
     genres: ["SF", "音楽", "ドラマ"],
     tags: ["近未来", "タイムループ", "歌で戦う"],
@@ -1565,6 +1675,7 @@ const WORKS = [
   {
     id: "tsukimichi",
     title: "月が導く異世界道中",
+    aliases: ["つきみち"],
     season: "2021年夏",
     genres: ["ファンタジー", "バトル", "冒険", "異世界"],
     tags: ["異世界", "無双", "チート", "人外"],
@@ -1579,6 +1690,7 @@ const WORKS = [
   {
     id: "seireigensouki",
     title: "精霊幻想記",
+    aliases: ["せいれいげんそうき"],
     season: "2021年夏",
     genres: ["異世界", "ファンタジー", "バトル"],
     tags: ["転生", "魔法", "成長"],
@@ -1593,6 +1705,7 @@ const WORKS = [
   {
     id: "osama",
     title: "王様ランキング",
+    aliases: ["王ラン"],
     season: "2021年秋",
     genres: ["冒険", "ファンタジー", "バトル"],
     tags: ["成長", "家族", "師弟", "喪失と再生"],
@@ -1607,6 +1720,7 @@ const WORKS = [
   {
     id: "blueperiod",
     title: "ブルーピリオド",
+    aliases: ["ブルピリ"],
     season: "2021年秋",
     genres: ["青春", "ドラマ", "日常"],
     tags: ["青春", "成長", "部活", "お仕事"],
@@ -1621,6 +1735,7 @@ const WORKS = [
   {
     id: "kisekoi",
     title: "その着せ替え人形は恋をする",
+    aliases: ["着せ恋"],
     season: "2022年冬",
     genres: ["恋愛", "日常", "青春"],
     tags: ["ラブコメ", "青春", "職人", "コスプレ"],
@@ -1635,6 +1750,7 @@ const WORKS = [
   {
     id: "shikimori",
     title: "可愛いだけじゃない式守さん",
+    aliases: ["しきもりさん"],
     season: "2022年春",
     genres: ["恋愛", "日常", "青春"],
     tags: ["純愛", "ほのぼの", "青春", "家族"],
@@ -1649,6 +1765,7 @@ const WORKS = [
   {
     id: "komei",
     title: "パリピ孔明",
+    aliases: ["ぱりぴこうめい"],
     season: "2022年春",
     genres: ["音楽", "コメディ", "青春"],
     tags: ["アーティスト", "歌で戦う", "成長", "ダンス"],
@@ -1663,6 +1780,7 @@ const WORKS = [
   {
     id: "summertime",
     title: "サマータイムレンダ",
+    aliases: ["サマレン"],
     season: "2022年春",
     genres: ["ミステリー", "サスペンス", "ホラー"],
     tags: ["タイムループ", "怪異", "考察", "残酷"],
@@ -1677,6 +1795,7 @@ const WORKS = [
   {
     id: "spy-family",
     title: "SPY×FAMILY",
+    aliases: ["スパイファミリー"],
     season: "2022年春",
     genres: ["コメディ", "バトル"],
     tags: ["家族", "ギャグ", "勘違い", "職場"],
@@ -1691,6 +1810,7 @@ const WORKS = [
   {
     id: "mobseka",
     title: "乙女ゲー世界はモブに厳しい世界です",
+    aliases: ["モブせか"],
     season: "2022年春",
     genres: ["異世界", "ファンタジー", "バトル"],
     tags: ["異世界", "転生", "無双"],
@@ -1705,6 +1825,7 @@ const WORKS = [
   {
     id: "skeleton-knight",
     title: "骸骨騎士様、只今異世界へお出掛け中",
+    aliases: ["がいこつきしさま"],
     season: "2022年春",
     genres: ["異世界", "ファンタジー", "冒険"],
     tags: ["異世界", "無双", "魔法"],
@@ -1719,6 +1840,7 @@ const WORKS = [
   {
     id: "cuckoo",
     title: "カッコウの許嫁",
+    aliases: ["かっこう"],
     season: "2022年春",
     genres: ["恋愛", "青春"],
     tags: ["ラブコメ", "許嫁", "掛け合い"],
@@ -1733,6 +1855,7 @@ const WORKS = [
   {
     id: "rikoriko",
     title: "リコリス・リコイル",
+    aliases: ["リコリコ"],
     season: "2022年夏",
     genres: ["バトル", "コメディ", "サスペンス"],
     tags: ["アクション", "職場", "家族", "陰謀"],
@@ -1747,6 +1870,7 @@ const WORKS = [
   {
     id: "iseoji",
     title: "異世界おじさん",
+    aliases: ["いせかいおじさん"],
     season: "2022年夏",
     genres: ["コメディ", "ファンタジー", "日常", "異世界"],
     tags: ["異世界", "ギャグ", "勘違い", "ゲーム"],
@@ -1761,6 +1885,7 @@ const WORKS = [
   {
     id: "yofukashi",
     title: "よふかしのうた",
+    aliases: ["yofukashi"],
     season: "2022年夏",
     genres: ["恋愛", "ファンタジー", "ホラー", "青春"],
     tags: ["人外", "青春", "純愛", "切ない"],
@@ -1775,6 +1900,7 @@ const WORKS = [
   {
     id: "engage-kiss",
     title: "Engage Kiss",
+    aliases: ["エンゲージキス"],
     season: "2022年夏",
     genres: ["恋愛", "バトル", ],
     tags: ["ラブコメ", "復習", "怪異", "喪失と再生"],
@@ -1789,6 +1915,7 @@ const WORKS = [
   {
     id: "tsurekano",
     title: "継母の連れ子が元カノだった",
+    aliases: ["連れカノ"],
     season: "2022年夏",
     genres: ["恋愛", "青春"],
     tags: ["ラブコメ", "両片想い", "掛け合い"],
@@ -1803,6 +1930,7 @@ const WORKS = [
   {
     id: "primadoll",
     title: "プリマドール",
+    aliases: ["ぷりまどーる"],
     season: "2022年夏",
     genres: ["ドラマ", "音楽","日常"],
     tags: ["切ない", "喪失と再生", "歌劇学校"],
@@ -1817,6 +1945,7 @@ const WORKS = [
   {
     id: "kagejitsu",
     title: "陰の実力者になりたくて！",
+    aliases: ["陰実"],
     season: "2022年秋",
     genres: ["ファンタジー", "バトル", "コメディ", "異世界"],
     tags: ["異世界", "無双", "チート", "勘違い"],
@@ -1831,6 +1960,7 @@ const WORKS = [
   {
     id: "tenken",
     title: "転生したら剣でした",
+    aliases: ["転剣"],
     season: "2022年秋",
     genres: ["バトル", "ファンタジー", "冒険", "異世界"],
     tags: ["転生", "無双", "成長", "人外"],
@@ -1845,6 +1975,7 @@ const WORKS = [
   {
     id: "bozaro",
     title: "ぼっち・ざ・ろっく！",
+    aliases: ["ぼざろ"],
     season: "2022年秋",
     genres: ["音楽", "コメディ", "青春"],
     tags: ["部活", "成長", "アーティスト", "ダンス"],
@@ -1859,6 +1990,7 @@ const WORKS = [
   {
     id: "chainsawman",
     title: "チェンソーマン",
+    aliases: ["ちぇんそーまん", "ちぇんそー"],
     season: "2022年秋",
     genres: ["バトル", "ホラー", "スリラー"],
     tags: ["アクション", "ダーク", "怪異", "バトル"],
@@ -1873,6 +2005,7 @@ const WORKS = [
   {
     id: "bluelock",
     title: "ブルーロック",
+    aliases: ["ブルロ"],
     season: "2022年秋",
     genres: ["スポーツ", "バトル", "サスペンス"],
     tags: ["心理戦", "成長", "アクション", "心理戦"],
@@ -1887,6 +2020,7 @@ const WORKS = [
   {
     id: "cyberpunk",
     title: "サイバーパンク: エッジランナーズ",
+    aliases: ["えっじらんなーず"],
     season: "2022年秋",
     genres: ["SF", "バトル", "ドラマ"],
     tags: ["近未来", "ダーク", "残酷", "社会派"],
@@ -1901,6 +2035,7 @@ const WORKS = [
   {
     id: "onimai",
     title: "お兄ちゃんはおしまい！",
+    aliases: ["おにまい"],
     season: "2023年冬",
     genres: ["コメディ", "日常", "癒し"],
     tags: ["ギャグ", "ほのぼの", "家族"],
@@ -1915,6 +2050,7 @@ const WORKS = [
   {
     id: "tonski",
     title: "とんでもスキルで異世界放浪メシ",
+    aliases: ["とんすき"],
     season: "2023年冬",
     genres: ["ファンタジー", "冒険", "グルメ", "異世界"],
     tags: ["異世界", "ご飯", "人外"],
@@ -1929,6 +2065,7 @@ const WORKS = [
   {
     id: "tenshisama",
     title: "お隣の天使様にいつの間にか駄目人間にされていた件",
+    aliases: ["おとなりのてんしさま"],
     season: "2023年冬",
     genres: ["恋愛", "日常", "青春"],
     tags: ["純愛", "甘々", "ほのぼの"],
@@ -1943,6 +2080,7 @@ const WORKS = [
   {
     id: "oshinoko",
     title: "【推しの子】",
+    aliases: ["おしのこ"],
     season: "2023年春",
     genres: ["ミステリー", "サスペンス", "音楽"],
     tags: ["陰謀", "芸能界", "アーティスト", "復讐"],
@@ -1957,6 +2095,7 @@ const WORKS = [
   {
     id: "bokuyaba",
     title: "僕の心のヤバイやつ",
+    aliases: ["僕ヤバ"],
     season: "2023年春",
     genres: ["恋愛", "青春", "日常"],
     tags: ["純愛", "両想い", "青春", "ほのぼの"],
@@ -1971,6 +2110,7 @@ const WORKS = [
   {
     id: "kamikatsu",
     title: "神無き世界のカミサマ活動",
+    aliases: ["カミカツ"],
     season: "2023年春",
     genres: ["ファンタジー", "コメディ", "冒険", "異世界"],
     tags: ["異世界", "ギャグ", "低予算", "陰謀"],
@@ -1985,6 +2125,7 @@ const WORKS = [
   {
     id: "kawakura",
     title: "カワイスギクライシス",
+    aliases: ["かわすぎ"],
     season: "2023年春",
     genres: ["コメディ", "SF", "日常", "癒し"],
     tags: ["人外", "ギャグ", "ほのぼの"],
@@ -1999,6 +2140,7 @@ const WORKS = [
   {
     id: "yamada999",
     title: "山田くんとLv999の恋をする",
+    aliases: ["山田999"],
     season: "2023年春",
     genres: ["恋愛", "青春", "日常"],
     tags: ["ラブコメ", "大人の恋", "ゲーム", "両想い"],
@@ -2013,6 +2155,7 @@ const WORKS = [
   {
     id: "skilo",
     title: "スキップとローファー",
+    aliases: ["スキロー"],
     season: "2023年春",
     genres: ["日常", "恋愛", "青春"],
     tags: ["青春", "成長", "ほのぼの", "群像劇"],
@@ -2027,6 +2170,7 @@ const WORKS = [
   {
     id: "mashle",
     title: "マッシュル-MASHLE-",
+    aliases: ["まっしゅる"],
     season: "2023年春",
     genres: ["バトル", "コメディ", "ファンタジー", "異世界"],
     tags: ["ギャグ", "魔法", "無双", "成長"],
@@ -2041,6 +2185,7 @@ const WORKS = [
   {
     id: "iserebe",
     title: "異世界でチート能力を手にした俺は、現実世界をも無双する ～レベルアップは人生を変えた～",
+    aliases: ["異世界チート"],
     season: "2023年春",
     genres: ["ファンタジー", "バトル", "異世界"],
     tags: ["異世界", "チート", "無双", "成長"],
@@ -2055,6 +2200,7 @@ const WORKS = [
   {
     id: "watayuri",
     title: "私の百合はお仕事です！",
+    aliases: ["わたゆり"],
     season: "2023年春",
     genres: ["恋愛", "青春", "日常"],
     tags: ["百合", "掛け合い", "職場"],
@@ -2069,6 +2215,7 @@ const WORKS = [
   {
     id: "worlddai",
     title: "ワールドダイスター",
+    aliases: ["ワダイ"],
     season: "2023年春",
     genres: ["音楽", "青春", "ドラマ"],
     tags: ["舞台", "成長", "群像劇"],
@@ -2083,6 +2230,7 @@ const WORKS = [
   {
     id: "zon100",
     title: "ゾン100～ゾンビになるまでにしたい100のこと～",
+    aliases: ["ぞんひゃく"],
     season: "2023年夏",
     genres: ["ホラー", "コメディ", "冒険"],
     tags: ["ゾンビ", "終末世界", "ギャグ", "成長"],
@@ -2097,6 +2245,7 @@ const WORKS = [
   {
     id: "dekineko",
     title: "デキる猫は今日も憂鬱",
+    aliases: ["デキ猫"],
     season: "2023年夏",
     genres: ["日常", "コメディ", "癒し"],
     tags: ["ほのぼの", "家族", "お仕事"],
@@ -2111,6 +2260,7 @@ const WORKS = [
   {
     id: "100kano",
     title: "君のことが大大大大大好きな100人の彼女",
+    aliases: ["100カノ", "百カノ"],
     season: "2023年秋",
     genres: ["恋愛", "コメディ", "日常", "青春"],
     tags: ["ラブコメ", "ギャグ", "ドタバタ", "両想い"],
@@ -2125,6 +2275,7 @@ const WORKS = [
   {
     id: "shangrilafrontier",
     title: "シャングリラ・フロンティア ～クソゲーハンター、神ゲーに挑まんとす～",
+    aliases: ["シャンフロ"],
     season: "2023年秋",
     genres: ["バトル", "ファンタジー", "冒険", "ゲーム"],
     tags: ["ゲーム", "成長", "無双", "アクション"],
@@ -2139,6 +2290,7 @@ const WORKS = [
   {
     id: "mfg",
     title: "MFゴースト",
+    aliases: ["えむえふごーすと"],
     season: "2023年秋",
     genres: ["スポーツ", "バトル"],
     tags: ["アクション", "成長", "青春", "師弟"],
@@ -2153,6 +2305,7 @@ const WORKS = [
   {
     id: "butaliver",
     title: "豚のレバーは加熱しろ",
+    aliases: ["豚レバー"],
     season: "2023年秋",
     genres: ["異世界", "恋愛", "ファンタジー"],
     tags: ["転生", "イチャコラ", "人外"],
@@ -2167,6 +2320,7 @@ const WORKS = [
   {
     id: "16bit",
     title: "16bitセンセーション ANOTHER LAYER",
+    aliases: ["じゅうろくびっと"],
     season: "2023年秋",
     genres: ["SF", "ゲーム", "青春"],
     tags: ["タイムループ", "ゲーム", "成長"],
@@ -2181,6 +2335,7 @@ const WORKS = [
   {
     id: "andera",
     title: "アンデッドアンラック",
+    aliases: ["アンデラ"],
     season: "2023年秋",
     genres: ["バトル", "ファンタジー", "サスペンス"],
     tags: ["バトル", "考察", "陰謀", "残酷"],
@@ -2195,6 +2350,7 @@ const WORKS = [
   {
     id: "hikikomari",
     title: "ひきこまり吸血姫の悶々",
+    aliases: ["ひきこまりきゅうけつき"],
     season: "2023年秋",
     genres: ["ファンタジー", "バトル"],
     tags: ["百合", "ポンコツ", "ギャグ", "無双"],
@@ -2209,6 +2365,7 @@ const WORKS = [
   {
     id: "kusuriya",
     title: "薬屋のひとりごと",
+    aliases: ["くすりや"],
     season: "2023年秋",
     genres: ["ミステリー", "恋愛", "ファンタジー"],
     tags: ["考察", "陰謀", "人外", "大人の恋"],
@@ -2223,6 +2380,7 @@ const WORKS = [
   {
     id: "migidali",
     title: "ミギとダリ",
+    aliases: ["ミギダリ"],
     season: "2023年秋",
     genres: ["ミステリー", "コメディ", "サスペンス"],
     tags: ["勘違い", "陰謀", "シュール", "家族"],
@@ -2237,6 +2395,7 @@ const WORKS = [
   {
     id: "sasapi",
     title: "佐々木とピーちゃん",
+    aliases: ["ささピー"],
     season: "2024年冬",
     genres: ["ファンタジー", "バトル", "SF", "異世界"],
     tags: ["異世界", "転生", "チート", "陰謀"],
@@ -2251,6 +2410,7 @@ const WORKS = [
   {
     id: "himegou",
     title: "姫様“拷問”の時間です",
+    aliases: ["姫様拷問","ひめごう"],
     season: "2024年冬",
     genres: ["コメディ", "ファンタジー", "日常", "異世界"],
     tags: ["ギャグ", "ほのぼの", "ご飯", "家族"],
@@ -2265,6 +2425,7 @@ const WORKS = [
   {
     id: "sololevel",
     title: "俺だけレベルアップな件",
+    aliases: ["俺レベ", "ソロレベ "],
     season: "2024年冬",
     genres: ["バトル", "ファンタジー", "冒険", "異世界"],
     tags: ["無双", "チート", "バトル", "成長"],
@@ -2279,6 +2440,7 @@ const WORKS = [
   {
     id: "akuyaku99",
     title: "悪役令嬢レベル99 ～私は裏ボスですが魔王ではありません～",
+    aliases: ["あくやく99"],
     season: "2024年冬",
     genres: ["異世界", "ファンタジー", "コメディ"],
     tags: ["無双", "転生", "魔法"],
@@ -2293,6 +2455,7 @@ const WORKS = [
   {
     id: "mabotai",
     title: "魔都精兵のスレイブ",
+    aliases: ["まとせいへい"],
     season: "2024年冬",
     genres: ["バトル", "ファンタジー", "超常現象"],
     tags: ["アクション", "バトル", "人外"],
@@ -2307,6 +2470,7 @@ const WORKS = [
   {
     id: "dungeonmeshi",
     title: "ダンジョン飯",
+    aliases: ["ダンメシ", "だんめし"],
     season: "2024年冬",
     genres: ["グルメ", "ファンタジー", "冒険", "異世界"],
     tags: ["ご飯", "魔物グルメ", "ギャグ", "考察"],
@@ -2321,6 +2485,7 @@ const WORKS = [
   {
     id: "dainana",
     title: "転生したら第七王子だったので、気ままに魔術を極めます",
+    aliases: ["だいななおうじ"],
     season: "2024年春",
     genres: ["ファンタジー", "バトル", "異世界"],
     tags: ["転生", "魔法", "無双", "チート"],
@@ -2335,6 +2500,7 @@ const WORKS = [
   {
     id: "kaiju8",
     title: "怪獣8号",
+    aliases: ["カイジュー", "かいじゅう8ごう"],
     season: "2024年春",
     genres: ["バトル", "SF"],
     tags: ["怪獣", "バトル", "成長", "職場"],
@@ -2349,6 +2515,7 @@ const WORKS = [
   {
     id: "kansuki",
     title: "転生貴族、鑑定スキルで成り上がる",
+    aliases: ["かんていすきる"],
     season: "2024年春",
     genres: ["ファンタジー", "冒険", "バトル", "異世界"],
     tags: ["転生", "成長", "家族", "師弟"],
@@ -2363,6 +2530,7 @@ const WORKS = [
   {
     id: "garukura",
     title: "ガールズバンドクライ",
+    aliases: ["ガルクラ"],
     season: "2024年春",
     genres: ["音楽", "青春"],
     tags: ["アーティスト", "成長", "青春", "ロック"],
@@ -2377,6 +2545,7 @@ const WORKS = [
   {
     id: "hensara",
     title: "変人のサラダボウル",
+    aliases: ["変サラ"],
     season: "2024年春",
     genres: ["異世界", "コメディ", "ドラマ"],
     tags: ["異世界", "群像劇", "掛け合い"],
@@ -2391,6 +2560,7 @@ const WORKS = [
   {
     id: "tenshitsuki",
     title: "ワンルーム、日当たり普通、天使つき。",
+    aliases: ["てんしつき"],
     season: "2024年春",
     genres: ["恋愛", "日常", "ファンタジー"],
     tags: ["ラブコメ", "人外", "片想い"],
@@ -2405,6 +2575,7 @@ const WORKS = [
   {
     id: "mahoaku",
     title: "かつて魔法少女と悪は敵対していた。",
+    aliases: ["まほあく"],
     season: "2024年夏",
     genres: ["恋愛", "ファンタジー", "癒し"],
     tags: ["ラブコメ", "純愛", "魔法", "ポンコツ"],
@@ -2419,6 +2590,7 @@ const WORKS = [
   {
     id: "nigoriri",
     title: "2.5次元の誘惑",
+    aliases: ["にごりり", "にじげんのりりす"],
     season: "2024年夏",
     genres: ["恋愛", "青春", "日常"],
     tags: ["ラブコメ", "部活", "成長", "アーティスト"],
@@ -2433,6 +2605,7 @@ const WORKS = [
   {
     id: "nigewaka",
     title: "逃げ上手の若君",
+    aliases: ["逃げ若"],
     season: "2024年夏",
     genres: ["バトル", "歴史", "冒険"],
     tags: ["成長", "頭脳戦", "陰謀", "残酷"],
@@ -2447,6 +2620,7 @@ const WORKS = [
   {
     id: "makein",
     title: "負けヒロインが多すぎる！",
+    aliases: ["マケイン"],
     season: "2024年夏",
     genres: ["恋愛", "青春", "日常"],
     tags: ["ラブコメ", "片想い", "青春", "掛け合い"],
@@ -2461,6 +2635,7 @@ const WORKS = [
   {
     id: "roshidere",
     title: "時々ボソッとロシア語でデレる隣のアーリャさん",
+    aliases: ["ロシデレ"],
     season: "2024年夏",
     genres: ["恋愛", "青春", "日常"],
     tags: ["ラブコメ", "甘々", "勘違い"],
@@ -2475,6 +2650,7 @@ const WORKS = [
   {
     id: "isekaishikkaku",
     title: "異世界失格",
+    aliases: ["いせかいしっかく"],
     season: "2024年夏",
     genres: ["ファンタジー", "異世界", "冒険"],
     tags: ["異世界", "ギャグ", "勘違い"],
@@ -2489,6 +2665,7 @@ const WORKS = [
   {
     id: "shikanoko",
     title: "しかのこのこのここしたんたん",
+    aliases: ["shikanoko"],
     season: "2024年夏",
     genres: ["コメディ", "日常"],
     tags: ["ギャグ", "シュール", "ドタバタ", "ドタバタ"],
@@ -2503,6 +2680,7 @@ const WORKS = [
   {
     id: "wistoria",
     title: "杖と剣のウィストリア",
+    aliases: ["うぃすとりあ"],
     season: "2024年夏",
     genres: ["異世界", "ファンタジー", "バトル"],
     tags: ["魔法", "幼馴染", "成長"],
@@ -2517,6 +2695,7 @@ const WORKS = [
   {
     id: "vden",
     title: "VTuberなんだが配信切り忘れたら伝説になってた",
+    aliases: ["V伝説","ぶいでん"],
     season: "2024年夏",
     genres: ["コメディ", "日常", "音楽"],
     tags: ["ギャグ", "アーティスト", "掛け合い"],
@@ -2531,6 +2710,7 @@ const WORKS = [
   {
     id: "nageki",
     title: "嘆きの亡霊は引退したい",
+    aliases: ["嘆き亡霊"],
     season: "2024年秋",
     genres: ["ファンタジー", "コメディ", "冒険", "異世界"],
     tags: ["勘違い", "ポンコツ", "ギャグ"],
@@ -2545,6 +2725,7 @@ const WORKS = [
   {
     id: "mao2099",
     title: "魔王2099",
+    aliases: ["まおうにぜろきゅうきゅう"],
     season: "2024年秋",
     genres: ["SF", "ファンタジー", "バトル", "異世界"],
     tags: ["近未来", "無双", "魔法", "ロボット"],
@@ -2559,6 +2740,7 @@ const WORKS = [
   {
     id: "magilumiere",
     title: "株式会社マジルミエ",
+    aliases: ["まじるみえ"],
     season: "2024年秋",
     genres: ["バトル", "ファンタジー", "ドラマ"],
     tags: ["アクション", "お仕事", "成長"],
@@ -2573,6 +2755,7 @@ const WORKS = [
   {
     id: "aonohako",
     title: "アオのハコ",
+    aliases: ["アオハコ"],
     season: "2024年秋",
     genres: ["恋愛", "スポーツ", "青春"],
     tags: ["青春", "部活", "成長"],
@@ -2587,6 +2770,7 @@ const WORKS = [
   {
     id: "chi",
     title: "チ。―地球の運動について―",
+    aliases: ["ちてん"],
     season: "2024年秋",
     genres: ["SF", "ミステリー", "サスペンス"],
     tags: ["考察", "陰謀", "重厚", "喪失と再生"],
@@ -2601,6 +2785,7 @@ const WORKS = [
   {
     id: "medalist",
     title: "メダリスト",
+    aliases: ["めだりすと"],
     season: "2025年冬",
     genres: ["スポーツ", "日常"],
     tags: ["成長", "師弟", "部活", "情感"],
@@ -2615,6 +2800,7 @@ const WORKS = [
   {
     id: "arumajo",
     title: "ある魔女が死ぬまで",
+    aliases: ["あるまじょ"],
     season: "2025年春",
     genres: ["ファンタジー", "冒険", "日常", "異世界", "ドラマ"],
     tags: ["魔女", "成長", "師弟", "切ない"],
@@ -2629,6 +2815,7 @@ const WORKS = [
   {
     id: "hibimeshi",
     title: "日々は過ぎれど飯うまし",
+    aliases: ["日々飯","ひびめし"],
     season: "2025年春",
     genres: ["日常", "癒し", "グルメ", "青春"],
     tags: ["ご飯", "ほのぼの"],
@@ -2643,6 +2830,7 @@ const WORKS = [
   {
     id: "tbhx",
     title: "TO BE HERO X",
+    aliases: ["とぅーびーひーろー","TBHX"],
     season: "2025年春",
     genres: ["バトル", "SF", "サスペンス"],
     tags: ["宇宙", "近未来", "アクション", "群像劇"],
@@ -2657,6 +2845,7 @@ const WORKS = [
   {
     id: "katainaka",
     title: "片田舎のおっさん、剣聖になる",
+    aliases: ["けんせい"],
     season: "2025年春",
     genres: ["ファンタジー", "バトル", "冒険"],
     tags: ["無双", "成長", "師弟"],
@@ -2671,6 +2860,7 @@ const WORKS = [
   {
     id: "ninkoro",
     title: "忍者と殺し屋のふたりぐらし",
+    aliases: ["にんころ"],
     season: "2025年春",
     genres: ["バトル", "日常", "スリラー"],
     tags: ["忍者", "お仕事", "ドタバタ", "残酷"],
@@ -2685,6 +2875,7 @@ const WORKS = [
   {
     id: "witchwatch",
     title: "ウィッチウォッチ",
+    aliases: ["うぃっちうぉっち"],
     season: "2025年春",
     genres: ["コメディ", "ファンタジー", "青春"],
     tags: ["魔法", "幼馴染", "ラブコメ"],
@@ -2699,6 +2890,7 @@ const WORKS = [
   {
     id: "danjoru",
     title: "男女の友情は成立する？（いや、しないっ!!）",
+    aliases: ["だんじょのゆうじょう"],
     season: "2025年春",
     genres: ["恋愛", "青春"],
     tags: ["幼馴染", "両片想い", "部活"],
@@ -2713,6 +2905,7 @@ const WORKS = [
   {
     id: "summerpockets",
     title: "Summer Pockets",
+    aliases: ["サマポケ"],
     season: "2025年春",
     genres: ["恋愛", "青春", "日常"],
     tags: ["純愛", "切ない", "ふたり旅"],
@@ -2727,6 +2920,7 @@ const WORKS = [
   {
     id: "cinderellagray",
     title: "ウマ娘 シンデレラグレイ",
+    aliases: ["シングレイ"],
     season: "2025年春",
     genres: ["スポーツ", "青春", "ドラマ"],
     tags: ["成長", "部活"],
@@ -2741,6 +2935,7 @@ const WORKS = [
   {
     id: "takopi",
     title: "タコピーの原罪",
+    aliases: ["たこぴー"],
     season: "2025年夏",
     genres: ["サスペンス", "SF", "ホラー"],
     tags: ["タイムループ", "絶望", "残酷", "陰謀"],
@@ -2755,6 +2950,7 @@ const WORKS = [
   {
     id: "ruri",
     title: "瑠璃の宝石",
+    aliases: ["るりのほうせき"],
     season: "2025年夏",
     genres: ["冒険", "日常", "癒し"],
     tags: ["成長", "やさしい世界", "ほのぼの"],
@@ -2769,6 +2965,7 @@ const WORKS = [
   {
     id: "silentwitch",
     title: "サイレント・ウィッチ 沈黙の魔女の隠しごと",
+    aliases: ["サイレントウィッチ"],
     season: "2025年夏",
     genres: ["ファンタジー", "ミステリー", "異世界"],
     tags: ["魔法", "魔女", "考察", "陰謀"],
@@ -2783,6 +2980,7 @@ const WORKS = [
   {
     id: "kaoruhana",
     title: "薫る花は凛と咲く",
+    aliases: ["かおるはな"],
     season: "2025年夏",
     genres: ["恋愛", "青春", "日常"],
     tags: ["純愛", "両片想い", "青春", "成長"],
@@ -2797,6 +2995,7 @@ const WORKS = [
   {
     id: "watanare",
     title: "わたしが恋人になれるわけないじゃん、ムリムリ!（※ムリじゃなかった!?）",
+    aliases: ["わたなれ"],
     season: "2025年夏",
     genres: ["恋愛", "青春"],
     tags: ["百合", "ラブコメ", "掛け合い"],
@@ -2811,6 +3010,7 @@ const WORKS = [
   {
     id: "clevatess",
     title: "クレバテス-魔獣の王と赤子と屍の勇者-",
+    aliases: ["くればてす"],
     season: "2025年夏",
     genres: ["ファンタジー", "バトル", "冒険"],
     tags: ["魔法", "ダークファンタジー", "師弟"],
@@ -2825,6 +3025,7 @@ const WORKS = [
   {
     id: "tsuihosha-shokudo",
     title: "追放者食堂へようこそ！",
+    aliases: ["ついほうしゃしょくどう"],
     season: "2025年夏",
     genres: ["ファンタジー", "コメディ", "異世界", "グルメ"],
     tags: ["追放", "ご飯", "成長"],
@@ -2839,6 +3040,7 @@ const WORKS = [
   {
     id: "nine",
     title: "9-nine- Ruler's Crown",
+    aliases: ["ナイン"],
     season: "2025年夏",
     genres: ["SF", "ミステリー", "バトル"],
     tags: ["超常現象", "考察", "陰謀"],
@@ -2853,6 +3055,7 @@ const WORKS = [
   {
     id: "mizuzokusei",
     title: "水属性の魔法使い",
+    aliases: ["みずぞくせい"],
     season: "2025年夏",
     genres: ["異世界", "ファンタジー", "冒険"],
     tags: ["魔法", "無双", "ドラゴン"],
@@ -2867,6 +3070,7 @@ const WORKS = [
   {
     id: "gachiakuta",
     title: "ガチアクタ",
+    aliases: ["がちあくた"],
     season: "2025年夏",
     genres: ["バトル", "ファンタジー", "SF"],
     tags: ["アクション", "残酷", "ダーク"],
@@ -2879,12 +3083,10 @@ const WORKS = [
     img: "img/gachiakuta.webp"
   },
 
-
-/* ここまで */
-
   {
     id: "sanda",
     title: "SANDA",
+    aliases: ["サンダ"],
     season: "2025年秋",
     genres: ["バトル", "ドラマ", "ミステリー"],
     tags: ["近未来", "学園", "サンタクロース", "変身", "行方不明"],
@@ -2899,6 +3101,7 @@ const WORKS = [
   {
     id: "gnosia",
     title: "グノーシア",
+    aliases: ["ぐのーしあ"],
     season: "2025年秋",
     genres: ["ミステリー", "SF", "スリラー"],
     tags: ["人狼", "タイムループ", "宇宙船", "考察"],
@@ -2913,6 +3116,7 @@ const WORKS = [
   {
     id: "watatabe",
     title: "私を喰べたい、ひとでなし",
+    aliases: ["わたたべ"],
     season: "2025年秋",
     genres: ["ドラマ", "ホラー", "恋愛", "サスペンス"],
     tags: ["人魚", "百合", "ダーク", "海辺の町", "切ない"],
@@ -2927,6 +3131,7 @@ const WORKS = [
   {
     id: "tojima-rider",
     title: "東島丹三郎は仮面ライダーになりたい",
+    aliases: ["とうじまたんざぶろう"],
     season: "2025年秋",
     genres: ["バトル"],
     tags: ["特撮", "仮面ライダー", "熱血", "おっさん"],
@@ -2941,6 +3146,7 @@ const WORKS = [
   {
     id: "ginpachi",
     title: "3年Z組銀八先生",
+    aliases: ["ぎんぱちせんせい"],
     season: "2025年秋",
     genres: ["コメディ", "日常"],
     tags: ["ギャグ", "学園", "パロディ", "銀魂", "教師"],
@@ -2955,6 +3161,7 @@ const WORKS = [
   {
     id: "chiramune",
     title: "千歳くんはラムネ瓶のなか",
+    aliases: ["チラムネ"],
     season: "2025年秋",
     genres: ["恋愛", "青春"],
     tags: ["青春", "学園", "群像劇", "ラブコメ"],
@@ -2969,6 +3176,7 @@ const WORKS = [
   {
     id: "imouza",
     title: "友達の妹が俺にだけウザい",
+    aliases: ["妹ウザ"],
     season: "2025年秋",
     genres: ["恋愛", "日常", "青春"],
     tags: ["ラブコメ", "学園", "妹キャラ", "ウザかわ"],
@@ -2983,6 +3191,7 @@ const WORKS = [
   {
     id: "tamahoshi",
     title: "太陽よりも眩しい星",
+    aliases: ["たまほし"],
     season: "2025年秋",
     genres: ["恋愛"],
     tags: ["少女漫画", "純愛", "幼馴染", "学園", "切ない"],
@@ -2997,6 +3206,7 @@ const WORKS = [
   {
     id: "towano-yuugure",
     title: "永久のユウグレ",
+    aliases: ["とわのゆうぐれ"],
     season: "2025年秋",
     genres: ["バトル", "ドラマ", "恋愛", "SF"],
     tags: ["ポストアポカリプス", "人造人間", "終末世界", "旅"],
@@ -3011,6 +3221,7 @@ const WORKS = [
   {
     id: "mugengacha",
     title: "信じていた仲間達にダンジョン奥地で殺されかけたがギフト『無限ガチャ』でレベル9999の仲間達を手に入れて元パーティーメンバーと世界に復讐＆『ざまぁ！』します！",
+    aliases: ["むげんがちゃ"],
     season: "2025年秋",
     genres: ["バトル", "冒険", "ファンタジー", "異世界"],
     tags: ["異世界", "復讐", "ざまぁ", "無双"],
@@ -3025,6 +3236,7 @@ const WORKS = [
   {
     id: "digimon-beatbreak",
     title: "DIGIMON BEATBREAK",
+    aliases: ["デジモン"],
     season: "2025年秋",
     genres: ["バトル", "冒険", "ファンタジー", "SF"],
     tags: ["デジモン", "育成", "近未来", "相棒"],
@@ -3039,6 +3251,7 @@ const WORKS = [
   {
     id: "si-vis",
     title: "SI-VIS: The Sound of Heroes",
+    aliases: ["サイヴィス"],
     season: "2025年秋",
     genres: ["バトル", "ドラマ", "音楽"],
     tags: ["歌で戦う", "芸能界", "ヒーロー", "アーティスト"],
@@ -3053,6 +3266,7 @@ const WORKS = [
   {
     id: "wandance",
     title: "ワンダンス",
+    aliases: ["わんだんす"],
     season: "2025年秋",
     genres: ["ドラマ", "スポーツ"],
     tags: ["ダンス", "部活", "葛藤", "高校生"],
@@ -3067,6 +3281,7 @@ const WORKS = [
   {
     id: "akujiki",
     title: "悪食令嬢と狂血公爵",
+    aliases: ["あくじきれいじょう"],
     season: "2025年秋",
     genres: ["ファンタジー", "恋愛", "グルメ", "異世界"],
     tags: ["魔物グルメ", "ご飯", "婚約"],
@@ -3081,6 +3296,7 @@ const WORKS = [
   {
     id: "egatae",
     title: "笑顔のたえない職場です。",
+    aliases: ["えがおのたえないしょくば"],
     season: "2025年秋",
     genres: ["日常"],
     tags: ["職場", "漫画編集部", "社会人", "ほのぼの", "お仕事"],
@@ -3095,6 +3311,7 @@ const WORKS = [
   {
     id: "shumatsu-touring",
     title: "終末ツーリング",
+    aliases: ["しゅうまつつーりんぐ"],
     season: "2025年秋",
     genres: ["冒険", "日常", "SF"],
     tags: ["終末世界", "バイク", "旅", "ふたり旅", "ほのぼの"],
@@ -3109,6 +3326,7 @@ const WORKS = [
   {
     id: "kyuketsuki-chan",
     title: "ちゃんと吸えない吸血鬼ちゃん",
+    aliases: ["ちゃんとすすめない"],
     season: "2025年秋",
     genres: ["日常", "超常現象"],
     tags: ["吸血鬼", "学園", "ポンコツ", "かわいい", "ギャグ"],
@@ -3123,6 +3341,7 @@ const WORKS = [
   {
     id: "saihito",
     title: "最後にひとつだけお願いしてもよろしいでしょうか",
+    aliases: ["さいひといっこう"],
     season: "2025年秋",
     genres: ["バトル", "コメディ", "ファンタジー", "異世界"],
     tags: ["無双", "ざまぁ", "武闘派令嬢", "異世界"],
@@ -3137,6 +3356,7 @@ const WORKS = [
   {
     id: "twst",
     title: "ツイステッドワンダーランド ザ アニメーション",
+    aliases: ["ついすて"],
     season: "2025年秋",
     genres: ["冒険", "ファンタジー"],
     tags: ["ヴィランズ", "魔法学校", "異世界召喚", "ダークファンタジー"],
@@ -3151,6 +3371,7 @@ const WORKS = [
   {
     id: "aruhime",
     title: "ある日、お姫様になってしまった件について",
+    aliases: ["ある姫"],
     season: "2025年秋",
     genres: ["恋愛", "ファンタジー", "異世界"],
     tags: ["魔法", "家族", "恋愛"],
@@ -3165,6 +3386,7 @@ const WORKS = [
   {
     id: "arumachan",
     title: "アルマちゃんは家族になりたい",
+    aliases: ["あるまちゃん"],
     season: "2025年秋",
     genres: ["SF", "日常"],
     tags: ["ロボット", "家族", "SF"],
@@ -3179,6 +3401,7 @@ const WORKS = [
   {
     id: "ansute",
     title: "暗殺者である俺のステータスが勇者よりも明らかに強いのだが",
+    aliases: ["暗殺者ステータス"],
     season: "2025年秋",
     genres: ["バトル", "ファンタジー", "冒険", "異世界"],
     tags: ["無双", "チート", "バトル", "異世界"],
@@ -3193,6 +3416,7 @@ const WORKS = [
   {
     id: "kashiwada-ohta",
     title: "顔に出ない柏田さんと顔に出る太田君",
+    aliases: ["柏田さんと太田君"],
     season: "2025年秋",
     genres: ["恋愛", "日常"],
     tags: ["ラブコメ", "両片想い", "ほのぼの", "青春"],
@@ -3207,6 +3431,7 @@ const WORKS = [
   {
     id: "marie",
     title: "機械じかけのマリー",
+    aliases: ["きかいじかけのまりー"],
     season: "2025年秋",
     genres: ["恋愛", "バトル"],
     tags: ["ラブコメ", "ポンコツ", "バトル", "人外"],
@@ -3221,6 +3446,7 @@ const WORKS = [
   {
     id: "kimikoe",
     title: "キミと越えて恋になる",
+    aliases: ["キミ恋"],
     season: "2025年秋",
     genres: ["恋愛", "日常", "ファンタジー", "青春"],
     tags: ["純愛", "人外", "青春", "両片想い"],
@@ -3235,6 +3461,7 @@ const WORKS = [
   {
     id: "shabake",
     title: "しゃばけ",
+    aliases: ["shabake"],
     season: "2025年秋",
     genres: ["ミステリー", "ホラー"],
     tags: ["怪異", "考察", "家族", "ファンタジー"],
@@ -3249,6 +3476,7 @@ const WORKS = [
   {
     id: "hahanoha",
     title: "父は英雄、母は精霊、娘の私は転生者。",
+    aliases: ["ちちはえいゆう"],
     season: "2025年秋",
     genres: ["ファンタジー", "バトル", "冒険", "異世界"],
     tags: ["転生", "魔法", "家族", "成長"],
@@ -3263,6 +3491,7 @@ const WORKS = [
   {
     id: "tenkuro",
     title: "転生悪女の黒歴史",
+    aliases: ["てんくろ"],
     season: "2025年秋",
     genres: ["ファンタジー", "恋愛", "異世界"],
     tags: ["転生", "ラブコメ", "勘違い", "ダークファンタジー"],
@@ -3277,6 +3506,7 @@ const WORKS = [
   {
     id: "hirumeshi",
     title: "野原ひろし 昼メシの流儀",
+    aliases: ["のはらひろし"],
     season: "2025年秋",
     genres: ["コメディ", "日常", "グルメ"],
     tags: ["ギャグ", "ご飯", "サラリーマン"],
@@ -3291,6 +3521,7 @@ const WORKS = [
   {
     id: "bukisen",
     title: "不器用な先輩。",
+    aliases: ["ぶきようなせんぱい"],
     season: "2025年秋",
     genres: ["恋愛", "日常"],
     tags: ["ラブコメ", "職場", "お仕事", "大人の恋"],
@@ -3305,6 +3536,7 @@ const WORKS = [
   {
     id: "yaselas",
     title: "野生のラスボスが現れた！",
+    aliases: ["やせいのらすぼす"],
     season: "2025年秋",
     genres: ["バトル", "ファンタジー", "冒険", "異世界"],
     tags: ["無双", "チート", "バトル", "異世界"],
@@ -3319,6 +3551,7 @@ const WORKS = [
   {
     id: "yanokun",
     title: "矢野くんの普通の日々",
+    aliases: ["やのくん"],
     season: "2025年秋",
     genres: ["恋愛", "日常", "青春"],
     tags: ["ラブコメ", "青春", "ほのぼの", "幼馴染"],
@@ -3333,6 +3566,7 @@ const WORKS = [
   {
     id: "yushakei",
     title: "勇者刑に処す 懲罰勇者9004隊刑務記録",
+    aliases: ["ゆうしゃけい"],
     season: "2026年冬",
     genres: ["バトル", "ドラマ", "ファンタジー", "異世界"],
     tags: ["罪人勇者", "魔王討伐", "重厚", "ダーク"],
@@ -3347,6 +3581,7 @@ const WORKS = [
   {
     id: "seihantai",
     title: "正反対な君と僕",
+    aliases: ["せいはんたいなきみとぼく"],
     season: "2026年冬",
     genres: ["恋愛", "日常"],
     tags: ["ラブコメ", "学園", "ギャップ", "ほのぼの"],
@@ -3361,6 +3596,7 @@ const WORKS = [
   {
     id: "hellmode",
     title: "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～",
+    aliases: ["へるもーど"],
     season: "2026年冬",
     genres: ["バトル", "冒険", "ファンタジー", "異世界"],
     tags: ["無双", "チート", "異世界", "転生"],
@@ -3375,6 +3611,7 @@ const WORKS = [
   {
     id: "shiboyugi",
     title: "死亡遊戯で飯を食う。",
+    aliases: ["しぼうゆうぎ"],
     season: "2026年冬",
     genres: ["ドラマ", "ミステリー", "サスペンス"],
     tags: ["デスゲーム", "生存競争", "頭脳戦"],
@@ -3389,6 +3626,7 @@ const WORKS = [
   {
     id: "ikoku-nikki",
     title: "違国日記",
+    aliases: ["いこくにっき"],
     season: "2026年冬",
     genres: ["ドラマ", "日常"],
     tags: ["家族", "小説家", "姪と叔母", "喪失と再生", "情感"],
@@ -3403,6 +3641,7 @@ const WORKS = [
   {
     id: "mayochu",
     title: "真夜中ハートチューン",
+    aliases: ["まよチュン"],
     season: "2026年冬",
     genres: ["恋愛", "日常", "青春"],
     tags: ["ラブコメ", "ラジオ", "声", "学園", "ハーレム"],
@@ -3417,6 +3656,7 @@ const WORKS = [
   {
     id: "uruwashi",
     title: "うるわしの宵の月",
+    aliases: ["うるわしのよいのつき"],
     season: "2026年冬",
     genres: ["恋愛", "日常", "青春"],
     tags: ["王子様系女子", "純愛", "学園", "少女漫画"],
@@ -3431,6 +3671,7 @@ const WORKS = [
   {
     id: "dead-account",
     title: "デッドアカウント",
+    aliases: ["でっどあかうんと"],
     season: "2026年冬",
     genres: ["バトル", "超常現象"],
     tags: ["幽霊", "SNS", "祓い屋", "デジタル怪異", "現代"],
@@ -3445,6 +3686,7 @@ const WORKS = [
   {
     id: "toumei-ningen",
     title: "透明男と人間女～そのうち夫婦になるふたり～",
+    aliases: ["とうめいおとことにんげんおんな"],
     season: "2026年冬",
     genres: ["恋愛", "日常"],
     tags: ["ラブコメ", "ラブコメ", "ほのぼの"],
@@ -3459,6 +3701,7 @@ const WORKS = [
   {
     id: "darwin",
     title: "ダーウィン事変",
+    aliases: ["だーうぃんじへん"],
     season: "2026年冬",
     genres: ["SF", "スリラー"],
     tags: ["ヒューマンジー", "社会派", "テロリズム", "倫理", "差別"],
@@ -3473,6 +3716,7 @@ const WORKS = [
   {
     id: "kayachan",
     title: "カヤちゃんはコワくない",
+    aliases: ["かやちゃん"],
     season: "2026年冬",
     genres: ["ホラー", "日常", "超常現象"],
     tags: ["保育園", "怪異", "ギャップ", "ギャグホラー"],
@@ -3487,6 +3731,7 @@ const WORKS = [
   {
     id: "eris-seihai",
     title: "エリスの聖杯",
+    aliases: ["えりすのせいはい"],
     season: "2026年冬",
     genres: ["ドラマ", "ファンタジー", "ミステリー", "異世界"],
     tags: ["貴族社会", "復讐", "陰謀", "令嬢"],
@@ -3501,6 +3746,7 @@ const WORKS = [
   {
     id: "iseshachi",
     title: "異世界の沙汰は社畜次第",
+    aliases: ["いせかいのさた"],
     season: "2026年冬",
     genres: ["冒険", "ファンタジー", "恋愛", "日常"],
     tags: ["BL", "異世界", "巻き込まれ", "お仕事"],
@@ -3515,6 +3761,7 @@ const WORKS = [
   {
     id: "yushanokuzu",
     title: "勇者のクズ",
+    aliases: ["ゆうしゃのくず"],
     season: "2026年冬",
     genres: ["バトル", "ドラマ", "ファンタジー"],
     tags: ["無自覚最強", "勇者", "ギャグ", "ダーク"],
@@ -3529,6 +3776,7 @@ const WORKS = [
   {
     id: "champignon",
     title: "シャンピニオンの魔女",
+    aliases: ["しゃんぴにおん"],
     season: "2026年冬",
     genres: ["ドラマ", "ファンタジー", "超常現象"],
     tags: ["魔女", "毒キノコ", "偏見", "切ない", "寓話"],
@@ -3543,6 +3791,7 @@ const WORKS = [
   {
     id: "akudeki",
     title: "悪役令嬢は隣国の王太子に溺愛される",
+    aliases: ["あくやくれいじょうはりんごく"],
     season: "2026年冬",
     genres: ["恋愛", "ファンタジー"],
     tags: ["ラブコメ", "甘々", "結婚", "異世界"],
@@ -3557,6 +3806,7 @@ const WORKS = [
   {
     id: "osalove",
     title: "幼馴染とはラブコメにならない",
+    aliases: ["幼馴染ラブコメ"],
     season: "2026年冬",
     genres: ["恋愛", "日常", "青春"],
     tags: ["ラブコメ", "幼馴染", "青春", "片想い"],
@@ -3571,6 +3821,7 @@ const WORKS = [
   {
     id: "kizoku-tensei",
     title: "貴族転生 ～恵まれた生まれから最強の力を得る～",
+    aliases: ["きぞくてんせい"],
     season: "2026年冬",
     genres: ["ファンタジー", "バトル", "冒険", "異世界"],
     tags: ["無双", "チート", "異世界", "転生"],
@@ -3585,6 +3836,7 @@ const WORKS = [
   {
     id: "kinishite",
     title: "綺麗にしてもらえますか。",
+    aliases: ["きれいにしてもらえますか"],
     season: "2026年冬",
     genres: ["日常", "恋愛", "癒し"],
     tags: ["ほのぼの", "お仕事"],
@@ -3599,6 +3851,7 @@ const WORKS = [
   {
     id: "gounichi",
     title: "拷問バイトくんの日常",
+    aliases: ["ごうもんばいと"],
     season: "2026年冬",
     genres: ["日常", "ホラー"],
     tags: ["ギャグ", "お仕事", "職場", "ダーク"],
@@ -3613,6 +3866,7 @@ const WORKS = [
   {
     id: "link-click",
     title: "時光代理人 -LINK CLICK- 英都篇",
+    aliases: ["リンククリック", "じこうだいりにん"],
     season: "2026年冬",
     genres: ["ミステリー", "サスペンス", "SF"],
     tags: ["考察", "陰謀", "心理戦", "タイムループ"],
@@ -3627,6 +3881,7 @@ const WORKS = [
   {
     id: "jingai-kyoshitsu",
     title: "人外教室の人間嫌い教師",
+    aliases: ["じんがいきょうしつ"],
     season: "2026年冬",
     genres: ["恋愛", "ファンタジー", "日常"],
     tags: ["人外", "家族", "成長", "ダーク"],
@@ -3641,6 +3896,7 @@ const WORKS = [
   {
     id: "darkmoon",
     title: "DARK MOON -黒の月: 月の祭壇-",
+    aliases: ["だーくむーん"],
     season: "2026年冬",
     genres: ["ファンタジー", "恋愛", "バトル"],
     tags: ["人外", "バトル", "ダークファンタジー", "宇宙"],
@@ -3655,6 +3911,7 @@ const WORKS = [
   {
     id: "tamon",
     title: "多聞くん今どっち!?",
+    aliases: ["たもんくん"],
     season: "2026年冬",
     genres: ["恋愛", "コメディ", "音楽"],
     tags: ["ラブコメ", "甘々", "推し活", "アイドル"],
@@ -3669,6 +3926,7 @@ const WORKS = [
   {
     id: "kimengumi",
     title: "ハイスクール！奇面組",
+    aliases: ["きめんぐみ"],
     season: "2026年冬",
     genres: ["コメディ", "日常", "恋愛"],
     tags: ["ギャグ", "ドタバタ", "パロディ", "青春"],
@@ -3683,6 +3941,7 @@ const WORKS = [
   {
     id: "hanakimi",
     title: "花ざかりの君たちへ",
+    aliases: ["はなざかり"],
     season: "2026年冬",
     genres: ["恋愛", "日常"],
     tags: ["ラブコメ", "青春", "勘違い", "片想い"],
@@ -3697,6 +3956,7 @@ const WORKS = [
   {
     id: "kunon",
     title: "魔術師クノンは見えている",
+    aliases: ["くのん"],
     season: "2026年冬",
     genres: ["ファンタジー", "冒険", "異世界"],
     tags: ["魔法", "成長", "ほのぼの", "師弟"],
@@ -3711,6 +3971,7 @@ const WORKS = [
   {
     id: "yuukawa",
     title: "勇者パーティーにかわいい子がいたので、告白してみた",
+    aliases: ["ゆうしゃぱーてぃーにかわいいこ"],
     season: "2026年冬",
     genres: ["恋愛", "コメディ", "ファンタジー"],
     tags: ["ラブコメ", "甘々", "異世界", "人外"],
@@ -3725,6 +3986,7 @@ const WORKS = [
   {
     id: "kiyou-bimbou",
     title: "勇者パーティを追い出された器用貧乏",
+    aliases: ["きようびんぼう"],
     season: "2026年冬",
     genres: ["バトル", "ファンタジー", "冒険", "異世界"],
     tags: ["無双", "バトル", "異世界", "成長"],
@@ -3739,6 +4001,7 @@ const WORKS = [
   {
     id: "samurai-trooper",
     title: "鎧真伝サムライトルーパー",
+    aliases: ["さむらいとるーぱー"],
     season: "2026年冬",
     genres: ["バトル", "ファンタジー", "メカ"],
     tags: ["バトル", "巨大ロボ", "成長", "宇宙"],
@@ -3753,6 +4016,7 @@ const WORKS = [
   {
     id: "chokaguyahime",
     title: "超かぐや姫！",
+    aliases: ["ちょうかぐやひめ"],
     season: "2026年冬",
     genres: ["音楽", "SF", "青春"],
     tags: ["歌で戦う", "仮想空間", "切ない", "映画"],
@@ -3767,6 +4031,7 @@ const WORKS = [
   {
     id: "yominotsugai",
     title: "黄泉のツガイ",
+    aliases: ["よみのつがい"],
     season: "2026年春",
     genres: ["バトル", "冒険", "ファンタジー"],
     tags: ["ツガイ", "山奥の村", "少年漫画", "絆", "ハガレン作者"],
@@ -3781,6 +4046,7 @@ const WORKS = [
   {
     id: "kuranika",
     title: "クラスで2番目に可愛い女の子と友だちになった",
+    aliases: ["クラニカ","くらにか"],
     season: "2026年春",
     genres: ["恋愛", "青春"],
     tags: ["ラブコメ", "学園", "友達以上", "甘々"],
@@ -3795,6 +4061,7 @@ const WORKS = [
   {
     id: "kori-no-joheki",
     title: "氷の城壁",
+    aliases: ["こおりのじょうへき"],
     season: "2026年春",
     genres: ["ドラマ", "恋愛", "日常", "青春"],
     tags: ["学園", "群像劇", "不器用", "心の壁", "青春"],
@@ -3809,6 +4076,7 @@ const WORKS = [
   {
     id: "marriage-toxin",
     title: "マリッジトキシン",
+    aliases: ["まりっじときしん"],
     season: "2026年春",
     genres: ["バトル", "ドラマ", "恋愛"],
     tags: ["結婚詐欺師", "殺し屋", "婚活", "アクション", "ドタバタ"],
@@ -3823,6 +4091,7 @@ const WORKS = [
   {
     id: "akane-banashi",
     title: "あかね噺",
+    aliases: ["あかねばなし"],
     season: "2026年春",
     genres: ["ドラマ"],
     tags: ["落語", "師弟", "父の仇", "成長"],
@@ -3837,6 +4106,7 @@ const WORKS = [
   {
     id: "kamiina-botan",
     title: "上伊那ぼたん、酔へる姿は百合の花",
+    aliases: ["かみいなぼたん"],
     season: "2026年春",
     genres: ["恋愛", "日常"],
     tags: ["百合", "お酒", "寮生活", "大学生"],
@@ -3851,6 +4121,7 @@ const WORKS = [
   {
     id: "otagal",
     title: "オタクに優しいギャルはいない!?",
+    aliases: ["オタギャル"],
     season: "2026年春",
     genres: ["恋愛", "青春"],
     tags: ["ラブコメ", "ギャル", "オタク", "学園"],
@@ -3865,6 +4136,7 @@ const WORKS = [
   {
     id: "aishiteru-game",
     title: "愛してるゲームを終わらせたい",
+    aliases: ["あいしてるげーむ"],
     season: "2026年春",
     genres: ["恋愛", "日常", "青春"],
     tags: ["幼馴染", "両片想い", "ラブコメ", "甘々"],
@@ -3879,6 +4151,7 @@ const WORKS = [
   {
     id: "ponsuka",
     title: "ポンコツ風紀委員とスカート丈が不適切なJKの話",
+    aliases: ["ぽんこつふうきいいん"],
     season: "2026年春",
     genres: ["恋愛", "日常", "青春"],
     tags: ["ラブコメ", "学園", "風紀委員", "ギャル", "掛け合い"],
@@ -3893,6 +4166,7 @@ const WORKS = [
   {
     id: "shunkashuutou",
     title: "春夏秋冬代行者 春の舞",
+    aliases: ["しゅんかしゅうとうだいこうしゃ"],
     season: "2026年春",
     genres: ["ドラマ", "ファンタジー", "恋愛"],
     tags: ["季節の代行者", "護衛", "美しい世界観", "切ない", "幻想的"],
@@ -3907,6 +4181,7 @@ const WORKS = [
   {
     id: "kill-ao",
     title: "キルアオ",
+    aliases: ["きるあお"],
     season: "2026年春",
     genres: ["バトル", "コメディ"],
     tags: ["殺し屋", "中学生化", "学園", "アクション"],
@@ -3921,6 +4196,7 @@ const WORKS = [
   {
     id: "liar-game",
     title: "LIAR GAME",
+    aliases: ["ライアーゲーム"],
     season: "2026年春",
     genres: ["ドラマ", "サスペンス"],
     tags: ["頭脳戦", "騙し合い", "ゲーム", "心理戦"],
@@ -3935,6 +4211,7 @@ const WORKS = [
   {
     id: "needy-girl",
     title: "NEEDY GIRL OVERDOSE",
+    aliases: ["ニーディガール","ニディガ"],
     season: "2026年春",
     genres: ["冒険", "ドラマ", "サスペンス", "日常"],
     tags: ["配信者", "メンヘラ", "現代", "病みかわ"],
@@ -3949,6 +4226,7 @@ const WORKS = [
   {
     id: "awajima",
     title: "淡島百景",
+    aliases: ["あわじまひゃっけい"],
     season: "2026年春",
     genres: ["ドラマ", "音楽", "青春"],
     tags: ["歌劇学校", "少女たち", "群像劇", "舞台", "志村貴子"],
@@ -3963,6 +4241,7 @@ const WORKS = [
   {
     id: "snowball-earth",
     title: "スノウボールアース",
+    aliases: ["すのうぼーるあーす"],
     season: "2026年春",
     genres: ["バトル", "メカ", "SF"],
     tags: ["巨大ロボ", "凍結地球", "絶望", "人類存亡"],
@@ -3977,6 +4256,7 @@ const WORKS = [
   {
     id: "mao",
     title: "MAO",
+    aliases: ["まお"],
     season: "2026年春",
     genres: ["ドラマ", "ミステリー", "超常現象"],
     tags: ["高橋留美子", "大正×現代", "呪い", "妖怪", "時間移動"],
@@ -3991,6 +4271,7 @@ const WORKS = [
   {
     id: "drops-of-god",
     title: "神の雫",
+    aliases: ["かみのしずく"],
     season: "2026年春",
     genres: ["ドラマ", "ミステリー", "日常", "グルメ"],
     tags: ["ワイン", "ソムリエ", "遺言", "大人の趣味"],
@@ -4005,6 +4286,7 @@ const WORKS = [
   {
     id: "kujima",
     title: "クジマ歌えば家ほろろ",
+    aliases: ["くじま"],
     season: "2026年春",
     genres: ["ファンタジー", "日常", "癒し"],
     tags: ["謎生物", "家族", "ほのぼの", "シュール"],
@@ -4019,6 +4301,7 @@ const WORKS = [
   {
     id: "ichijyoma",
     title: "一畳間まんきつ暮らし！",
+    aliases: ["いちじょうま"],
     season: "2026年春",
     genres: ["日常", "癒し"],
     tags: ["ほのぼの", "寮生活", "ご飯"],
@@ -4033,6 +4316,7 @@ const WORKS = [
   {
     id: "kanansama",
     title: "カナン様はあくまでチョロい",
+    aliases: ["かなんさま"],
     season: "2026年春",
     genres: ["恋愛", "青春", "ファンタジー"],
     tags: ["ラブコメ", "甘々", "掛け合い", "ポンコツ"],
@@ -4047,6 +4331,7 @@ const WORKS = [
   {
     id: "kusunokitei",
     title: "神の庭付き楠木邸",
+    aliases: ["くすのきてい"],
     season: "2026年春",
     genres: ["ファンタジー", "日常", "癒し"],
     tags: ["ほのぼの", "家族", "やさしい世界"],
@@ -4061,6 +4346,7 @@ const WORKS = [
   {
     id: "kuromajo",
     title: "黒猫と魔女の教室",
+    aliases: ["くろねことまじょ"],
     season: "2026年春",
     genres: ["ファンタジー", "恋愛", "異世界"],
     tags: ["魔法", "魔女", "青春", "成長"],
@@ -4075,6 +4361,7 @@ const WORKS = [
   {
     id: "tongari",
     title: "とんがり帽子のアトリエ",
+    aliases: ["とんがりぼうし"],
     season: "2026年春",
     genres: ["ファンタジー", "冒険", "ミステリー", "異世界"],
     tags: ["魔法", "魔女", "成長", "師弟"],
@@ -4089,6 +4376,7 @@ const WORKS = [
   {
     id: "sangoku",
     title: "日本三國",
+    aliases: ["にほんさんごく"],
     season: "2026年春",
     genres: ["サスペンス", "冒険"],
     tags: ["社会派", "陰謀", "群像劇", "重厚"],
@@ -4103,6 +4391,7 @@ const WORKS = [
   {
     id: "niwatori",
     title: "ニワトリ・ファイター",
+    aliases: ["ニワトリファイター"],
     season: "2026年春",
     genres: ["バトル", "コメディ", "冒険"],
     tags: ["バトル", "ギャグ", "ドタバタ", "無双"],
@@ -4117,6 +4406,7 @@ const WORKS = [
   {
     id: "haibarakun",
     title: "灰原くんの強くて青春ニューゲーム",
+    aliases: ["はいばらくん"],
     season: "2026年春",
     genres: ["恋愛", "日常", "青春"],
     tags: ["青春", "タイムループ", "ラブコメ", "成長"],
@@ -4131,6 +4421,7 @@ const WORKS = [
   {
     id: "matakoro",
     title: "また殺されてしまったのですね、探偵様",
+    aliases: ["またころされてしまった"],
     season: "2026年春",
     genres: ["ミステリー", "サスペンス", "スリラー"],
     tags: ["考察", "騙し合い", "心理戦", "残酷"],
@@ -4145,6 +4436,7 @@ const WORKS = [
   {
     id: "marikowa",
     title: "茉莉花ちゃんの好感度はぶっ壊れている",
+    aliases: ["まりかちゃん"],
     season: "2026年春",
     genres: ["恋愛", "青春"],
     tags: ["好感度メーター", "幼馴染", "秘密", "ラブコメ"],
@@ -4159,6 +4451,7 @@ const WORKS = [
   {
     id: "meitabe",
     title: "メイドさんは食べるだけ",
+    aliases: ["めいどさんはたべるだけ"],
     season: "2026年春",
     genres: ["日常", "恋愛", "癒し", "グルメ"],
     tags: ["ほのぼの", "ご飯"],
@@ -4173,6 +4466,7 @@ const WORKS = [
   {
     id: "rokkotsu",
     title: "女神「異世界転生何になりたいですか」 俺「勇者の肋骨で」",
+    aliases: ["ゆうしゃのろっこつ"],
     season: "2026年春",
     genres: ["ファンタジー", "コメディ", "異世界"],
     tags: ["ギャグ", "癖つよ", "異世界", "転生"],
@@ -4187,6 +4481,7 @@ const WORKS = [
   {
     id: "reincarnation",
     title: "リィンカーネーションの花弁",
+    aliases: ["りぃんかーねーしょん"],
     season: "2026年春",
     genres: ["バトル", "ファンタジー", "サスペンス"],
     tags: ["バトル", "ダーク", "残酷", "成長"],
@@ -4201,6 +4496,7 @@ const WORKS = [
   {
     id: "iwamoto",
     title: "岩元先輩ノ推薦",
+    aliases: ["いわもとせんぱい"],
     season: "2026年夏",
     genres: ["ミステリー", "超常現象", "歴史"],
     tags: ["怪異", "考察", "師弟"],
@@ -4215,6 +4511,7 @@ const WORKS = [
   {
     id: "uchioto",
     title: "うちの弟どもがすみません",
+    aliases: ["うちのおとうとども"],
     season: "2026年夏",
     genres: ["恋愛", "コメディ", "日常"],
     tags: ["ラブコメ", "家族", "掛け合い"],
@@ -4229,6 +4526,7 @@ const WORKS = [
   {
     id: "otomekaiju",
     title: "乙女怪獣キャラメリゼ",
+    aliases: ["おとめかいじゅう"],
     season: "2026年夏",
     genres: ["恋愛", "バトル", "コメディ"],
     tags: ["ラブコメ", "人外", "バトル"],
@@ -4243,6 +4541,7 @@ const WORKS = [
   {
     id: "kimishinu",
     title: "きみが死ぬまで恋をしたい",
+    aliases: ["きみしぬ"],
     season: "2026年夏",
     genres: ["恋愛", "バトル"],
     tags: ["百合", "純愛", "残酷"],
@@ -4257,6 +4556,7 @@ const WORKS = [
   {
     id: "growupshow",
     title: "グロウアップショウ ～ひまわりのサーカス団～",
+    aliases: ["ぐろうあっぷしょう"],
     season: "2026年夏",
     genres: ["青春", "スポーツ", "ドラマ"],
     tags: ["成長", "舞台", "群像劇"],
@@ -4271,6 +4571,7 @@ const WORKS = [
   {
     id: "korekaite",
     title: "これ描いて死ね",
+    aliases: ["これかいてしね"],
     season: "2026年夏",
     genres: ["青春", "日常", "ドラマ"],
     tags: ["部活", "成長", "青春"],
@@ -4285,6 +4586,7 @@ const WORKS = [
   {
     id: "degarashiouji",
     title: "最強出涸らし皇子の暗躍帝位争い",
+    aliases: ["でがらしおうじ"],
     season: "2026年夏",
     genres: ["ファンタジー", "ミステリー", "バトル"],
     tags: ["頭脳戦", "陰謀", "魔法"],
@@ -4299,6 +4601,7 @@ const WORKS = [
   {
     id: "jukishi",
     title: "追放された転生重騎士はゲーム知識で無双する",
+    aliases: ["てんせいじゅうきし"],
     season: "2026年夏",
     genres: ["ファンタジー", "バトル", "ゲーム"],
     tags: ["無双", "転生", "チート"],
@@ -4313,6 +4616,7 @@ const WORKS = [
   {
     id: "kakekoi",
     title: "透明な夜に駆ける君と、目に見えない恋をした。",
+    aliases: ["とうめいなよる"],
     season: "2026年夏",
     genres: ["恋愛", "青春", "ドラマ"],
     tags: ["純愛", "大人の恋", "切ない"],
@@ -4327,6 +4631,7 @@ const WORKS = [
   {
     id: "nekoryuu",
     title: "猫と竜",
+    aliases: ["ねことりゅう"],
     season: "2026年夏",
     genres: ["ファンタジー", "癒し", "日常"],
     tags: ["人外", "ほのぼの", "家族"],
@@ -4341,6 +4646,7 @@ const WORKS = [
   {
     id: "hanaorisan",
     title: "花織さんは転生しても喧嘩がしたい",
+    aliases: ["はなおりさん"],
     season: "2026年夏",
     genres: ["バトル", "恋愛", "コメディ"],
     tags: ["バトル", "転生", "ラブコメ"],
@@ -4355,6 +4661,7 @@ const WORKS = [
   {
     id: "all-works-maid",
     title: "ヒロイン？聖女？いいえ、オールワークスメイドです（誇）！",
+    aliases: ["おーるわーくすめいど"],
     season: "2026年夏",
     genres: ["ファンタジー", "コメディ", "日常"],
     tags: ["勘違い", "お仕事", "ほのぼの"],
@@ -4369,6 +4676,7 @@ const WORKS = [
   {
     id: "ryomin0",
     title: "領民0人スタートの辺境領主様",
+    aliases: ["りょうみんぜろにん"],
     season: "2026年夏",
     genres: ["ファンタジー", "冒険", "異世界"],
     tags: ["ほのぼの", "家族", "やさしい世界"],
@@ -4383,6 +4691,7 @@ const WORKS = [
   {
     id: "worldisdancing",
     title: "ワールド イズ ダンシング",
+    aliases: ["ワールドイズダンシング"],
     season: "2026年夏",
     genres: ["歴史", "青春", "音楽"],
     tags: ["ダンス", "伝統芸能", "成長"],
@@ -4397,6 +4706,7 @@ const WORKS = [
   {
     id: "kaikigumi",
     title: "レッツゴー怪奇組",
+    aliases: ["かいきぐみ"],
     season: "2026年夏",
     genres: ["ホラー", "コメディ", "超常現象"],
     tags: ["ギャグホラー", "怪異", "シュール"],
@@ -4411,6 +4721,7 @@ const WORKS = [
   {
     id: "onihana",
     title: "鬼の花嫁",
+    aliases: ["おにのはなよめ"],
     season: "2026年夏",
     genres: ["恋愛", "ファンタジー", "超常現象"],
     tags: ["甘々", "人外", "結婚"],
@@ -4425,6 +4736,7 @@ const WORKS = [
   {
     id: "strongestrearguard",
     title: "世界最強の後衛 ～迷宮国の新人探索者～",
+    aliases: ["せかいさいきょうのこうえい"],
     season: "2026年夏",
     genres: ["異世界", "ファンタジー", "冒険"],
     tags: ["転生", "魔法", "成長"],
@@ -4439,6 +4751,7 @@ const WORKS = [
   {
     id: "tombraiderking",
     title: "盗掘王",
+    aliases: ["とうくつおう"],
     season: "2026年夏",
     genres: ["バトル", "冒険", "ファンタジー"],
     tags: ["無双", "チート", "アクション"],
@@ -4453,6 +4766,7 @@ const WORKS = [
   {
     id: "taiari",
     title: "対ありでした。～お嬢さまは格闘ゲームなんてしない～",
+    aliases: ["たいありでした"],
     season: "2026年夏",
     genres: ["ゲーム", "コメディ", "青春"],
     tags: ["ゲーム", "部活", "掛け合い"],
@@ -4467,6 +4781,7 @@ const WORKS = [
   {
     id: "blacktorch",
     title: "BLACK TORCH",
+    aliases: ["ブラックトーチ"],
     season: "2026年夏",
     genres: ["バトル", "超常現象", "ファンタジー"],
     tags: ["アクション", "人外", "残酷"],
@@ -4481,6 +4796,7 @@ const WORKS = [
   {
     id: "futsutsuka",
     title: "ふつつかな悪女ではございますが ～雛宮蝶鼠とりかえ伝～",
+    aliases: ["ふつつかなあくじょ"],
     season: "2026年夏",
     genres: ["歴史", "ファンタジー", "ドラマ"],
     tags: ["入れ替わり", "勘違い", "成長"],
@@ -4495,6 +4811,7 @@ const WORKS = [
   {
     id: "souffle",
     title: "天幕のジャードゥーガル",
+    aliases: ["じゃどぅーがる"],
     season: "2026年夏",
     genres: ["歴史", "ドラマ", "ミステリー"],
     tags: ["考察", "陰謀", "成長"],
@@ -4509,6 +4826,7 @@ const WORKS = [
   {
     id: "denkiroku",
     title: "二十世紀電氣目録-ユーレカ・エヴリカ-",
+    aliases: ["にじっせいきでんきもくろく"],
     season: "2026年夏",
     genres: ["SF", "歴史", "青春"],
     tags: ["近未来", "考察", "成長"],
@@ -4523,6 +4841,7 @@ const WORKS = [
   {
     id: "mobius-dust",
     title: "メビウス・ダスト",
+    aliases: ["メビウスダスト"],
     season: "2026年夏",
     genres: ["SF", "ミステリー", "超常現象"],
     tags: ["考察", "怪異", "近未来"],
@@ -4537,6 +4856,7 @@ const WORKS = [
   {
     id: "buchigire-reijou",
     title: "ブチ切れ令嬢は報復を誓いました。 ～魔導書の力で祖国を叩き潰します～",
+    aliases: ["ぶちぎれれいじょう"],
     season: "2026年夏",
     genres: ["ファンタジー", "バトル", "異世界"],
     tags: ["復讐", "ざまぁ", "魔法"],
