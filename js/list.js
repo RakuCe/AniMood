@@ -43,27 +43,35 @@ document.addEventListener("DOMContentLoaded", () => {
     sel.addEventListener("change", () => { genre = sel.value; render(); });
 
     const cardById = new Map();
-    const frag = document.createDocumentFragment();
-    for (const w of WORKS) {
-      const card = createCard(w);
-      cardById.set(w.id, card);
-      frag.appendChild(card);
-    }
-    grid.appendChild(frag);
-
-    function render() {
+    let built = 0;
+    const CHUNK = 28;
+    function applyFilter() {
       let n = 0;
       for (const w of WORKS) {
         const show = matchesSeason(w.season, season) &&
           (year === "すべて" || matchesYear(w.season, year)) &&
           (genre === "すべて" || w.genres.includes(genre));
         const card = cardById.get(w.id);
-        card.hidden = !show;
+        if (card) card.hidden = !show;
         if (show) n += 1;
       }
       $("#work-count").textContent = `${n} 作品`;
     }
-    render();
+    function pump() {
+      const end = Math.min(built + CHUNK, WORKS.length);
+      const frag = document.createDocumentFragment();
+      for (; built < end; built++) {
+        const w = WORKS[built];
+        const card = createCard(w);
+        cardById.set(w.id, card);
+        frag.appendChild(card);
+      }
+      grid.appendChild(frag);
+      applyFilter();
+      if (built < WORKS.length) requestAnimationFrame(pump);
+    }
+    function render() { applyFilter(); }
+    requestAnimationFrame(pump);
   }
 
   /* ================= お気に入り一覧 ================= */

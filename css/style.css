@@ -868,15 +868,50 @@ html.theme-transition .theme-icon {
 .official-link {
   justify-self: start;
   display: inline-flex; align-items: center; gap: 8px;
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
   width: fit-content; min-height: 42px; box-sizing: border-box;
   padding: 11px 26px;
   border-radius: 999px;
-  background-color: #6C63FF;
-  background-image: var(--accent-grad);
-  color: #fff; font-weight: 700; font-size: .88rem; text-decoration: none;
-  transition: transform .15s, box-shadow .15s;
+  border: none;
+  background: #6C63FF;
+  background-image: none;
+  color: #fdfdfe;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+  box-shadow: none;
+  font-weight: 700; font-size: .88rem; text-decoration: none;
+  overflow: visible;
+  transition: background-color .2s ease, color .2s ease, outline-color .2s ease;
 }
-.official-link:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(124, 92, 255, .4); }
+.official-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  pointer-events: none;
+  box-shadow: 0 0 10px 0 rgba(108, 99, 255, .6);
+}
+html:not([data-theme="dark"]) .official-link:hover {
+  background: #fdfdfe;
+  color: #6C63FF;
+  outline-color: #6C63FF;
+  transform: none;
+  box-shadow: none;
+}
+[data-theme="dark"] .official-link {
+  color: #efecf9;
+  outline-color: #363145;
+}
+[data-theme="dark"] .official-link:hover {
+  background: #111111;
+  color: #efecf9;
+  outline-color: #6C63FF;
+  transform: none;
+  box-shadow: none;
+}
 
 /* =====================================================================
  * 一覧ページ
@@ -3160,9 +3195,6 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   }
   .official-link {
     display: inline-flex !important;
-    background-color: #6C63FF !important;
-    background-image: var(--accent-grad) !important;
-    color: #fff !important;
   }
   .fav-status-mark {
     -webkit-backdrop-filter: blur(1px) !important;
@@ -3170,11 +3202,12 @@ body[data-page="home"] .visual-work-card .visual-img-next {
   }
 }
 
+.card { content-visibility: auto; contain-intrinsic-size: 0 280px; }
 .official-link-icon {
   width: 17px;
   height: 17px;
   flex: 0 0 17px;
-  color: #fff;
+  color: currentColor;
   stroke: currentColor;
   fill: none;
   stroke-width: 2;

@@ -235,7 +235,7 @@ async function resolveAniListId(work, deadline = Date.now() + ANILIST_REQUEST_TI
 function countAniListMedia(m) {
   if (!m) return 0;
   if (m.format === "MOVIE") return 1;
-  if (m.format === "TV" || m.format === "ONA") {
+  if (m.format === "TV" || m.format === "ONA" || m.format === "TV_SHORT") {
     const n = Number(m.episodes);
     return Number.isFinite(n) && n > 0 ? n : 0;
   }
