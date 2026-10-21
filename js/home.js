@@ -74,9 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (finished) return;
       finished = true;
 
-      /* 表示中の画像をそのまま残し、レイヤーだけを入れ替える。
-         表示中のimgのsrcを書き換えないため、切替直後の再描画ちらつきを防ぐ。 */
-      current.classList.remove('visual-img-current');
+        current.classList.remove('visual-img-current');
       current.classList.add('visual-img-next');
       current.style.opacity = '0';
       current.setAttribute('aria-hidden', 'true');
@@ -94,8 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     preload.onload = () => {
-      /* decode()まで完了させてからopacityだけを変更する */
-      const ready = typeof preload.decode === 'function'
+        const ready = typeof preload.decode === 'function'
         ? preload.decode().catch(() => {})
         : Promise.resolve();
 
@@ -104,8 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         next.alt = work.title;
         next.removeAttribute('aria-hidden');
 
-        /* 次画像を完全に準備してから、2枚を同時にクロスフェード */
-        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             current.style.opacity = '0';
             next.style.opacity = '1';

@@ -12,19 +12,19 @@
   <title>トップ | AniMood</title>
   <meta name="description" content="質問に答えるだけで、気分に合うアニメを提案する診断サイト『AniMood(アニムード)』のサイト。">
 
-  <!-- ページ描画前に保存済みテーマを適用する -->
+  
   <script>
     (() => {
       const theme = localStorage.getItem("anidiag-theme") || "light";
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
-  <link rel="stylesheet" href="../css/style.css?v=117">
-  <link rel="icon" href="../img/favicon.png?v=117">
+  <link rel="stylesheet" href="../css/style.css?v=119">
+  <link rel="icon" href="../img/favicon.png?v=119">
 </head>
 <body data-page="home">
 
-  <!-- ===== ヘッダー(検索 / ダークモード / ハンバーガー) ===== -->
+  
   <header class="site-header">
     <div class="header-inner">
       <a class="logo" href="../html/index.html"><img src="../img/favicon.ico"></a>
@@ -38,7 +38,7 @@
           <div id="search-dropdown" class="search-dropdown"></div>
         </div>
 
-        <!-- ===== テーマ切替 ===== -->
+        
         <button
           id="theme-btn"
           class="theme-toggle"
@@ -46,7 +46,7 @@
           aria-label="ダークモードに切り替える"
           aria-pressed="false"
         >
-          <!-- ライトモード用：Sun -->
+          
           <svg
             class="theme-icon theme-icon-sun"
             viewBox="0 0 24 24"
@@ -68,7 +68,7 @@
             <path d="m19.07 4.93-1.41 1.41"></path>
           </svg>
 
-          <!-- ダークモード用：Moon-Star -->
+          
           <svg
             class="theme-icon theme-icon-moon"
             viewBox="0 0 24 24"
@@ -85,13 +85,13 @@
           </svg>
         </button>
 
-        <!-- ハンバーガー -->
+        
         <button id="menu-btn" class="icon-btn" aria-label="メニュー">☰</button>
       </div>
     </div>
   </header>
 
-  <!-- ===== ハンバーガーの中身(ドロワー) ===== -->
+  
   <nav id="drawer" class="drawer" aria-label="サイトメニュー">
     <a class="drawer-link" data-page="home" href="../html/index.html">トップ</a>
     <a class="drawer-link" data-page="quiz" href="../html/quiz.html">気分診断</a>
@@ -102,12 +102,12 @@
   </nav>
   <div id="drawer-overlay"></div>
 
-  <!-- ===== ヒーロー ===== -->
+  
   <main class="container">
     <section class="hero">
       <span class="hero-badge">25年秋〜26年秋までとその他の作品を収録。</span>
       <h1><div class="title-logo"><img src="../img/AniMood_logo.webp" alt="AniMoodのロゴ"></div></h1>
-      <!-- ===== トップ装飾：質問の吹き出し + 作品カード3枚 ===== -->
+      
       <div class="hero-visual" aria-hidden="true">
         <div class="visual-arc visual-arc-a"></div>
         <div class="visual-arc visual-arc-b"></div>
@@ -115,7 +115,7 @@
         <span class="visual-spark spark-b">✦</span>
         <div class="visual-question">?</div>
 
-        <!-- 16:9の作品カード。画像は10秒ごとにランダム切替。 -->
+        
         <div class="visual-work-cards">
           <div class="visual-work-card visual-card-a" data-visual-card="0">
             <img src="" alt="" loading="eager">
@@ -137,7 +137,7 @@
       <a class="btn-grad" href="../html/quiz.html">診断をはじめる</a>
     </section>
 
-    <!-- ===== 使い方 ===== -->
+    
     <section class="steps" id="how-to">
       <h2 class="steps-title">使い方</h2>
       <div class="steps-row">
@@ -162,14 +162,14 @@
     </section>
   </main>
 
-  <!-- ===== フッター ===== -->
+  
   <footer class="site-footer">
     <p>AniMood — 今の気分に合うアニメを見つける診断サイト</p>
     <p>掲載している作品情報・画像の権利は各権利者に帰属します。各作品の詳細は公式サイトをご確認ください。</p>
   </footer>
 
-  <script src="../js/data.js?v=117"></script>
-  <script src="../js/common.js?v=117"></script>
-  <script src="../js/home.js?v=117"></script>
+  <script src="../js/data.js?v=119"></script>
+  <script src="../js/common.js?v=119"></script>
+  <script src="../js/home.js?v=119"></script>
 </body>
 </html>

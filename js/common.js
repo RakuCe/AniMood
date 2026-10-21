@@ -1,29 +1,12 @@
-/* =====================================================================
- * 共通スクリプト (common.js)
- *   全ページ共通の機能: ダークモード / ハンバーガーメニュー / 検索 /
- *   お気に入り(☆) / 作品カード / 作品詳細ポップアップ
- *   ※ このファイルより先に data.js を読み込んでください。
- * ===================================================================== */
-
-/* ---------- ユーティリティ ---------- */
 const $  = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"']/g,
   c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-/* 作品IDから作品データを引く */
-const findWork = id => WORKS.find(w => w.id === id);
+const WORK_BY_ID = new Map(WORKS.map(w => [w.id, w]));
+const findWork = id => WORK_BY_ID.get(id);
 
 
-/* =====================================================================
- * AniList API
- * ・作品ごとのAniListエントリーを検索
- * ・PREQUEL / SEQUELだけを辿って本編シリーズを構成
- * ・評価はシリーズ内の最高averageScoreを参照
- * ・話数はTV/ONAのepisodesを合計し、MOVIEは1作品=1話として加算
- * ・SPIN_OFF / SIDE_STORY / SUMMARY / COMPILATION等は除外
- * ・1回の情報取得全体を最大9秒に制限し、通信不調で長時間待たせない
- * ===================================================================== */
 const ANILIST_API_URL = "https://graphql.anilist.co";
 const ANILIST_CACHE_KEY = "animood-anilist-v5";
 const ANILIST_CACHE_TTL = 6 * 60 * 60 * 1000;
@@ -41,7 +24,6 @@ function aniListRemaining(deadline) {
   return Math.max(1, deadline - Date.now());
 }
 
-/* 1回の処理全体を9秒以内に収める。個々の通信も残り時間以内で打ち切る。 */
 async function aniListRequest(query, variables = {}, deadline = Date.now() + ANILIST_REQUEST_TIMEOUT) {
   let lastError;
   for (let attempt = 0; attempt < 3 && Date.now() < deadline; attempt++) {
@@ -273,7 +255,6 @@ async function fetchAniListSeriesInfo(work) {
 
     const seen = new Set([rootId]);
     let frontier = [rootId];
-    /* 各階層をまとめて取得。PREQUEL/SEQUELだけを辿るので外伝・総集編は入らない。 */
     while (frontier.length && Date.now() < deadline) {
       try {
         const data = await aniListRequest(ANILIST_MEDIA_QUERY, { ids: frontier }, deadline);
@@ -294,7 +275,6 @@ async function fetchAniListSeriesInfo(work) {
       }
     }
 
-    /* 関連取得が間に合わなかった場合でも、代表作品だけは表示する。 */
     if (!mediaMap.size && Date.now() < deadline) {
       try {
         const fallback = await searchAniList(work, deadline);
@@ -306,9 +286,7 @@ async function fetchAniListSeriesInfo(work) {
   const series = [...mediaMap.values()];
   if (!series.length) return null;
 
-  /* TV/ONAはAniListのepisodes、映画は1作品=1話として合算。OVA/SPECIAL/総集編等は除外。 */
   const episodeTotal = series.reduce((sum, m) => sum + countAniListMedia(m), 0);
-  /* シリーズ内の最高評価を採用。 */
   const scores = series.map(scoreAniListMedia).filter(v => v != null);
   const score = scores.length ? Math.max(...scores).toFixed(1) : null;
   const value = {
@@ -374,8 +352,6 @@ async function loadAniListInfo(work, backdrop) {
 }
 
 
-/* 公式・一般に使われる略称（検索用。表示名は title のまま） */
-
 function workSearchBlob(work) {
   if (work._searchBlob) return work._searchBlob;
   const title = String(work.title || "").toLowerCase();
@@ -400,134 +376,39 @@ function workMatchesQuery(work, q) {
   return workSearchBlob(work).includes(n);
 }
 
-/* =====================================================================
- * ダークモード
- *
- * ・テーマは localStorage に保存
- * ・ページ読み込み時はアニメーションなし
- * ・テーマボタンを押したときだけ0.3秒アニメーション
- * ・テーマアイコンはHTML内のLucide SVGをCSSで切り替える
- * ===================================================================== */
-
 const THEME_KEY = "anidiag-theme";
 
-/*
- * テーマを適用する
- *
- * animate = true
- *   → ユーザーがボタンを押したとき
- *   → 0.3秒のテーマ切替アニメーションを有効にする
- *
- * animate = false
- *   → ページ読み込み時
- *   → アニメーションなしで即座に適用する
- */
 function applyTheme(theme, animate = false) {
   const root = document.documentElement;
-
-  if (animate) {
-    root.classList.add("theme-transition");
-  }
-
+  if (animate) root.classList.add("theme-transition");
   root.setAttribute("data-theme", theme);
   localStorage.setItem(THEME_KEY, theme);
-
-  /*
-   * テーマ切替ボタンの状態も更新
-   *
-   * aria-pressed:
-   *   dark  → true
-   *   light → false
-   */
   const btn = $("#theme-btn");
-
   if (btn) {
     const isDark = theme === "dark";
-
     btn.setAttribute("aria-pressed", String(isDark));
-
-    btn.setAttribute(
-      "aria-label",
-      isDark
-        ? "ライトモードに切り替える"
-        : "ダークモードに切り替える"
-    );
+    btn.setAttribute("aria-label", isDark ? "ライトモードに切り替える" : "ダークモードに切り替える");
   }
-
-  /*
-   * 0.3秒後にアニメーション用クラスを外す。
-   *
-   * 重要：
-   * ページ読み込み時は animate=false なので
-   * この処理自体が発生しません。
-   */
   if (animate) {
-    window.setTimeout(() => {
-      root.classList.remove("theme-transition");
-    }, 300);
+    window.setTimeout(() => root.classList.remove("theme-transition"), 300);
   }
 }
 
-
-/*
- * テーマの初期化
- */
 function initTheme() {
   const saved = localStorage.getItem(THEME_KEY);
-
-  /*
-   * index.htmlなどの<head>で、
-   * CSSが描画される前にdata-themeが設定されている。
-   *
-   * そのためここではテーマを変更しない。
-   */
-  const currentTheme =
-    document.documentElement.dataset.theme ||
-    saved ||
-    "light";
-
-  /*
-   * 現在のテーマだけボタンに反映する。
-   *
-   * SVGそのものは変更しない。
-   * CSSがdata-themeを見て
-   * Sun / Moon-Starを切り替える。
-   */
+  const currentTheme = document.documentElement.dataset.theme || saved || "light";
   const btn = $("#theme-btn");
-
   if (btn) {
     const isDark = currentTheme === "dark";
-
-    btn.setAttribute(
-      "aria-pressed",
-      String(isDark)
-    );
-
-    btn.setAttribute(
-      "aria-label",
-      isDark
-        ? "ライトモードに切り替える"
-        : "ダークモードに切り替える"
-    );
+    btn.setAttribute("aria-pressed", String(isDark));
+    btn.setAttribute("aria-label", isDark ? "ライトモードに切り替える" : "ダークモードに切り替える");
   }
-
-  /*
-   * ユーザーがクリックした場合だけ
-   * アニメーション付きで切り替える。
-   */
   btn?.addEventListener("click", () => {
-    const nextTheme =
-      document.documentElement.dataset.theme === "dark"
-        ? "light"
-        : "dark";
-
+    const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
     applyTheme(nextTheme, true);
   });
 }
 
-/* =====================================================================
- * ハンバーガーメニュー(PCでも常にハンバーガー表示)
- * ===================================================================== */
 function initDrawer() {
   const btn = $("#menu-btn"), drawer = $("#drawer"), ov = $("#drawer-overlay"), closeBtn = $("#drawer-close");
   if (!btn || !drawer) return;
@@ -560,16 +441,7 @@ function initDrawer() {
   document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
 }
 
-/* =====================================================================
- * マイクロインタラクション
- *   既存の文字・構成は変えず、クリック時の波紋と表示時の
- *   スクロール連動モーションだけを追加する。
- * ===================================================================== */
 function initMotionEnhancements() {
-  /*
-   * 今回の仕様では「ボタンを押したときの波紋」を廃止。
-   * ただし、既存のスクロール表示アニメーションはそのまま残します。
-   */
   if (!("IntersectionObserver" in window)) return;
 
   const observer = new IntersectionObserver(entries => {
@@ -597,9 +469,6 @@ function initMotionEnhancements() {
   }
 }
 
-/* =====================================================================
- * お気に入り(localStorage に作品IDの配列として保存)
- * ===================================================================== */
 const FAV_KEY = "anidiag-favs";
 const FAV_STATUS_KEY = "anidiag-fav-status";
 
@@ -621,7 +490,6 @@ function setFavStatus(id, status) {
   const statuses = getFavStatuses();
   statuses[id] = status;
   localStorage.setItem(FAV_STATUS_KEY, JSON.stringify(statuses));
-  // お気に入り一覧以外のカードも、状態変更直後にマークを更新
   syncFavButtons();
   document.dispatchEvent(new CustomEvent("fav-status-changed"));
 }
@@ -635,7 +503,6 @@ function toggleFav(id) {
   return favs.includes(id);
 }
 
-/* 画面上の状態マークを最新にする */
 function syncFavButtons() {
   $$(".card").forEach(card => {
     if (card.dataset.workId) syncCardStatusMark(card, card.dataset.workId);
@@ -691,15 +558,10 @@ function syncCardStatusMark(card, id) {
   }
 }
 
-/* =====================================================================
- * 作品カード(一覧・検索・診断結果・お気に入りで共通の見た目)
- *   reasonTags : 診断結果で「おすすめする理由」のタグを出すときに渡す
- * ===================================================================== */
 function resolveImageUrl(path) {
   const raw = String(path || "");
   if (!raw) return "";
   if (/^(?:https?:|data:|blob:)/i.test(raw)) return raw;
-  // HTMLはhtml/配下なので、data.jsのimg/...をサイトルート基準へ補正する。
   if (/^img\//i.test(raw)) return `../${raw}`;
   return raw;
 }
@@ -818,9 +680,6 @@ function initFavStatusControls(card, id) {
   body.appendChild(createFavStatusControl(id));
 }
 
-/* =====================================================================
- * 作品詳細ポップアップ(カード・検索・お気に入り一覧のどこからでも開く)
- * ===================================================================== */
 function paramRowHTML(key, label, value) {
   const dots = [1, 2, 3, 4, 5].map(i =>
     `<span class="dot${i <= value ? " on" : ""}"></span>`).join("");
@@ -912,9 +771,6 @@ function closePopup() {
 
 document.addEventListener("keydown", e => { if (e.key === "Escape") closePopup(); });
 
-/* =====================================================================
- * 検索バー(作品名・ジャンル・タグで検索 → クリックでポップアップ)
- * ===================================================================== */
 function initSearch() {
   const input = $("#search-input"), dd = $("#search-dropdown"), submit = $("#search-submit");
   const clearBtn = $("#search-clear");
@@ -976,7 +832,6 @@ function initSearch() {
 
 
 
-/* ページトップボタン */
 function initPageTop() {
   if ($("#page-top")) return;
   const button = document.createElement("button");
@@ -1003,16 +858,12 @@ function initPageTop() {
   const updateVisibility = () => {
     const visible = window.scrollY > 180;
     button.classList.toggle("is-visible", visible);
-    // ページトップまで戻ってボタンが非表示になった時点で向きを元に戻す
     button.classList.toggle("top-returned", !visible);
   };
   window.addEventListener("scroll", updateVisibility, { passive: true });
   updateVisibility();
 }
 
-/* =====================================================================
- * 初期化(全ページ共通)
- * ===================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
   if (!document.querySelector(".bg-fx")) {
     const wrap = document.createElement("div");

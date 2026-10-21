@@ -1,20 +1,13 @@
-/* =====================================================================
- * 作品一覧 / お気に入り一覧ページ用スクリプト (list.js)
- *   body の data-page が "list" または "favorites" のときに動きます。
- * ===================================================================== */
-
 document.addEventListener("DOMContentLoaded", () => {
   const page = document.body.dataset.page;
 
-  /* ================= 作品一覧 ================= */
-  if (page === "list") {
+    if (page === "list") {
     const grid = $("#work-grid");
     const yearSel = $("#year-filter");
     const seasonSel = $("#season-filter");
     const sel = $("#genre-filter");
     let season = "すべて", year = "すべて", genre = "すべて";
 
-    /* 2011年以降を年単位で絞り込む（従来どおり。2025年は秋以外） */
     const yearFilters = Array.from({ length: 16 }, (_, i) => `${2011 + i}年`);
     const matchesYear = (workSeason, targetYear) =>
       targetYear === "2025年"
@@ -74,8 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(pump);
   }
 
-  /* ================= お気に入り一覧 ================= */
-  if (page === "favorites") {
+    if (page === "favorites") {
     const grid = $("#fav-grid"), empty = $("#fav-empty");
     const sortSel = $("#fav-sort");
     const statusTabs = $$(".fav-status-tab");
@@ -153,7 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }));
 
     render();
-    /* チェックの追加・削除・状態変更をすべて即時反映 */
     document.addEventListener("fav-changed", render);
     document.addEventListener("fav-status-changed", render);
   }

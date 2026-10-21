@@ -1,9 +1,3 @@
-/* =====================================================================
- * 診断ページ用スクリプト (quiz.js)
- *   質問の描画 → 回答の集計 → スコアリング → 結果の表示
- *   ※ data.js / questions.js / common.js より後に読み込んでください。
- * ===================================================================== */
-
 /* ---------------------------------------------------------------------
  * 診断の軸(12軸)
  *   label    : 結果画面に表示する名前
@@ -46,9 +40,6 @@ function axisMatch(axis, work) {
   return 0;
 }
 
-/* =====================================================================
- * 質問の描画(1ページに全問を並べ、スクロールで答える形式)
- * ===================================================================== */
 const answers = {}; // { 質問id: 選択肢index or 1〜5 }
 let includeChecked = true;
 
@@ -101,10 +92,6 @@ function updateProgress() {
   $("#diagnose-btn").disabled = false;
 }
 
-/* =====================================================================
- * スコアリング
- *   軸スコア(好みの方向性) + パラメータ近さ(シリアス度などの好み)
- * ===================================================================== */
 function computeScores() {
   const axisPts = {}; Object.keys(AXES).forEach(a => axisPts[a] = 0);
   const prefs = {}; // 5段階評価のパラメータ好み
@@ -167,9 +154,6 @@ function reasonTagsFor(work, axisPts) {
   return tags.slice(0, 4);
 }
 
-/* =====================================================================
- * 結果の表示
- * ===================================================================== */
 function showResult() {
   const axisPts = {}; Object.keys(AXES).forEach(a => axisPts[a] = 0);
   const prefs = {};
@@ -208,9 +192,6 @@ function showResult() {
   result.scrollIntoView({ behavior: "smooth" });
 }
 
-/* =====================================================================
- * 初期化
- * ===================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
   if (!$("#question-list")) return;
   renderQuestions();
@@ -224,7 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("#diagnose-btn").addEventListener("click", () => {
-    /* 全問回答済みなら診断、未回答があれば最初の未回答へ移動 */
     const unansweredIndex = QUESTIONS.findIndex(q => answers[q.id] === undefined);
     if (unansweredIndex !== -1) {
       const target = $$(".q-card")[unansweredIndex];
