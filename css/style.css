@@ -703,7 +703,8 @@ html.theme-transition .theme-icon {
 }
 .progress-inner { max-width: 720px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 12px; }
 .progress-bar { flex: 1; height: 8px; border-radius: 999px; background: var(--border); overflow: hidden; }
-#progress-fill { height: 100%; width: 0; border-radius: 999px; background: var(--accent-grad); transition: width .25s; }
+#progress-fill { height: 100%; width: 0; border-radius: 999px; background: var(--accent-grad); transition: width .25s, background .5s ease; }
+#progress-fill.is-complete { background: #22D3EE; }
 #progress-text { font-size: .8rem; font-weight: 700; color: var(--muted); min-width: 74px; text-align: right; }
 
 /* 質問カード */
@@ -3289,6 +3290,7 @@ body[data-page="quiz"] .drawer {
 
 
 /* ---------- 診断CTA：外側だけごく狭い淡い光 ---------- */
+body[data-page="quiz"] .result-actions .btn-grad,
 body[data-page="home"] .hero a.btn-grad,
 body[data-page="quiz"] #diagnose-btn.btn-grad,
 body[data-page="random"] #random-refresh.btn-grad,
@@ -3684,4 +3686,15 @@ body {
   background: linear-gradient(135deg, #ffd23f, #f5b942);
   color: #fff;
   border-color: transparent;
+}
+
+body[data-page="quiz"] .result-actions .btn-grad {
+  min-width: 0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 13px 34px;
+  font-size: 1rem;
 }

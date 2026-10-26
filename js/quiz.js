@@ -87,7 +87,14 @@ function renderQuestions() {
 /* 進捗バーと診断ボタンの状態更新 */
 function updateProgress() {
   const done = Object.keys(answers).length, total = QUESTIONS.length;
-  $("#progress-fill").style.width = `${(done / total) * 100}%`;
+  const fill = $("#progress-fill");
+  fill.style.width = `${(done / total) * 100}%`;
+  if (fill._completeTimer) { clearTimeout(fill._completeTimer); fill._completeTimer = null; }
+  if (done >= total) {
+    fill._completeTimer = setTimeout(() => fill.classList.add("is-complete"), 250);
+  } else {
+    fill.classList.remove("is-complete");
+  }
   $("#progress-text").textContent = `${done} / ${total} 問`;
   $("#diagnose-btn").disabled = false;
 }
