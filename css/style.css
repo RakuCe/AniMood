@@ -3698,3 +3698,13 @@ body[data-page="quiz"] .result-actions .btn-grad {
   padding: 13px 34px;
   font-size: 1rem;
 }
+
+body[data-page="list"] #year-filter,
+body[data-page="list"] #genre-filter,
+body[data-page="list"] #season-filter,
+body[data-page="favorites"] #fav-sort,
+body[data-page="favorites"] #fav-sort-dir.sort-direction-btn,
+body[data-page="favorites"] .fav-status-tab:not(.active),
+body[data-page="random"] #random-count {
+  background: var(--card-solid);
+}
