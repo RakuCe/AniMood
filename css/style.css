@@ -3708,3 +3708,12 @@ body[data-page="favorites"] .fav-status-tab:not(.active),
 body[data-page="random"] #random-count {
   background: var(--card-solid);
 }
+
+body[data-page="list"] #year-filter,
+body[data-page="list"] #genre-filter,
+body[data-page="list"] #season-filter {
+  min-width: 0;
+  width: max-content;
+  max-width: 100%;
+  field-sizing: content;
+}

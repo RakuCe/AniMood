@@ -35,6 +35,23 @@ document.addEventListener("DOMContentLoaded", () => {
       genres.map(g => `<option value="${esc(g)}">${esc(g)}</option>`).join("");
     sel.addEventListener("change", () => { genre = sel.value; render(); });
 
+    const fitSelect = box => {
+      if (!box) return;
+      const probe = document.createElement("span");
+      probe.style.cssText = "position:absolute;left:-9999px;top:0;white-space:nowrap;";
+      const cs = getComputedStyle(box);
+      probe.style.font = cs.font;
+      document.body.appendChild(probe);
+      let max = 0;
+      for (const opt of box.options) {
+        probe.textContent = opt.text;
+        if (probe.offsetWidth > max) max = probe.offsetWidth;
+      }
+      probe.remove();
+      box.style.width = Math.ceil(max + 56 + parseFloat(cs.fontSize || 15)) + "px";
+    };
+    [yearSel, seasonSel, sel].forEach(fitSelect);
+
     const cardById = new Map();
     let built = 0;
     const CHUNK = 28;
