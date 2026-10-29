@@ -469,6 +469,16 @@ function initMotionEnhancements() {
   }
 }
 
+const POPULAR_API = "https://animood-popular.haruhi131mj.workers.dev";
+function reportPopular(id, status, added) {
+  if (!POPULAR_API || !id || !["watched", "watching", "want"].includes(status)) return;
+  fetch(POPULAR_API.replace(/\/$/, "") + (added ? "/check" : "/uncheck"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: String(id), status })
+  }).catch(() => {});
+}
+
 const FAV_KEY = "anidiag-favs";
 const FAV_STATUS_KEY = "anidiag-fav-status";
 
@@ -488,19 +498,31 @@ function getFavStatus(id) {
 function setFavStatus(id, status) {
   if (!["watched", "watching", "want"].includes(status)) return;
   const statuses = getFavStatuses();
+  const prev = ["watched", "watching", "want"].includes(statuses[id]) ? statuses[id] : (isFav(id) ? "watched" : null);
   statuses[id] = status;
   localStorage.setItem(FAV_STATUS_KEY, JSON.stringify(statuses));
   syncFavButtons();
   document.dispatchEvent(new CustomEvent("fav-status-changed"));
+  if (prev && prev !== status) reportPopular(id, prev, false);
+  reportPopular(id, status, true);
 }
 
 function toggleFav(id) {
   let favs = getFavs();
-  favs = favs.includes(id) ? favs.filter(f => f !== id) : [...favs, id];
-  localStorage.setItem(FAV_KEY, JSON.stringify(favs));
+  const was = favs.includes(id);
+  if (was) {
+    const st = getFavStatus(id);
+    favs = favs.filter(f => f !== id);
+    localStorage.setItem(FAV_KEY, JSON.stringify(favs));
+    reportPopular(id, st, false);
+  } else {
+    favs = [...favs, id];
+    localStorage.setItem(FAV_KEY, JSON.stringify(favs));
+    reportPopular(id, getFavStatus(id), true);
+  }
   syncFavButtons();
   document.dispatchEvent(new CustomEvent("fav-changed"));
-  return favs.includes(id);
+  return !was;
 }
 
 function syncFavButtons() {

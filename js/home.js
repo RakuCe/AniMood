@@ -130,3 +130,91 @@ document.addEventListener("DOMContentLoaded", () => {
   pickWorks(cards.length).forEach((work, index) => setInitial(cards[index], work));
   window.setInterval(rotateCards, DISPLAY_TIME + FADE_TIME);
 });
+
+function initRankCarousel(root, ids) {
+  const track = root.querySelector(".rank-track");
+  const prev = root.querySelector(".rank-prev");
+  const next = root.querySelector(".rank-next");
+  if (!track) return;
+  track.innerHTML = "";
+  ids.slice(0, 20).forEach((id, i) => {
+    const work = findWork(id);
+    if (!work) return;
+    const item = document.createElement("div");
+    item.className = "rank-item";
+    const num = document.createElement("span");
+    num.className = "rank-num";
+    num.textContent = String(i + 1);
+    item.appendChild(num);
+    item.appendChild(createCard(work));
+    track.appendChild(item);
+  });
+  root.hidden = !track.children.length;
+  if (!track.children.length) return;
+
+  const updateArrows = () => {
+    const max = track.scrollWidth - track.clientWidth;
+    if (prev) prev.hidden = track.scrollLeft <= 2;
+    if (next) next.hidden = track.scrollLeft >= max - 2;
+  };
+  const items = () => [...track.querySelectorAll(".rank-item")];
+  prev?.addEventListener("click", () => {
+    const sl = track.scrollLeft;
+    let edge = null;
+    for (const el of items()) {
+      if (el.offsetLeft + el.offsetWidth > sl + 8) { edge = el; break; }
+    }
+    if (!edge) return;
+    track.scrollTo({ left: Math.max(0, edge.offsetLeft + edge.offsetWidth - track.clientWidth), behavior: "smooth" });
+  });
+  next?.addEventListener("click", () => {
+    const visRight = track.scrollLeft + track.clientWidth;
+    let edge = null;
+    for (const el of items()) {
+      if (el.offsetLeft < visRight - 8) edge = el;
+    }
+    if (!edge) return;
+    track.scrollTo({ left: edge.offsetLeft, behavior: "smooth" });
+  });
+  track.addEventListener("scroll", updateArrows, { passive: true });
+  track.addEventListener("wheel", e => { e.preventDefault(); }, { passive: false });
+  let drag = false, startX = 0, startSl = 0;
+  track.addEventListener("pointerdown", e => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    drag = true; startX = e.clientX; startSl = track.scrollLeft;
+    track.setPointerCapture(e.pointerId);
+  });
+  track.addEventListener("pointermove", e => {
+    if (!drag) return;
+    track.scrollLeft = startSl - (e.clientX - startX);
+  });
+  const endDrag = () => { drag = false; };
+  track.addEventListener("pointerup", endDrag);
+  track.addEventListener("pointercancel", endDrag);
+  requestAnimationFrame(updateArrows);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.body.dataset.page !== "home") return;
+  const rows = [
+    ["rank-watched", "watched"],
+    ["rank-watching", "watching"],
+    ["rank-want", "want"]
+  ];
+  if (!POPULAR_API) {
+    rows.forEach(([id]) => { const el = document.getElementById(id); if (el) el.hidden = true; });
+    return;
+  }
+  const base = POPULAR_API.replace(/\/$/, "");
+  rows.forEach(([elId, status]) => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    fetch(base + "/popular?status=" + status + "&limit=20")
+      .then(r => r.ok ? r.json() : [])
+      .then(data => {
+        const ids = (Array.isArray(data) ? data : []).map(x => x.id || x).filter(Boolean);
+        initRankCarousel(el, ids);
+      })
+      .catch(() => { el.hidden = true; });
+  });
+});

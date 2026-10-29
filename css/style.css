@@ -3717,3 +3717,46 @@ body[data-page="list"] #season-filter {
   max-width: 100%;
   field-sizing: content;
 }
+
+.rank-row { margin: 8px 0 40px; }
+.rank-wrap { position: relative; display: flex; align-items: center; gap: 8px; }
+.rank-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  flex: 1;
+  min-width: 0;
+  cursor: grab;
+  padding: 8px 4px 18px;
+}
+.rank-track::-webkit-scrollbar { display: none; }
+.rank-track:active { cursor: grabbing; }
+.rank-item {
+  flex: 0 0 min(250px, 78vw);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.rank-item .card { width: 100%; margin: 0; }
+.rank-num {
+  flex: 0 0 auto;
+  font-weight: 800;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  padding-top: 10px;
+  color: var(--text);
+}
+.rank-prev, .rank-next {
+  flex: 0 0 40px;
+  width: 40px; height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card-solid);
+  color: var(--text);
+  cursor: pointer;
+}
+.rank-prev::before { content: "‹"; font-size: 1.4rem; }
+.rank-next::before { content: "›"; font-size: 1.4rem; }
