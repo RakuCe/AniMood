@@ -469,7 +469,8 @@ function initMotionEnhancements() {
   }
 }
 
-const POPULAR_API = "https://animood-popular.haruhi131mj.workers.dev";
+const POPULAR_API = "https://animood-popular.haruhi131mj.workers.dev/";
+
 function reportPopular(id, status, added) {
   if (!POPULAR_API || !id || !["watched", "watching", "want"].includes(status)) return;
   fetch(POPULAR_API.replace(/\/$/, "") + (added ? "/check" : "/uncheck"), {

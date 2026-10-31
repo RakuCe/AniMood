@@ -3760,3 +3760,5 @@ body[data-page="list"] #season-filter {
 }
 .rank-prev::before { content: "‹"; font-size: 1.4rem; }
 .rank-next::before { content: "›"; font-size: 1.4rem; }
+
+.rank-empty { color: var(--muted); font-size: .9rem; margin: 0 0 8px; }

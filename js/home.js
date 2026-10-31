@@ -149,8 +149,14 @@ function initRankCarousel(root, ids) {
     item.appendChild(createCard(work));
     track.appendChild(item);
   });
-  root.hidden = !track.children.length;
-  if (!track.children.length) return;
+  const empty = root.querySelector(".rank-empty");
+  if (empty) empty.hidden = !!track.children.length;
+  root.hidden = false;
+  if (!track.children.length) {
+    if (prev) prev.hidden = true;
+    if (next) next.hidden = true;
+    return;
+  }
 
   const updateArrows = () => {
     const max = track.scrollWidth - track.clientWidth;
