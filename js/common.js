@@ -479,6 +479,13 @@ function reportPopular(id, status, added) {
     body: JSON.stringify({ id: String(id), status })
   }).catch(() => {});
 }
+function syncExistingPopular() {
+  if (!POPULAR_API) return;
+  const key = "animood-popular-synced-v1";
+  try { if (localStorage.getItem(key)) return; } catch { return; }
+  getFavs().forEach(id => reportPopular(id, getFavStatus(id), true));
+  try { localStorage.setItem(key, "1"); } catch {}
+}
 
 const FAV_KEY = "anidiag-favs";
 const FAV_STATUS_KEY = "anidiag-fav-status";
@@ -998,6 +1005,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMotionEnhancements();
   syncFavButtons();
   initPageTop();
+  syncExistingPopular();
   document.addEventListener("keydown", function(e) {
     if (e.key === "F12") e.preventDefault();
   });
